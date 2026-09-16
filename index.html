@@ -1,245 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="am">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mama51-richo | Developer Portfolio</title>
+    <title>Soyam Gebeya - ሶያም ገበያ</title>
     <style>
-        /* Modern Dark Mode Theme */
         :root {
-            --bg-color: #0f172a;      /* Deep slate dark background */
-            --card-bg: #1e293b;       /* Slightly lighter slate for boxes */
-            --text-main: #f8fafc;     /* Bright white text */
-            --text-muted: #94a3b8;    /* Muted grey text */
-            --accent-color: #38bdf8;  /* Electric blue for links/highlights */
+            --primary: #1e3a8a;      /* Trustworthy dark blue */
+            --accent: #059669;       /* Merchant green */
+            --gold: #d97706;         /* Soyam Coin Gold */
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 0;
+            padding-bottom: 80px; /* Space for bottom nav */
         }
 
-        header {
-            background-color: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #334155;
+        /* Top Header Area */
+        .app-bar {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            text-align: center;
             position: sticky;
-            top: 0;
-            z-index: 100;
+            top: 0; z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        .app-bar h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+        .app-bar p { margin: 4px 0 0 0; font-size: 0.85rem; opacity: 0.9; }
 
-        nav {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .container { max-width: 500px; margin: 0 auto; padding: 16px; }
 
-        nav .logo {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--accent-color);
-            letter-spacing: -0.5px;
+        /* Role Switcher Tab */
+        .role-tabs {
+            display: flex; background: var(--border);
+            padding: 4px; border-radius: 8px; margin-bottom: 20px;
         }
+        .role-btn {
+            flex: 1; padding: 8px; border: none; background: transparent;
+            font-weight: 600; border-radius: 6px; cursor: pointer; color: var(--text-muted);
+        }
+        .role-btn.active { background: white; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 24px;
-        }
+        /* General Section Layouts */
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
 
-        nav a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            transition: color 0.2s ease;
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
+        .card h2 { margin-top: 0; font-size: 1.2rem; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
-        nav a:hover {
-            color: var(--text-main);
+        /* Form elements */
+        label { display: block; font-weight: 600; margin: 12px 0 4px 0; font-size: 0.9rem; }
+        .input-field, select, textarea {
+            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border);
+            box-sizing: border-box; font-size: 1srem; background: var(--bg);
         }
+        .btn {
+            display: block; width: 100%; padding: 12px; border: none; border-radius: 8px;
+            font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; margin-top: 12px;
+            box-sizing: border-box; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-gold { background: var(--gold); color: white; }
 
-        main {
-            max-width: 900px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
+        /* Listing Grid */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .item-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+        .item-header { display: flex; justify-content: space-between; align-items: start; }
+        .item-title { font-weight: bold; font-size: 1.1rem; margin: 0; }
+        .badge { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: #e2e8f0; }
+        .badge-gold { background: #fef3c7; color: #b45309; }
+        .badge-success { background: #d1fae5; color: #065f46; }
 
-        .hero {
-            padding: 60px 0;
-            text-align: left;
+        /* Bottom Fixed Navigation Bar */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
+            background: white; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
         }
+        .nav-item {
+            background: none; border: none; color: var(--text-muted);
+            font-size: 0.8rem; font-weight: 500; display: flex; flex-direction: column; align-items: center; cursor: pointer;
+        }
+        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .nav-icon { font-size: 1.3rem; margin-bottom: 2px; }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin: 0 0 15px 0;
-            letter-spacing: -1px;
-            font-weight: 800;
-        }
-
-        .hero h1 span {
-            color: var(--accent-color);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-top: 60px;
-            margin-bottom: 24px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex-grow: 1;
-            height: 1px;
-            background-color: #334155;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .project-card {
-            background-color: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
-        }
-
-        .project-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.4rem;
-            color: var(--text-main);
-        }
-
-        .project-card p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin: 0 0 20px 0;
-        }
-
-        .project-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .contact-content {
-            background-color: var(--card-bg);
-            border: 1px solid #334155;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .contact-content p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin: 0 0 20px 0;
-        }
-
-        .btn-email {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: opacity 0.2s ease;
-        }
-
-        .btn-email:hover {
-            opacity: 0.9;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 80px;
-            border-top: 1px solid #334155;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        /* Schema Table Viewers styling */
+        .table-wrapper { overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; }
+        th, td { padding: 8px; border: 1px solid var(--border); }
+        th { background: #f1f5f9; }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo">Mama51.dev</div>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="app-bar">
+        <h1>Soyam Gebeya — ሶያም ገበያ</h1>
+        <p>Everything Marketplace — Ethiopian Context Engine</p>
+    </div>
 
-    <main>
-        <!-- Hero / About Section -->
-        <section id="about" class="hero">
-            <h1>Hi, I'm <span>Mama51-richo</span>.</h1>
-            <p>I am a software developer building clean, responsive web applications and deploying them directly via modern clouds.</p>
-        </section>
+    <div class="container">
+        <!-- System Role Engine View Tabs Selector -->
+        <div class="role-tabs">
+            <button class="role-btn active" onclick="switchRole('buyer')">📱 Buyer Perspective</button>
+            <button class="role-btn" onclick="switchRole('seller')">💼 Seller Center</button>
+            <button class="role-btn" onclick="switchRole('admin')">🛡️ Admin (+251920353460)</button>
+        </div>
 
-        <!-- Projects Showcase Section -->
-        <section id="projects">
-            <h2 class="section-title">Featured Work</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Project Web Aide</h3>
-                    <p>My first repository hosted live using GitHub Actions and GitHub Pages static hosting services.</p>
-                    <a href="#" class="project-link">View Repository Code &rarr;</a>
+        <!-- ================= BUYER INTERFACE PANEL ================= -->
+        <div id="panel-buyer" class="view-panel active">
+            <!-- Search & Filter Parameters -->
+            <div class="card">
+                <h2>🔍 Smart Multi-Filter Directory</h2>
+                <label>Regional Filter Location</label>
+                <select id="filter-city">
+                    <option value="">All Ethiopian Regions/Cities</option>
+                    <option value="Addis Ababa">Addis Ababa (አዲስ አበባ)</option>
+                    <option value="Adama">Adama (አዳማ)</option>
+                    <option value="Hawassa">Hawassa (ሐዋሳ)</option>
+                    <option value="Bahir Dar">Bahir Dar (ባሕር ዳር)</option>
+                    <option value="Dire Dawa">Dire Dawa (ድሬዳዋ)</option>
+                    <option value="Jijiga">Jijiga (ጅጅጋ)</option>
+                </select>
+
+                <label>Business Classification Categories</label>
+                <select id="filter-category">
+                    <option value="">All Cross-Inclusive Categories</option>
+                    <optgroup label="Products">
+                        <option>Agriculture & Raw Foodstuff</option>
+                        <option>Electronics & Phones</option>
+                        <option>Handicrafts & Cultural Items</option>
+                    </optgroup>
+                    <optgroup label="Services & Knowledge">
+                        <option>Technical Maintenance Repairs</option>
+                        <option>Creative Design & Ideas</option>
+                    </optgroup>
+                </select>
+
+                <label>Vendor Enterprise Scale</label>
+                <select id="filter-size">
+                    <option value="">All Business Sizes</option>
+                    <option>Freelancer / Individual Artist</option>
+                    <option>Micro Business (ጥቃቅን)</option>
+                    <option>Small Business Startup</option>
+                    <option>Cooperative Association</option>
+                </select>
+                <button class="btn btn-primary" onclick="alert('Filtering complete! Showing context-matched local entries.')">Apply Localized Filter</button>
+            </div>
+
+            <!-- Main Stream Listings -->
+            <h2>🛒 Current Marketplace Streams</h2>
+            <div class="grid">
+                <div class="item-card">
+                    <div class="item-header">
+                        <h3 class="item-title">Fresh Teff (Premium Magna)</h3>
+                        <span class="badge badge-gold">25 Coins</span>
+                    </div>
+                    <p style="margin:6px 0; font-size:0.9rem; color:var(--text-muted)">Category: Agriculture Products | Location: Adama</p>
+                    <p style="margin:4px 0; font-size:0.85rem;">Seller Size: Cooperative Asset | Price Mode: Fixed</p>
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn btn-accent" style="margin:0; padding:6px;" onclick="initiateCall('+251911223344')">📞 Call Seller</button>
+                        <button class="btn btn-primary" style="margin:0; padding:6px;" onclick="placeOrder('Fresh Teff')">💳 Place Order</button>
+                    </div>
                 </div>
-                <div class="project-card">
-                    <h3>UI Automation Tracker</h3>
-                    <p>An experimental interface layout designed to manage cloud architecture deployment states smoothly.</p>
-                    <a href="#" class="project-link">View Project Live &rarr;</a>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <h3 class="item-title">Android App Localization Layout</h3>
+                        <span class="badge badge-gold">120 Coins</span>
+                    </div>
+                    <p style="margin:6px 0; font-size:0.9rem; color:var(--text-muted)">Category: IT & Software | Location: Addis Ababa</p>
+                    <p style="margin:4px 0; font-size:0.85rem;">Seller Size: Freelancer | Price Mode: Negotiable</p>
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn btn-accent" style="margin:0; padding:6px;" onclick="initiateCall('+251922334455')">📞 Call Seller</button>
+                        <button class="btn btn-primary" style="margin:0; padding:6px;" onclick="placeOrder('Android Localization')">💳 Place Order</button>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p>Have an interesting project or want to collaborate? My inbox is always open.</p>
-                <a href="mailto:your-email@example.com" class="btn-email">Say Hello</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Mama51-richo. Built with clean CSS and hosted on GitHub Pages.</p>
-    </footer>
-
-</body>
-</html>
+        <!-- ================= SELLER CENTER INTERFACE ================= -->
+        <div id="panel-seller" class="view-panel">
+            <!-- Coin Registration Wallet State -->
+            <div class="card" style="border-left: 4px solid var(--gold);">
+                <h2>🪙 Wallet & Coin Gateway Integration</h2>
