@@ -2,984 +2,1689 @@
 <html lang="am">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>ሶያም ገበያ | Soyam Gebeya</title>
 <style>
   :root {
-    --green: #078930;
-    --yellow: #FCDD09;
-    --red: #DA121A;
-    --bg: #f5f6f7;
-    --card: #ffffff;
-    --ink: #1a1a1a;
-    --muted: #6b7280;
-    --line: #e5e7eb;
+    --green: #078930; --yellow: #FCDD09; --red: #DA121A;
+    --bg: #f5f6f7; --card: #fff; --ink: #1a1a1a;
+    --muted: #6b7280; --line: #e5e7eb;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
   body {
     font-family: -apple-system, "Noto Sans Ethiopic", "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.45;
-    padding: 12px;
+    background: var(--bg); color: var(--ink); line-height: 1.4;
   }
-  .page-note {
-    max-width: 430px;
-    margin: 24px auto 8px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-left: 4px solid var(--green);
-    padding-left: 8px;
+  .app {
+    max-width: 430px; height: 100vh; height: 100dvh;
+    margin: 0 auto; background: var(--card);
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,.15);
   }
-  .phone {
-    max-width: 430px;
-    margin: 0 auto 28px;
-    background: var(--card);
-    border-radius: 22px;
-    box-shadow: 0 6px 20px rgba(0,0,0,.08);
-    overflow: hidden;
-    border: 1px solid var(--line);
-  }
+  .screen { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+  .screen.active { display: flex; }
+  .screen-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+  .screen-body::-webkit-scrollbar { width: 0; }
+
   .topbar {
     background: linear-gradient(135deg, var(--green), #046b25);
-    color: #fff;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    color: #fff; padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
   }
-  .topbar .brand { font-weight: 700; font-size: 16px; }
+  .topbar .brand { font-weight: 700; font-size: 15px; }
   .topbar .brand small { display: block; font-size: 10px; opacity: .85; font-weight: 400; }
   .topbar .lang {
-    background: rgba(255,255,255,.2);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
+    background: rgba(255,255,255,.2); padding: 4px 10px;
+    border-radius: 20px; font-size: 11px; cursor: pointer;
   }
-  .screen-body { padding: 16px; }
+  .topbar.back-only { justify-content: flex-start; gap: 10px; }
+  .back-btn {
+    background: rgba(255,255,255,.15); border: none; color: #fff;
+    width: 30px; height: 30px; border-radius: 50%;
+    font-size: 14px; cursor: pointer;
+  }
 
-  /* SPLASH */
   .splash {
+    flex: 1;
     background: linear-gradient(160deg, var(--green) 0%, #046b25 60%, #024a19 100%);
-    color: #fff;
-    text-align: center;
-    padding: 60px 20px;
+    color: #fff; text-align: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 20px;
   }
   .splash .logo {
-    width: 90px; height: 90px;
-    background: var(--yellow);
-    border-radius: 22px;
-    margin: 0 auto 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 44px; font-weight: 800; color: var(--green);
-    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    width: 100px; height: 100px; background: var(--yellow);
+    border-radius: 24px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 48px; font-weight: 800; color: var(--green);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35); margin-bottom: 22px;
   }
-  .splash h1 { font-size: 26px; margin-bottom: 6px; }
+  .splash h1 { font-size: 30px; margin-bottom: 6px; }
   .splash p { font-size: 13px; opacity: .9; }
-  .splash .stripes { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
-  .splash .stripes span { width: 40px; height: 6px; border-radius: 3px; }
+  .splash .sub { margin-top: 8px; font-size: 11px; opacity: .75; }
+  .splash .stripes { display: flex; gap: 8px; margin-top: 28px; }
+  .splash .stripes span { width: 44px; height: 6px; border-radius: 3px; }
 
-  /* FORM */
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--muted); }
   .field input, .field select, .field textarea {
-    width: 100%; padding: 12px 14px;
-    border: 1px solid var(--line); border-radius: 12px;
-    font-size: 14px; background: #fafafa; font-family: inherit;
+    width: 100%; padding: 11px 13px; border: 1px solid var(--line);
+    border-radius: 12px; font-size: 14px; background: #fafafa; font-family: inherit;
   }
+  .field textarea { resize: vertical; min-height: 80px; }
   .btn {
-    display: block; width: 100%; padding: 13px;
+    display: block; width: 100%; padding: 12px;
     border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 700;
+    font-size: 14px; font-weight: 700;
     cursor: pointer; font-family: inherit;
+    transition: opacity .15s;
   }
+  .btn:active { opacity: .8; }
   .btn-primary { background: var(--green); color: #fff; }
   .btn-outline { background: #fff; color: var(--green); border: 2px solid var(--green); }
   .btn-yellow { background: var(--yellow); color: #1a1a1a; }
   .btn-red { background: var(--red); color: #fff; }
-  .btn-sm { padding: 8px 12px; font-size: 12px; width: auto; display: inline-block; border-radius: 8px; }
-  .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-sm { padding: 7px 11px; font-size: 12px; width: auto; display: inline-block; border-radius: 8px; }
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; }
   .btn-row .btn { flex: 1; }
 
-  /* SEARCH */
   .searchbar {
     display: flex; gap: 8px; background: #fff;
-    padding: 8px 12px; border-radius: 14px;
+    padding: 9px 12px; border-radius: 14px;
     border: 1px solid var(--line); align-items: center;
   }
   .searchbar input { flex: 1; border: none; outline: none; font-size: 14px; background: transparent; font-family: inherit; }
-  .searchbar .icon { color: var(--muted); font-size: 16px; }
+  .searchbar .icon { color: var(--muted); }
 
-  /* CHIPS */
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-top: 10px; scrollbar-width: none; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-top: 6px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
   .chip {
-    flex: 0 0 auto; padding: 7px 14px;
+    flex: 0 0 auto; padding: 6px 13px;
     background: #fff; border: 1px solid var(--line);
     border-radius: 20px; font-size: 12px; font-weight: 600;
-    color: var(--ink); white-space: nowrap;
+    white-space: nowrap; cursor: pointer;
   }
   .chip.active { background: var(--green); color: #fff; border-color: var(--green); }
 
-  /* SECTION TITLE */
-  .sec-title { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 10px; }
-  .sec-title h3 { font-size: 15px; }
-  .sec-title a { font-size: 12px; color: var(--green); font-weight: 600; text-decoration: none; }
+  .sec-title { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 8px; }
+  .sec-title h3 { font-size: 14px; }
+  .sec-title a { font-size: 11px; color: var(--green); font-weight: 600; text-decoration: none; cursor: pointer; }
 
-  /* LISTING CARD */
   .listing {
     display: flex; gap: 10px;
     background: #fff; border: 1px solid var(--line);
-    border-radius: 14px; padding: 10px; margin-bottom: 10px;
+    border-radius: 14px; padding: 10px; margin-bottom: 9px;
+    cursor: pointer;
   }
   .listing .thumb {
-    width: 78px; height: 78px;
+    width: 68px; height: 68px;
     background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; flex: 0 0 auto;
+    border-radius: 10px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 26px; flex: 0 0 auto;
   }
   .listing .info { flex: 1; min-width: 0; }
-  .listing .info h4 { font-size: 14px; margin-bottom: 3px; }
-  .listing .info .meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-  .listing .price { font-size: 14px; font-weight: 800; color: var(--green); }
+  .listing .info h4 { font-size: 13px; margin-bottom: 2px; }
+  .listing .info .meta { font-size: 10.5px; color: var(--muted); margin-bottom: 5px; }
+  .listing .price { font-size: 13px; font-weight: 800; color: var(--green); }
   .listing .price small { font-weight: 400; color: var(--muted); font-size: 10px; }
+
   .badge {
     display: inline-block; background: var(--yellow); color: #1a1a1a;
-    font-size: 10px; font-weight: 700; padding: 2px 8px;
-    border-radius: 20px; margin-left: 6px;
+    font-size: 9.5px; font-weight: 700; padding: 2px 7px;
+    border-radius: 20px; margin-left: 4px;
   }
   .badge.green { background: #d1f2da; color: var(--green); }
   .badge.red { background: #fde0e2; color: var(--red); }
   .badge.blue { background: #dbeafe; color: #1e40af; }
 
-  /* BOTTOM NAV */
-  .bottomnav { display: flex; border-top: 1px solid var(--line); background: #fff; }
-  .bottomnav div { flex: 1; text-align: center; padding: 10px 4px; font-size: 10px; color: var(--muted); }
+  .bottomnav {
+    display: flex; border-top: 1px solid var(--line);
+    background: #fff; flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottomnav div {
+    flex: 1; text-align: center; padding: 8px 4px 6px;
+    font-size: 10px; color: var(--muted); cursor: pointer;
+  }
   .bottomnav div.active { color: var(--green); font-weight: 700; }
-  .bottomnav div .ico { font-size: 18px; display: block; margin-bottom: 2px; }
+  .bottomnav div .ico { font-size: 18px; display: block; margin-bottom: 1px; }
 
-  /* CARD */
-  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-  .card h4 { font-size: 14px; margin-bottom: 8px; }
-  .row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 10px; }
+  .card h4 { font-size: 13px; margin-bottom: 6px; }
+  .row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 5px 0; border-bottom: 1px dashed var(--line); }
   .row:last-child { border-bottom: none; }
   .row span:last-child { color: var(--muted); }
 
-  /* FILTER */
-  .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .filter-grid .field { margin-bottom: 0; }
-
-  /* ADMIN */
-  .admin-head {
-    background: #1a1a1a; color: #fff;
-    padding: 12px 16px; font-size: 13px; font-weight: 700;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .admin-head .phone { font-size: 11px; opacity: .7; }
-
-  /* WALLET */
-  .wallet-card {
-    background: linear-gradient(135deg, var(--green), #046b25);
-    color: #fff; border-radius: 18px;
-    padding: 20px; text-align: center; margin-bottom: 14px;
-  }
-  .wallet-card .label { font-size: 12px; opacity: .85; }
-  .wallet-card .amount { font-size: 34px; font-weight: 800; margin: 6px 0; }
-  .wallet-card .rate { font-size: 12px; background: rgba(255,255,255,.15); display: inline-block; padding: 4px 10px; border-radius: 20px; }
-
-  /* DETAIL HERO */
-  .detail-hero {
-    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
-    height: 160px; display: flex; align-items: center; justify-content: center;
-    font-size: 60px;
-  }
-
-  /* ============ NEW: VERIFIED SELLERS STRIP ============ */
-  .verified-strip {
-    display: flex; gap: 10px; overflow-x: auto;
-    padding: 6px 0 12px; scrollbar-width: none;
-  }
+  .verified-strip { display: flex; gap: 9px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: none; }
   .verified-strip::-webkit-scrollbar { display: none; }
   .verified-seller {
-    flex: 0 0 auto; width: 130px;
+    flex: 0 0 auto; width: 118px;
     background: #fff; border: 1px solid var(--line);
-    border-radius: 14px; padding: 12px 10px; text-align: center;
-    position: relative;
+    border-radius: 14px; padding: 10px 8px; text-align: center;
+    position: relative; cursor: pointer;
   }
   .verified-seller .avatar {
-    width: 52px; height: 52px; border-radius: 50%;
+    width: 46px; height: 46px; border-radius: 50%;
     background: linear-gradient(135deg, #e8f5ec, #b8e0c4);
     margin: 0 auto 6px; display: flex;
     align-items: center; justify-content: center;
-    font-size: 24px; border: 2px solid var(--green);
+    font-size: 22px; border: 2px solid var(--green);
   }
-  .verified-seller .name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
-  .verified-seller .meta { font-size: 10px; color: var(--muted); }
+  .verified-seller .name { font-size: 11px; font-weight: 700; margin-bottom: 1px; }
+  .verified-seller .meta { font-size: 9.5px; color: var(--muted); }
   .verified-seller .check {
-    position: absolute; top: 6px; right: 6px;
+    position: absolute; top: 5px; right: 5px;
     background: var(--green); color: #fff;
-    width: 18px; height: 18px; border-radius: 50%;
-    font-size: 11px; display: flex;
+    width: 16px; height: 16px; border-radius: 50%;
+    font-size: 10px; display: flex;
     align-items: center; justify-content: center;
   }
 
-  /* ============ NEW: TRENDING CAROUSEL ============ */
-  .trending-strip {
-    display: flex; gap: 10px; overflow-x: auto;
-    padding: 6px 0 12px; scrollbar-width: none;
-  }
+  .trending-strip { display: flex; gap: 9px; overflow-x: auto; padding: 4px 0 10px; scrollbar-width: none; }
   .trending-strip::-webkit-scrollbar { display: none; }
   .trend-card {
-    flex: 0 0 auto; width: 150px;
+    flex: 0 0 auto; width: 138px;
     background: #fff; border: 1px solid var(--line);
     border-radius: 14px; overflow: hidden;
-    position: relative;
+    position: relative; cursor: pointer;
   }
   .trend-card .img {
-    height: 100px;
-    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
-    display: flex; align-items: center;
-    justify-content: center; font-size: 44px;
+    height: 88px; background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
+    display: flex; align-items: center; justify-content: center; font-size: 38px;
   }
-  .trend-card .info { padding: 8px 10px; }
-  .trend-card .info h5 { font-size: 12px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .trend-card .info .price { font-size: 12px; color: var(--green); font-weight: 800; }
+  .trend-card .info { padding: 7px 9px; }
+  .trend-card .info h5 { font-size: 11px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .trend-card .info .price { font-size: 11.5px; color: var(--green); font-weight: 800; }
   .trend-card .hot {
-    position: absolute; top: 6px; left: 6px;
+    position: absolute; top: 5px; left: 5px;
     background: var(--red); color: #fff;
-    font-size: 9px; padding: 2px 7px;
+    font-size: 8.5px; padding: 2px 6px;
     border-radius: 20px; font-weight: 700;
   }
 
-  /* ============ NEW: MEGA MENU ============ */
   .megamenu { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
   .megamenu details { border-bottom: 1px solid var(--line); }
   .megamenu details:last-child { border-bottom: none; }
   .megamenu summary {
     list-style: none; cursor: pointer;
-    padding: 12px 14px; font-weight: 700; font-size: 13px;
+    padding: 12px 13px; font-weight: 700; font-size: 13px;
     display: flex; justify-content: space-between; align-items: center;
   }
   .megamenu summary::-webkit-details-marker { display: none; }
-  .megamenu summary::after { content: "▾"; color: var(--muted); font-size: 12px; }
+  .megamenu summary::after { content: "▾"; color: var(--muted); font-size: 11px; }
   .megamenu details[open] summary::after { content: "▴"; }
-  .megamenu .sub { padding: 0 14px 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .megamenu .sub { padding: 0 13px 12px 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .megamenu .sub a {
-    font-size: 11px; color: #374151; text-decoration: none;
+    font-size: 10.5px; color: #374151; text-decoration: none;
     padding: 6px 8px; background: #f8fafc; border-radius: 8px;
+    cursor: pointer;
   }
 
-  /* ============ NEW: SERVICE REQUEST (RFQ-style) ============ */
   .rfq {
     background: linear-gradient(135deg, #fff7d6, #fde68a);
-    border: 1px dashed #d4a017;
-    border-radius: 14px; padding: 14px;
-    margin: 14px 0;
+    border: 1px dashed #d4a017; border-radius: 14px;
+    padding: 12px; margin: 12px 0;
   }
-  .rfq h4 { font-size: 14px; margin-bottom: 4px; color: #7c5800; }
-  .rfq p { font-size: 11px; color: #92680a; margin-bottom: 10px; }
-  .rfq .btn { padding: 10px; font-size: 13px; }
+  .rfq h4 { font-size: 13px; margin-bottom: 3px; color: #7c5800; }
+  .rfq p { font-size: 10.5px; color: #92680a; margin-bottom: 8px; }
+  .rfq .btn { padding: 9px; font-size: 12px; }
 
-  /* ============ NEW: SUPPLIER PAGE (SELLER PROFILE) ============ */
   .supplier-hero {
     background: linear-gradient(135deg, var(--green), #046b25);
-    color: #fff; padding: 20px 16px; text-align: center;
+    color: #fff; padding: 18px 16px; text-align: center; flex-shrink: 0;
   }
   .supplier-hero .avatar {
-    width: 72px; height: 72px; border-radius: 50%;
+    width: 64px; height: 64px; border-radius: 50%;
     background: var(--yellow); color: var(--green);
-    margin: 0 auto 10px; display: flex;
+    margin: 0 auto 8px; display: flex;
     align-items: center; justify-content: center;
-    font-size: 32px; font-weight: 800;
+    font-size: 28px; font-weight: 800;
   }
-  .supplier-hero h3 { font-size: 17px; }
-  .supplier-hero p { font-size: 11px; opacity: .9; margin-top: 2px; }
+  .supplier-hero h3 { font-size: 16px; }
+  .supplier-hero p { font-size: 10.5px; opacity: .9; margin-top: 2px; }
   .supplier-hero .verif {
-    display: inline-block; margin-top: 8px;
+    display: inline-block; margin-top: 6px;
     background: rgba(255,255,255,.2);
-    padding: 4px 10px; border-radius: 20px;
-    font-size: 11px;
+    padding: 3px 10px; border-radius: 20px; font-size: 10px;
   }
-  .stat-grid {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px; padding: 14px;
-  }
-  .stat-grid .stat {
-    text-align: center; padding: 8px;
-    background: #f8fafc; border-radius: 10px;
-  }
-  .stat-grid .stat b { display: block; font-size: 16px; color: var(--green); }
-  .stat-grid .stat span { font-size: 10px; color: var(--muted); }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 12px; }
+  .stat-grid .stat { text-align: center; padding: 7px; background: #f8fafc; border-radius: 10px; }
+  .stat-grid .stat b { display: block; font-size: 15px; color: var(--green); }
+  .stat-grid .stat span { font-size: 9.5px; color: var(--muted); }
 
-  .divider { max-width: 430px; margin: 28px auto; border: none; border-top: 2px dashed #cbd5e1; }
-
-  /* TABS */
-  .tabs { display: flex; border-bottom: 1px solid var(--line); background: #fff; }
-  .tabs div {
-    flex: 1; text-align: center; padding: 10px;
-    font-size: 12px; color: var(--muted); font-weight: 600;
+  .detail-hero {
+    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
+    height: 130px; display: flex;
+    align-items: center; justify-content: center; font-size: 54px;
   }
-  .tabs div.active { color: var(--green); border-bottom: 2px solid var(--green); }
+
+  .admin-head {
+    background: #1a1a1a; color: #fff;
+    padding: 12px 16px; font-size: 13px; font-weight: 700;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-shrink: 0;
+  }
+  .admin-head .phone { font-size: 10.5px; opacity: .7; }
+
+  .wallet-card {
+    background: linear-gradient(135deg, var(--green), #046b25);
+    color: #fff; border-radius: 18px;
+    padding: 20px; text-align: center; margin-bottom: 12px;
+  }
+  .wallet-card .label { font-size: 11.5px; opacity: .85; }
+  .wallet-card .amount { font-size: 32px; font-weight: 800; margin: 5px 0; }
+  .wallet-card .rate { font-size: 11px; background: rgba(255,255,255,.15); display: inline-block; padding: 3px 10px; border-radius: 20px; }
+
+  .empty {
+    text-align: center; padding: 40px 20px;
+    color: var(--muted); font-size: 13px;
+  }
+  .empty .big { font-size: 44px; margin-bottom: 8px; }
+
+  .toast {
+    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: #fff; padding: 10px 18px;
+    border-radius: 24px; font-size: 13px; z-index: 1000;
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+    max-width: 90%;
+  }
+  .toast.show { opacity: 1; }
+
+  .role-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; margin-left: 6px;
+  }
+  .role-tag.admin { background: #fde0e2; color: var(--red); }
+  .role-tag.seller { background: #d1f2da; color: var(--green); }
+  .role-tag.buyer { background: #dbeafe; color: #1e40af; }
+
+  @media (min-width: 500px) {
+    body { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 20px 0; }
+    .app { border-radius: 28px; height: calc(100vh - 40px); border: 8px solid #0f172a; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ============================================================ -->
-<div class="page-note">1 • Splash Screen</div>
-<div class="phone">
-  <div class="splash">
-    <div class="logo">ሶ</div>
-    <h1>ሶያም ገበያ</h1>
-    <p>Soyam Gebeya — Everything Market</p>
-    <p style="margin-top:8px; font-size:11px;">Every product · service · skill · idea · knowledge</p>
-    <div class="stripes">
-      <span style="background:#078930"></span>
-      <span style="background:#FCDD09"></span>
-      <span style="background:#DA121A"></span>
+<div class="app" id="app"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   SOYAM GEBEYA — FULLY FUNCTIONAL PROTOTYPE
+   Data stored in localStorage (per device)
+   ============================================================ */
+
+const ADMIN_PHONE = '+251920353460';
+const COIN_RATE = 10; // 1 coin = 10 ETB
+
+/* ---------- STORAGE ---------- */
+const DB = {
+  get(key, fallback) {
+    try { return JSON.parse(localStorage.getItem('soyam_' + key)) ?? fallback; }
+    catch { return fallback; }
+  },
+  set(key, val) { localStorage.setItem('soyam_' + key, JSON.stringify(val)); }
+};
+
+/* ---------- INITIAL SEED ---------- */
+function seed() {
+  if (!DB.get('users')) {
+    const users = [
+      { id:'u_admin', name:'Platform Admin', phone:ADMIN_PHONE, role:'admin', city:'Addis Ababa', region:'Addis Ababa', status:'active', coins:100000 },
+      { id:'u_abebe', name:'Abebe Tesfaye', phone:'+251911111111', role:'seller', city:'Bahir Dar', region:'Amhara', status:'active', coins:250, sellerId:'s_abebe' },
+      { id:'u_hanna', name:'Hanna Girma', phone:'+251922222222', role:'seller', city:'Hawassa', region:'Sidama', status:'active', coins:80, sellerId:'s_hanna' },
+      { id:'u_sara', name:'Sara Mekonnen', phone:'+251933333333', role:'buyer', city:'Addis Ababa', region:'Addis Ababa', status:'active', coins:50 }
+    ];
+    DB.set('users', users);
+  }
+
+  if (!DB.get('sellers')) {
+    const sellers = [
+      { id:'s_abebe', name:'Abebe Farms', phone:'+251911111111', city:'Bahir Dar', region:'Amhara', size:'Cooperative', type:'Product Seller', status:'approved', icon:'🌾', rating:4.8, orders:126 },
+      { id:'s_hanna', name:'Hanna Plumbing', phone:'+251922222222', city:'Hawassa', region:'Sidama', size:'Freelancer', type:'Technician', status:'approved', icon:'🔧', rating:4.6, orders:48 },
+      { id:'s_kebede', name:'Kebede Electronics', phone:'+251944444444', city:'Adama', region:'Oromia', size:'Small Business', type:'Product Seller', status:'pending', icon:'🏪', rating:0, orders:0 },
+      { id:'s_wood', name:'Wood Works ET', phone:'+251955555555', city:'Hawassa', region:'Sidama', size:'Micro Business', type:'Manufacturer', status:'approved', icon:'🪑', rating:4.7, orders:62 }
+    ];
+    DB.set('sellers', sellers);
+  }
+
+  if (!DB.get('listings')) {
+    const listings = [
+      { id:'l_1', title:'Organic Teff — 100kg', type:'product', category:'Agriculture Products', price:8500, negotiable:true, city:'Bahir Dar', region:'Amhara', sellerId:'s_abebe', icon:'🌾', description:'Freshly harvested organic teff from local farms. Clean, sorted, ready for delivery.', status:'active', createdAt:Date.now() },
+      { id:'l_2', title:'Phone Repair Service', type:'service', category:'Phone Repair', price:500, negotiable:false, city:'Addis Ababa', region:'Addis Ababa', sellerId:'s_hanna', icon:'📱', description:'Fast and reliable phone repair. Screen, battery, software.', status:'active', createdAt:Date.now() },
+      { id:'l_3', title:'Handmade Wooden Chair', type:'product', category:'Furniture', price:2300, negotiable:true, city:'Hawassa', region:'Sidama', sellerId:'s_wood', icon:'🪑', description:'Handcrafted traditional wooden chair. Strong and durable.', status:'active', createdAt:Date.now() },
+      { id:'l_4', title:'Logo & Brand Design', type:'skill', category:'Graphic Design', price:1500, negotiable:false, city:'Adama', region:'Oromia', sellerId:'s_abebe', icon:'🎨', description:'Professional logo and brand identity design.', status:'active', createdAt:Date.now() },
+      { id:'l_5', title:'Fresh Maize — 50kg', type:'product', category:'Agriculture Products', price:3200, negotiable:true, city:'Bahir Dar', region:'Amhara', sellerId:'s_abebe', icon:'🌽', description:'Fresh maize from Bahir Dar farms.', status:'active', createdAt:Date.now() }
+    ];
+    DB.set('listings', listings);
+  }
+
+  if (!DB.get('orders')) DB.set('orders', []);
+  if (!DB.get('coinRequests')) DB.set('coinRequests', []);
+  if (!DB.get('session')) DB.set('session', null);
+}
+seed();
+
+/* ---------- HELPERS ---------- */
+function uid(prefix){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastT);
+  window._toastT = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function me(){ return DB.get('session', null); }
+function user(){ const s = me(); return s ? DB.get('users').find(u => u.id === s.userId) : null; }
+function sellerById(id){ return DB.get('sellers').find(s => s.id === id); }
+function listingById(id){ return DB.get('listings').find(l => l.id === id); }
+function updateUser(u){ const arr = DB.get('users'); const i = arr.findIndex(x => x.id === u.id); arr[i] = u; DB.set('users', arr); }
+function updateSeller(s){ const arr = DB.get('sellers'); const i = arr.findIndex(x => x.id === s.id); arr[i] = s; DB.set('sellers', arr); }
+
+/* ---------- NAVIGATION ---------- */
+let currentScreen = 's-splash';
+let backStack = [];
+
+function go(id, skipStack){
+  if (!skipStack && currentScreen && currentScreen !== id) backStack.push(currentScreen);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('active');
+  currentScreen = id;
+
+  document.querySelectorAll('.bottomnav div').forEach(d => {
+    d.classList.toggle('active', d.dataset.target === id);
+  });
+  const sb = el.querySelector('.screen-body');
+  if (sb) sb.scrollTop = 0;
+
+  // Render screen-specific dynamic content
+  if (id === 's-home') renderHome();
+  if (id === 's-search') renderSearchResults();
+  if (id === 's-categories') renderCategories();
+  if (id === 's-wallet') renderWallet();
+  if (id === 's-profile') renderProfile();
+  if (id === 's-dashboard') renderDashboard();
+  if (id === 's-myorders') renderMyOrders();
+  if (id === 's-admin') renderAdmin();
+  if (id === 's-admin-sellers') renderAdminSellers();
+  if (id === 's-admin-coins') renderAdminCoins();
+}
+window.go = go;
+
+function back(){
+  const prev = backStack.pop();
+  go(prev || 's-home', true);
+}
+window.back = back;
+
+/* ============================================================
+   BUILD APP SHELL
+   ============================================================ */
+const app = document.getElementById('app');
+app.innerHTML = `
+  <!-- SPLASH -->
+  <div class="screen active" id="s-splash">
+    <div class="splash">
+      <div class="logo">ሶ</div>
+      <h1>ሶያም ገበያ</h1>
+      <p>Soyam Gebeya — Everything Market</p>
+      <p class="sub">Every product · service · skill · idea · knowledge</p>
+      <div class="stripes">
+        <span style="background:#078930"></span>
+        <span style="background:#FCDD09"></span>
+        <span style="background:#DA121A"></span>
+      </div>
+      <button class="btn btn-yellow" style="margin-top:40px; max-width:240px;" onclick="go('s-login')">Get Started / ጀምር</button>
     </div>
   </div>
-</div>
 
-<!-- ============================================================ -->
-<div class="page-note">2 • Login (Phone Number)</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
-    <div class="lang">አማ / EN</div>
-  </div>
-  <div class="screen-body">
-    <h3 style="margin-bottom:4px;">እንኳን ደህና መጡ</h3>
-    <p style="font-size:12px; color:var(--muted); margin-bottom:16px;">Welcome — log in with your phone number</p>
-
-    <div class="field">
-      <label>Phone Number / ስልክ ቁጥር</label>
-      <input type="tel" placeholder="+251 9XX XXX XXX" />
+  <!-- LOGIN -->
+  <div class="screen" id="s-login">
+    <div class="topbar">
+      <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
+      <div class="lang">አማ / EN</div>
     </div>
-    <button class="btn btn-primary">Continue / ቀጥል</button>
-    <p style="text-align:center; font-size:11px; color:var(--muted); margin-top:12px;">
-      By continuing you agree to our terms · በመቀጠል ውሎቻችንን ተቀብለዋል
-    </p>
-  </div>
-</div>
+    <div class="screen-body">
+      <h3 style="margin-bottom:4px;">እንኳን ደህና መጡ</h3>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:16px;">Welcome — log in or register</p>
 
-<!-- ============================================================ -->
-<div class="page-note">3 • Buyer Home — with Verified Sellers + Trending</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
-    <div class="lang">👤 አዲስ አበባ</div>
+      <div class="field">
+        <label>Phone Number / ስልክ ቁጥር</label>
+        <input id="loginPhone" type="tel" placeholder="+251 9XX XXX XXX" />
+      </div>
+
+      <div class="field">
+        <label>Full Name (only for new users)</label>
+        <input id="loginName" placeholder="ሙሉ ስም / Full Name" />
+      </div>
+
+      <div class="field">
+        <label>Role</label>
+        <select id="loginRole">
+          <option value="buyer">Buyer / ገዢ</option>
+          <option value="seller">Seller / ሻጭ</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" onclick="doLogin()">Continue / ቀጥል</button>
+
+      <div class="card" style="margin-top:20px; background:#f0fdf4; border-color:#bbf7d0;">
+        <h4>Demo Accounts</h4>
+        <div class="row"><span>👤 Buyer (Sara)</span><span>+251933333333</span></div>
+        <div class="row"><span>🛒 Seller (Abebe)</span><span>+251911111111</span></div>
+        <div class="row"><span>🛡️ Admin</span><span>+251920353460</span></div>
+        <p style="font-size:11px; color:var(--muted); margin-top:8px;">
+          Type any of these phone numbers to log in. Or create a new user.
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="screen-body">
+
+  <!-- HOME -->
+  <div class="screen" id="s-home">
+    <div class="topbar">
+      <div class="brand">ሶያም ገበያ <small id="homeSub">Soyam Gebeya</small></div>
+      <div class="lang" id="homeLoc">📍 Addis Ababa</div>
+    </div>
+    <div class="screen-body" id="homeBody"></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="screen" id="s-search">
+    <div class="topbar">
+      <div class="brand">Search & Filter <small>ፍለጋ</small></div>
+      <div class="lang" onclick="clearFilters()">Clear</div>
+    </div>
+    <div class="screen-body" id="searchBody"></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="screen" id="s-categories">
+    <div class="topbar">
+      <div class="brand">All Categories <small>ሁሉም ምድቦች</small></div>
+      <div class="lang" onclick="go('s-home')">×</div>
+    </div>
+    <div class="screen-body" id="catsBody"></div>
+  </div>
+
+  <!-- LISTING DETAIL -->
+  <div class="screen" id="s-detail">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;">Listing</div>
+      <div class="lang">♡</div>
+    </div>
+    <div class="screen-body" id="detailBody" style="padding:0;"></div>
+  </div>
+
+  <!-- SUPPLIER -->
+  <div class="screen" id="s-supplier">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;">Seller Profile</div>
+      <div class="lang">♡</div>
+    </div>
+    <div class="screen-body" id="supplierBody" style="padding:0;"></div>
+  </div>
+
+  <!-- SELLER DASHBOARD -->
+  <div class="screen" id="s-dashboard">
+    <div class="topbar">
+      <div class="brand">Seller Dashboard <small>የሻጭ ዳሽቦርድ</small></div>
+      <div class="lang" onclick="go('s-profile')">👤</div>
+    </div>
+    <div class="screen-body" id="dashboardBody"></div>
+  </div>
+
+  <!-- ADD / EDIT LISTING -->
+  <div class="screen" id="s-listing-form">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;" id="lfTitle">Add Listing</div>
+    </div>
+    <div class="screen-body" id="lfBody"></div>
+  </div>
+
+  <!-- MY ORDERS -->
+  <div class="screen" id="s-myorders">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;">My Orders <small>የእኔ ትዕዛዞች</small></div>
+    </div>
+    <div class="screen-body" id="myordersBody"></div>
+  </div>
+
+  <!-- WALLET -->
+  <div class="screen" id="s-wallet">
+    <div class="topbar">
+      <div class="brand">My Wallet <small>የኪስ ቦርሳ</small></div>
+      <div class="lang">1 ሳንቲም = 10 ብር</div>
+    </div>
+    <div class="screen-body" id="walletBody"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="screen" id="s-profile">
+    <div class="topbar">
+      <div class="brand">Profile <small>መገለጫ</small></div>
+      <div class="lang" onclick="logout()">Logout</div>
+    </div>
+    <div class="screen-body" id="profileBody"></div>
+  </div>
+
+  <!-- ADMIN MAIN -->
+  <div class="screen" id="s-admin">
+    <div class="admin-head">
+      <div>🛡️ Admin Control</div>
+      <div class="phone">+251920353460</div>
+    </div>
+    <div class="screen-body" id="adminBody"></div>
+  </div>
+
+  <!-- ADMIN - SELLERS -->
+  <div class="screen" id="s-admin-sellers">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;">Manage Sellers</div>
+    </div>
+    <div class="screen-body" id="adminSellersBody"></div>
+  </div>
+
+  <!-- ADMIN - COINS -->
+  <div class="screen" id="s-admin-coins">
+    <div class="topbar back-only">
+      <button class="back-btn" onclick="back()">←</button>
+      <div class="brand" style="flex:1;">Coin Requests</div>
+    </div>
+    <div class="screen-body" id="adminCoinsBody"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottomnav">
+    <div data-target="s-home" onclick="go('s-home')"><span class="ico">🏠</span>Home</div>
+    <div data-target="s-search" onclick="go('s-search')"><span class="ico">🔍</span>Search</div>
+    <div data-target="s-categories" onclick="go('s-categories')"><span class="ico">📂</span>Categories</div>
+    <div data-target="s-wallet" onclick="go('s-wallet')"><span class="ico">💰</span>Wallet</div>
+    <div data-target="s-profile" onclick="go('s-profile')"><span class="ico">👤</span>Profile</div>
+  </div>
+`;
+
+/* ============================================================
+   LOGIN / LOGOUT
+   ============================================================ */
+function doLogin() {
+  const phone = document.getElementById('loginPhone').value.trim();
+  const name = document.getElementById('loginName').value.trim();
+  const role = document.getElementById('loginRole').value;
+
+  if (!phone) { toast('Enter a phone number'); return; }
+
+  // Normalize: ensure starts with +
+  const norm = phone.startsWith('+') ? phone : ('+' + phone.replace(/\D/g, ''));
+
+  let users = DB.get('users');
+  let user = users.find(u => u.phone === norm);
+
+  if (!user) {
+    if (!name) { toast('Enter your full name to register'); return; }
+    // New user
+    const isAdmin = norm === ADMIN_PHONE;
+    user = {
+      id: uid('u'), name, phone: norm,
+      role: isAdmin ? 'admin' : role,
+      city: 'Addis Ababa', region: 'Addis Ababa',
+      status: 'active',
+      coins: isAdmin ? 100000 : 0
+    };
+    users.push(user);
+    DB.set('users', users);
+
+    // If seller, create seller record (pending approval)
+    if (user.role === 'seller') {
+      const sellers = DB.get('sellers');
+      const sid = uid('s');
+      sellers.push({
+        id: sid, name: user.name, phone: user.phone,
+        city: user.city, region: user.region,
+        size: 'Individual', type: 'Product Seller',
+        status: 'pending', icon: '🏪', rating: 0, orders: 0
+      });
+      DB.set('sellers', sellers);
+      user.sellerId = sid;
+      updateUser(user);
+    }
+    toast('Welcome, ' + name + '!');
+  } else {
+    toast('Welcome back, ' + user.name + '!');
+  }
+
+  // Enforce admin
+  if (norm === ADMIN_PHONE && user.role !== 'admin') {
+    user.role = 'admin';
+    updateUser(user);
+  }
+
+  DB.set('session', { userId: user.id, loggedInAt: Date.now() });
+
+  // Route
+  if (user.role === 'admin') go('s-admin');
+  else if (user.role === 'seller') go('s-home');
+  else go('s-home');
+}
+window.doLogin = doLogin;
+
+function logout() {
+  if (!confirm('Log out?')) return;
+  DB.set('session', null);
+  backStack = [];
+  go('s-login', true);
+}
+window.logout = logout;
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function renderHome() {
+  const u = user();
+  const sellers = DB.get('sellers').filter(s => s.status === 'approved');
+  const listings = DB.get('listings').filter(l => l.status === 'active');
+
+  if (u) {
+    document.getElementById('homeSub').textContent = u.name;
+    document.getElementById('homeLoc').textContent = '📍 ' + u.city;
+  }
+
+  const verifiedHTML = sellers.slice(0,6).map(s => `
+    <div class="verified-seller" onclick="openSupplier('${s.id}')">
+      <div class="check">✔</div>
+      <div class="avatar">${s.icon || '🏪'}</div>
+      <div class="name">${esc(s.name)}</div>
+      <div class="meta">${esc(s.city)} · ${esc(s.size)}</div>
+    </div>
+  `).join('');
+
+  const trendingHTML = listings.slice(0,8).map(l => `
+    <div class="trend-card" onclick="openDetail('${l.id}')">
+      <div class="hot">HOT</div>
+      <div class="img">${l.icon || '📦'}</div>
+      <div class="info">
+        <h5>${esc(l.title)}</h5>
+        <div class="price">ETB ${l.price.toLocaleString()}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const featuredHTML = listings.slice(0,6).map(l => {
+    const s = sellerById(l.sellerId);
+    return `
+      <div class="listing" onclick="openDetail('${l.id}')">
+        <div class="thumb">${l.icon || '📦'}</div>
+        <div class="info">
+          <h4>${esc(l.title)} ${s && s.status === 'approved' ? '<span class="badge green">Verified</span>' : ''}</h4>
+          <div class="meta">📍 ${esc(l.city)} · ${esc(l.category)}</div>
+          <div class="price">ETB ${l.price.toLocaleString()} <small>· ${l.negotiable ? 'Negotiable' : 'Fixed'}</small></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('homeBody').innerHTML = `
     <div class="searchbar">
       <span class="icon">🔍</span>
-      <input placeholder="Search anything… / ማንኛውንም ፈልግ" />
+      <input placeholder="Search anything… / ማንኛውንም ፈልግ" onkeydown="if(event.key==='Enter'){go('s-search');document.getElementById('searchInput').value=this.value;doSearch(this.value);}" />
     </div>
 
-    <div class="chips">
-      <div class="chip active">All</div>
-      <div class="chip">Products</div>
-      <div class="chip">Services</div>
-      <div class="chip">Manufacturing</div>
-      <div class="chip">Maintenance</div>
-      <div class="chip">Professional</div>
-      <div class="chip">Creative</div>
+    <div class="chips" id="homeChips">
+      <div class="chip active" onclick="filterHome(this,'')">All</div>
+      <div class="chip" onclick="filterHome(this,'product')">Products</div>
+      <div class="chip" onclick="filterHome(this,'service')">Services</div>
+      <div class="chip" onclick="filterHome(this,'manufacturing')">Manufacturing</div>
+      <div class="chip" onclick="filterHome(this,'maintenance')">Maintenance</div>
+      <div class="chip" onclick="filterHome(this,'professional')">Professional</div>
+      <div class="chip" onclick="filterHome(this,'skill')">Creative</div>
     </div>
 
-    <!-- ✅ VERIFIED SELLERS STRIP (Alibaba style) -->
     <div class="sec-title">
-      <h3>✔ Verified Sellers / የተረጋገጡ ሻጮች</h3>
-      <a href="#">See all</a>
+      <h3>✔ Verified Sellers</h3>
+      <a onclick="go('s-search')">See all</a>
     </div>
     <div class="verified-strip">
-      <div class="verified-seller">
-        <div class="check">✔</div>
-        <div class="avatar">🏪</div>
-        <div class="name">Kebede Electronics</div>
-        <div class="meta">Adama · Small</div>
-      </div>
-      <div class="verified-seller">
-        <div class="check">✔</div>
-        <div class="avatar">🔧</div>
-        <div class="name">Hanna Plumbing</div>
-        <div class="meta">Hawassa · Freelancer</div>
-      </div>
-      <div class="verified-seller">
-        <div class="check">✔</div>
-        <div class="avatar">🌾</div>
-        <div class="name">Abebe Farms</div>
-        <div class="meta">Bahir Dar · Coop</div>
-      </div>
-      <div class="verified-seller">
-        <div class="check">✔</div>
-        <div class="avatar">🪑</div>
-        <div class="name">Wood Works ET</div>
-        <div class="meta">Hawassa · Micro</div>
-      </div>
+      ${verifiedHTML || '<p style="color:var(--muted);font-size:12px;">No sellers yet.</p>'}
     </div>
 
-    <!-- ✅ TRENDING NOW CAROUSEL (Alibaba style) -->
     <div class="sec-title">
-      <h3>🔥 Trending Now / አሁን ተወዳጅ</h3>
-      <a href="#">See all</a>
+      <h3>🔥 Trending Now</h3>
+      <a onclick="go('s-search')">See all</a>
     </div>
     <div class="trending-strip">
-      <div class="trend-card">
-        <div class="hot">HOT</div>
-        <div class="img">🌾</div>
-        <div class="info">
-          <h5>Organic Teff 100kg</h5>
-          <div class="price">ETB 8,500</div>
-        </div>
-      </div>
-      <div class="trend-card">
-        <div class="hot">NEW</div>
-        <div class="img">📱</div>
-        <div class="info">
-          <h5>Phone Repair</h5>
-          <div class="price">ETB 500</div>
-        </div>
-      </div>
-      <div class="trend-card">
-        <div class="hot">TOP</div>
-        <div class="img">🪑</div>
-        <div class="info">
-          <h5>Wooden Chair</h5>
-          <div class="price">ETB 2,300</div>
-        </div>
-      </div>
-      <div class="trend-card">
-        <div class="hot">HOT</div>
-        <div class="img">🎨</div>
-        <div class="info">
-          <h5>Logo Design</h5>
-          <div class="price">ETB 1,500</div>
-        </div>
-      </div>
+      ${trendingHTML || '<p style="color:var(--muted);font-size:12px;">No listings yet.</p>'}
     </div>
 
-    <!-- ✅ SERVICE REQUEST (RFQ style) -->
     <div class="rfq">
-      <h4>📢 Need Something? / የሚፈልጉት ነገር?</h4>
+      <h4>📢 Need Something?</h4>
       <p>Post a request — sellers will respond with offers.</p>
-      <button class="btn btn-yellow">Request a Service / ጥያቄ አቅርብ</button>
+      <button class="btn btn-yellow" onclick="toast('Service request posted! (demo)')">Request a Service / ጥያቄ አቅርብ</button>
     </div>
 
     <div class="sec-title">
       <h3>Featured / ተመራጭ</h3>
-      <a href="#">See all</a>
+      <a onclick="go('s-search')">See all</a>
     </div>
+    <div id="homeListings">
+      ${featuredHTML || '<div class="empty"><div class="big">📦</div><p>No listings yet. Be the first to post!</p></div>'}
+    </div>
+  `;
+}
+window.renderHome = renderHome;
 
-    <div class="listing">
-      <div class="thumb">🌾</div>
-      <div class="info">
-        <h4>Organic Teff — 100kg <span class="badge green">Verified</span></h4>
-        <div class="meta">📍 Bahir Dar · Agriculture</div>
-        <div class="price">ETB 8,500 <small>· Negotiable</small></div>
+function filterHome(chip, type) {
+  document.querySelectorAll('#homeChips .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const listings = DB.get('listings').filter(l => l.status === 'active' && (!type || l.type === type || l.category.toLowerCase().includes(type.toLowerCase())));
+  const html = listings.map(l => {
+    const s = sellerById(l.sellerId);
+    return `
+      <div class="listing" onclick="openDetail('${l.id}')">
+        <div class="thumb">${l.icon || '📦'}</div>
+        <div class="info">
+          <h4>${esc(l.title)} ${s && s.status === 'approved' ? '<span class="badge green">Verified</span>' : ''}</h4>
+          <div class="meta">📍 ${esc(l.city)} · ${esc(l.category)}</div>
+          <div class="price">ETB ${l.price.toLocaleString()} <small>· ${l.negotiable ? 'Negotiable' : 'Fixed'}</small></div>
+        </div>
       </div>
+    `;
+  }).join('');
+  document.getElementById('homeListings').innerHTML = html || '<div class="empty"><div class="big">🔍</div><p>No listings in this category.</p></div>';
+}
+window.filterHome = filterHome;
+
+/* ============================================================
+   SEARCH + FILTERS
+   ============================================================ */
+let searchState = { q:'', region:'', city:'', size:'', type:'', category:'' };
+
+function renderSearchResults() {
+  const users = DB.get('users');
+  const listings = DB.get('listings').filter(l => l.status === 'active');
+  const sellers = DB.get('sellers');
+
+  document.getElementById('searchBody').innerHTML = `
+    <div class="searchbar" style="margin-bottom:12px;">
+      <span class="icon">🔍</span>
+      <input id="searchInput" placeholder="Search listings…" oninput="doSearch(this.value)" value="${esc(searchState.q)}" />
     </div>
-
-    <div class="listing">
-      <div class="thumb">📱</div>
-      <div class="info">
-        <h4>Phone Repair Service</h4>
-        <div class="meta">📍 Addis Ababa · Maintenance</div>
-        <div class="price">ETB 500 <small>· Fixed</small></div>
-      </div>
-    </div>
-
-    <div class="listing">
-      <div class="thumb">🪑</div>
-      <div class="info">
-        <h4>Handmade Wooden Chair</h4>
-        <div class="meta">📍 Hawassa · Manufacturing</div>
-        <div class="price">ETB 2,300 <small>· Negotiable</small></div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="bottomnav">
-    <div class="active"><span class="ico">🏠</span>Home</div>
-    <div><span class="ico">🔍</span>Search</div>
-    <div><span class="ico">📦</span>Orders</div>
-    <div><span class="ico">💰</span>Wallet</div>
-    <div><span class="ico">👤</span>Profile</div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<div class="page-note">4 • Category Mega-Menu (Alibaba style)</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">All Categories <small>ሁሉም ምድቦች</small></div>
-    <div class="lang">×</div>
-  </div>
-  <div class="screen-body">
-    <div class="megamenu">
-
-      <details open>
-        <summary>🛒 Products</summary>
-        <div class="sub">
-          <a href="#">Agriculture</a>
-          <a href="#">Food & Beverages</a>
-          <a href="#">Clothing & Textiles</a>
-          <a href="#">Shoes & Leather</a>
-          <a href="#">Electronics & Phones</a>
-          <a href="#">Home Appliances</a>
-          <a href="#">Furniture</a>
-          <a href="#">Construction Materials</a>
-          <a href="#">Beauty & Cosmetics</a>
-          <a href="#">Health Products</a>
-          <a href="#">Books & Stationery</a>
-          <a href="#">Vehicles & Spare Parts</a>
-          <a href="#">Handicrafts & Cultural</a>
-        </div>
-      </details>
-
-      <details>
-        <summary>🚚 Services</summary>
-        <div class="sub">
-          <a href="#">Transportation</a>
-          <a href="#">Delivery</a>
-          <a href="#">Cleaning</a>
-          <a href="#">Security</a>
-          <a href="#">Events</a>
-          <a href="#">Catering</a>
-          <a href="#">Tourism & Travel</a>
-          <a href="#">Rental Services</a>
-        </div>
-      </details>
-
-      <details>
-        <summary>🏭 Manufacturing</summary>
-        <div class="sub">
-          <a href="#">Small-scale Mfg</a>
-          <a href="#">Factory Products</a>
-          <a href="#">Furniture Mfg</a>
-          <a href="#">Metal Works</a>
-          <a href="#">Wood Works</a>
-          <a href="#">Plastic Products</a>
-          <a href="#">Textile Mfg</a>
-          <a href="#">Food Processing</a>
-        </div>
-      </details>
-
-      <details>
-        <summary>🔧 Maintenance & Technical</summary>
-        <div class="sub">
-          <a href="#">Electrical</a>
-          <a href="#">Plumbing</a>
-          <a href="#">Phone Repair</a>
-          <a href="#">Computer Repair</a>
-          <a href="#">Machinery Maintenance</a>
-          <a href="#">Vehicle Maintenance</a>
-          <a href="#">Construction Maintenance</a>
-        </div>
-      </details>
-
-      <details>
-        <summary>💼 Professional Services</summary>
-        <div class="sub">
-          <a href="#">Legal</a>
-          <a href="#">Accounting</a>
-          <a href="#">Audit</a>
-          <a href="#">Consulting</a>
-          <a href="#">Architecture</a>
-          <a href="#">Engineering</a>
-          <a href="#">Health Services</a>
-          <a href="#">Education & Tutoring</a>
-          <a href="#">IT & Software</a>
-        </div>
-      </details>
-
-      <details>
-        <summary>🎨 Creative & Knowledge</summary>
-        <div class="sub">
-          <a href="#">Graphic Design</a>
-          <a href="#">Photography</a>
-          <a href="#">Videography</a>
-          <a href="#">Content Creation</a>
-          <a href="#">Music</a>
-          <a href="#">Art</a>
-          <a href="#">Writing</a>
-          <a href="#">Translation</a>
-          <a href="#">Training</a>
-          <a href="#">Coaching</a>
-          <a href="#">Digital Products</a>
-          <a href="#">Business Ideas</a>
-          <a href="#">Online Knowledge</a>
-        </div>
-      </details>
-
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<div class="page-note">5 • Search & Filters</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">Filter / ማጣሪያ</div>
-    <div class="lang">Clear</div>
-  </div>
-  <div class="screen-body">
 
     <div class="field">
-      <label>Region / ክልል</label>
-      <select>
-        <option>All Regions</option>
-        <option>Addis Ababa</option>
-        <option>Oromia</option>
-        <option>Amhara</option>
-        <option>Tigray</option>
-        <option>Sidama</option>
-        <option>SNNPR</option>
-        <option>Somali</option>
-        <option>Afar</option>
-        <option>Benishangul-Gumuz</option>
-        <option>Gambella</option>
+      <label>Region</label>
+      <select id="fRegion" onchange="searchState.region=this.value;applyFilters()">
+        <option value="">All Regions</option>
+        ${['Addis Ababa','Oromia','Amhara','Tigray','Sidama','SNNPR','Somali','Afar','Benishangul-Gumuz','Gambella'].map(r => `<option ${searchState.region===r?'selected':''}>${r}</option>`).join('')}
       </select>
     </div>
 
     <div class="field">
-      <label>City / ከተማ</label>
-      <select>
-        <option>All Cities</option>
-        <option>Addis Ababa</option>
-        <option>Adama</option>
-        <option>Bishoftu</option>
-        <option>Hawassa</option>
-        <option>Bahir Dar</option>
-        <option>Gondar</option>
-        <option>Dessie</option>
-        <option>Mekelle</option>
-        <option>Jimma</option>
-        <option>Dire Dawa</option>
-        <option>Harar</option>
-        <option>Jijiga</option>
-        <option>Shashemene</option>
-        <option>Arba Minch</option>
+      <label>City</label>
+      <select id="fCity" onchange="searchState.city=this.value;applyFilters()">
+        <option value="">All Cities</option>
+        ${['Addis Ababa','Adama','Bishoftu','Hawassa','Bahir Dar','Gondar','Dessie','Mekelle','Jimma','Dire Dawa','Harar','Jijiga','Shashemene','Arba Minch'].map(c => `<option ${searchState.city===c?'selected':''}>${c}</option>`).join('')}
       </select>
     </div>
 
-    <div class="filter-grid">
-      <div class="field">
-        <label>Business Size</label>
-        <select>
-          <option>All Sizes</option>
-          <option>Individual</option>
-          <option>Freelancer</option>
-          <option>Micro</option>
-          <option>Small</option>
-          <option>Medium</option>
-          <option>Large</option>
-          <option>Cooperative</option>
-          <option>Startup</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Business Type</label>
-        <select>
-          <option>All Types</option>
-          <option>Product Seller</option>
-          <option>Service Provider</option>
-          <option>Manufacturer</option>
-          <option>Technician</option>
-          <option>Professional</option>
-          <option>Creator</option>
-        </select>
-      </div>
+    <div class="field">
+      <label>Business Size</label>
+      <select id="fSize" onchange="searchState.size=this.value;applyFilters()">
+        <option value="">All Sizes</option>
+        ${['Individual','Freelancer','Micro Business','Small Business','Medium Enterprise','Large Enterprise','Cooperative','Startup'].map(s => `<option ${searchState.size===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Business Type</label>
+      <select id="fType" onchange="searchState.type=this.value;applyFilters()">
+        <option value="">All Types</option>
+        ${['Product Seller','Service Provider','Manufacturer','Technician','Professional','Creator'].map(t => `<option ${searchState.type===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Category</label>
+      <select id="fCategory" onchange="searchState.category=this.value;applyFilters()">
+        <option value="">All Categories</option>
+        ${['Agriculture Products','Food & Beverages','Clothing & Textiles','Electronics & Phones','Furniture','Handicrafts & Cultural','Transportation','Delivery','Cleaning','Phone Repair','Plumbing','Electrical','Legal','Accounting','Graphic Design','Photography','Training'].map(c => `<option ${searchState.category===c?'selected':''}>${c}</option>`).join('')}
+      </select>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-outline">Reset</button>
-      <button class="btn btn-primary">Apply Filters</button>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<div class="page-note">6 • Listing Detail (with Ask Seller)</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">← Back</div>
-    <div class="lang">♡ Save</div>
-  </div>
-  <div class="detail-hero">🌾</div>
-  <div class="screen-body">
-    <h2 style="font-size:18px;">Organic Teff — 100kg</h2>
-    <p style="color:var(--muted); font-size:12px; margin-top:4px;">📍 Bahir Dar, Amhara · Agriculture Products</p>
-
-    <div style="margin-top:12px; display:flex; align-items:center; gap:10px;">
-      <div style="font-size:22px; font-weight:800; color:var(--green);">ETB 8,500</div>
-      <span class="badge">Negotiable</span>
-    </div>
-
-    <div class="card" style="margin-top:14px;">
-      <h4>Description</h4>
-      <p style="font-size:13px; color:#374151;">
-        Freshly harvested organic teff from local farms. Clean, sorted, and ready for delivery. Bulk orders welcome.
-      </p>
-    </div>
-
-    <div class="card">
-      <h4>Seller / ሻጭ <span class="badge green">✔ Verified</span></h4>
-      <div class="row"><span>Name</span><span>Abebe Farms</span></div>
-      <div class="row"><span>Size</span><span>Cooperative</span></div>
-      <div class="row"><span>Type</span><span>Product Seller</span></div>
-      <div class="row"><span>Location</span><span>Bahir Dar, Amhara</span></div>
-      <div class="btn-row" style="margin-top:10px;">
-        <button class="btn btn-outline btn-sm" style="flex:1;">View Profile</button>
-      </div>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-outline">📞 Call</button>
-      <button class="btn btn-primary">💬 Message</button>
-    </div>
-    <button class="btn btn-yellow" style="margin-top:8px;">🛒 Place Order</button>
-    <button class="btn btn-outline" style="margin-top:8px;">❓ Ask Seller / ጠይቅ</button>
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<div class="page-note">7 • Seller Profile (Alibaba Supplier Page)</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">← Back</div>
-    <div class="lang">♡</div>
-  </div>
-  <div class="supplier-hero">
-    <div class="avatar">🌾</div>
-    <h3>Abebe Farms</h3>
-    <p>Bahir Dar, Amhara · Since 2020</p>
-    <div class="verif">✔ Verified Seller · Cooperative</div>
-  </div>
-
-  <div class="stat-grid">
-    <div class="stat"><b>4.8★</b><span>Rating</span></div>
-    <div class="stat"><b>126</b><span>Orders</span></div>
-    <div class="stat"><b>12</b><span>Listings</span></div>
-  </div>
-
-  <div class="screen-body" style="padding-top:0;">
-    <div class="card">
-      <h4>Business Info / የንግድ መረጃ</h4>
-      <div class="row"><span>Business Size</span><span>Cooperative</span></div>
-      <div class="row"><span>Business Type</span><span>Product Seller</span></div>
-      <div class="row"><span>Main Category</span><span>Agriculture</span></div>
-      <div class="row"><span>Response Time</span><span>Under 1 hr</span></div>
-      <div class="row"><span>Member Since</span><span>2020</span></div>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-outline">📞 Call</button>
-      <button class="btn btn-primary">💬 Message</button>
+      <button class="btn btn-outline" onclick="clearFilters()">Reset</button>
+      <button class="btn btn-primary" onclick="applyFilters()">Apply</button>
     </div>
 
     <div class="sec-title" style="margin-top:16px;">
-      <h3>Their Listings</h3>
-      <a href="#">See all</a>
+      <h3 id="resultCount">Results</h3>
     </div>
+    <div id="searchResults"></div>
+  `;
+  applyFilters();
+}
+window.renderSearchResults = renderSearchResults;
 
-    <div class="listing">
-      <div class="thumb">🌾</div>
-      <div class="info">
-        <h4>Organic Teff — 100kg</h4>
-        <div class="meta">📍 Bahir Dar · Agriculture</div>
-        <div class="price">ETB 8,500</div>
+function doSearch(q) {
+  searchState.q = q;
+  applyFilters();
+}
+window.doSearch = doSearch;
+
+function applyFilters() {
+  const listings = DB.get('listings').filter(l => l.status === 'active');
+  const sellers = DB.get('sellers');
+
+  let filtered = listings.filter(l => {
+    if (searchState.q && !(l.title.toLowerCase().includes(searchState.q.toLowerCase()) || l.category.toLowerCase().includes(searchState.q.toLowerCase()) || l.description.toLowerCase().includes(searchState.q.toLowerCase()))) return false;
+    if (searchState.city && l.city !== searchState.city) return false;
+    if (searchState.region && l.region !== searchState.region) return false;
+    if (searchState.category && l.category !== searchState.category) return false;
+    if (searchState.size || searchState.type) {
+      const s = sellers.find(x => x.id === l.sellerId);
+      if (!s) return false;
+      if (searchState.size && s.size !== searchState.size) return false;
+      if (searchState.type && s.type !== searchState.type) return false;
+    }
+    return true;
+  });
+
+  const el = document.getElementById('searchResults');
+  const countEl = document.getElementById('resultCount');
+  if (countEl) countEl.textContent = `Results (${filtered.length})`;
+  if (!el) return;
+
+  el.innerHTML = filtered.length ? filtered.map(l => {
+    const s = sellerById(l.sellerId);
+    return `
+      <div class="listing" onclick="openDetail('${l.id}')">
+        <div class="thumb">${l.icon || '📦'}</div>
+        <div class="info">
+          <h4>${esc(l.title)} ${s && s.status === 'approved' ? '<span class="badge green">Verified</span>' : ''}</h4>
+          <div class="meta">📍 ${esc(l.city)} · ${esc(l.category)}</div>
+          <div class="price">ETB ${l.price.toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  }).join('') : '<div class="empty"><div class="big">🔍</div><p>No listings match your filters.</p></div>';
+}
+window.applyFilters = applyFilters;
+
+function clearFilters() {
+  searchState = { q:'', region:'', city:'', size:'', type:'', category:'' };
+  renderSearchResults();
+}
+window.clearFilters = clearFilters;
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+const CATEGORIES = {
+  '🛒 Products': ['Agriculture Products','Food & Beverages','Clothing & Textiles','Shoes & Leather','Electronics & Phones','Home Appliances','Furniture','Construction Materials','Beauty & Cosmetics','Health Products','Books & Stationery','Vehicles & Spare Parts','Handicrafts & Cultural'],
+  '🚚 Services': ['Transportation','Delivery','Cleaning','Security','Events','Catering','Tourism & Travel','Rental Services'],
+  '🏭 Manufacturing': ['Small-scale Manufacturing','Factory Products','Furniture Manufacturing','Metal Works','Wood Works','Plastic Products','Textile Manufacturing','Food Processing'],
+  '🔧 Maintenance & Technical': ['Electrical','Plumbing','Phone Repair','Computer Repair','Machinery Maintenance','Vehicle Maintenance','Construction Maintenance'],
+  '💼 Professional Services': ['Legal','Accounting','Audit','Consulting','Architecture','Engineering','Health Services','Education & Tutoring','IT & Software'],
+  '🎨 Creative & Knowledge': ['Graphic Design','Photography','Videography','Content Creation','Music','Art','Writing','Translation','Training','Coaching','Digital Products','Business Ideas','Online Knowledge Sharing']
+};
+
+function renderCategories() {
+  const html = Object.entries(CATEGORIES).map(([group, items], i) => `
+    <details ${i===0?'open':''}>
+      <summary>${group}</summary>
+      <div class="sub">
+        ${items.map(it => `<a onclick="selectCategory('${esc(it)}')">${esc(it)}</a>`).join('')}
+      </div>
+    </details>
+  `).join('');
+  document.getElementById('catsBody').innerHTML = `<div class="megamenu">${html}</div>`;
+}
+window.renderCategories = renderCategories;
+
+function selectCategory(cat) {
+  searchState = { q:'', region:'', city:'', size:'', type:'', category:cat };
+  go('s-search');
+}
+window.selectCategory = selectCategory;
+
+/* ============================================================
+   LISTING DETAIL
+   ============================================================ */
+let currentListingId = null;
+let currentSupplierId = null;
+
+function openDetail(id) {
+  currentListingId = id;
+  const l = listingById(id);
+  if (!l) return;
+  const s = sellerById(l.sellerId);
+  const u = user();
+
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-hero">${l.icon || '📦'}</div>
+    <div style="padding:16px;">
+      <h2 style="font-size:17px;">${esc(l.title)}</h2>
+      <p style="color:var(--muted); font-size:11.5px; margin-top:3px;">📍 ${esc(l.city)}, ${esc(l.region)} · ${esc(l.category)}</p>
+
+      <div style="margin-top:10px; display:flex; align-items:center; gap:8px;">
+        <div style="font-size:20px; font-weight:800; color:var(--green);">ETB ${l.price.toLocaleString()}</div>
+        <span class="badge">${l.negotiable ? 'Negotiable' : 'Fixed'}</span>
+      </div>
+
+      <div class="card" style="margin-top:12px;">
+        <h4>Description</h4>
+        <p style="font-size:12px; color:#374151;">${esc(l.description)}</p>
+      </div>
+
+      <div class="card" onclick="openSupplier('${s.id}')" style="cursor:pointer;">
+        <h4>Seller / ሻጭ ${s.status==='approved'?'<span class="badge green">✔ Verified</span>':''}</h4>
+        <div class="row"><span>Name</span><span>${esc(s.name)}</span></div>
+        <div class="row"><span>Size</span><span>${esc(s.size)}</span></div>
+        <div class="row"><span>Type</span><span>${esc(s.type)}</span></div>
+        <div class="row"><span>Location</span><span>${esc(s.city)}, ${esc(s.region)}</span></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="toast('Calling '+ '${esc(s.phone)}')">📞 Call</button>
+        <button class="btn btn-primary" onclick="toast('Message sent to seller (demo)')">💬 Message</button>
+      </div>
+      <button class="btn btn-yellow" style="margin-top:8px;" onclick="openOrderForm()">🛒 Place Order</button>
+      <button class="btn btn-outline" style="margin-top:8px;" onclick="toast('Your question was sent')">❓ Ask Seller</button>
+
+      ${u && u.id === s.id && u.sellerId === s.id ? `
+        <button class="btn btn-red" style="margin-top:8px;" onclick="deleteListing('${l.id}')">🗑 Delete Listing</button>
+      ` : ''}
+    </div>
+  `;
+  go('s-detail');
+}
+window.openDetail = openDetail;
+
+function deleteListing(id) {
+  if (!confirm('Delete this listing?')) return;
+  const arr = DB.get('listings').filter(l => l.id !== id);
+  DB.set('listings', arr);
+  toast('Listing deleted');
+  back();
+}
+window.deleteListing = deleteListing;
+
+/* ============================================================
+   PLACE ORDER
+   ============================================================ */
+function openOrderForm() {
+  const u = user();
+  if (!u) { toast('Please log in first'); go('s-login'); return; }
+
+  const l = listingById(currentListingId);
+  if (!l) return;
+  const s = sellerById(l.sellerId);
+
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:flex;align-items:flex-end;';
+  modal.innerHTML = `
+    <div style="background:#fff;width:100%;max-width:430px;margin:0 auto;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow:auto;">
+      <h3 style="margin-bottom:12px;">Place Order</h3>
+      <div class="card">
+        <div class="row"><span>Listing</span><span>${esc(l.title)}</span></div>
+        <div class="row"><span>Price</span><span>ETB ${l.price.toLocaleString()}</span></div>
+        <div class="row"><span>Seller</span><span>${esc(s.name)}</span></div>
+      </div>
+
+      <div class="field">
+        <label>Quantity</label>
+        <input id="orderQty" type="number" value="1" min="1" />
+      </div>
+
+      <div class="field">
+        <label>Order Type</label>
+        <select id="orderType">
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="Buyer Pickup">Buyer Pickup</option>
+          <option value="Seller Delivery">Seller Delivery</option>
+          <option value="Negotiated Delivery">Negotiated Delivery</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Notes (optional)</label>
+        <textarea id="orderNotes" placeholder="Any special instructions…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="this.closest('div').parentElement.remove()">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmOrder()">Place Order</button>
       </div>
     </div>
+  `;
+  document.body.appendChild(modal);
+}
+window.openOrderForm = openOrderForm;
 
-    <div class="listing">
-      <div class="thumb">🌽</div>
-      <div class="info">
-        <h4>Fresh Maize — 50kg</h4>
-        <div class="meta">📍 Bahir Dar · Agriculture</div>
-        <div class="price">ETB 3,200</div>
-      </div>
+function confirmOrder() {
+  const u = user();
+  const l = listingById(currentListingId);
+  const s = sellerById(l.sellerId);
+  const qty = parseInt(document.getElementById('orderQty').value) || 1;
+  const type = document.getElementById('orderType').value;
+  const notes = document.getElementById('orderNotes').value;
+
+  const order = {
+    id: uid('o'),
+    buyerId: u.id,
+    buyerName: u.name,
+    buyerPhone: u.phone,
+    sellerId: s.id,
+    sellerName: s.name,
+    listingId: l.id,
+    listingTitle: l.title,
+    qty, type, notes,
+    total: l.price * qty,
+    status: 'Pending',
+    date: Date.now()
+  };
+  const orders = DB.get('orders');
+  orders.push(order);
+  DB.set('orders', orders);
+
+  // Remove modal
+  document.querySelectorAll('body > div').forEach(d => { if (d.style.position === 'fixed') d.remove(); });
+
+  toast('✅ Order placed! Seller will confirm.');
+  go('s-myorders');
+}
+window.confirmOrder = confirmOrder;
+
+/* ============================================================
+   MY ORDERS (Buyer & Seller view combined)
+   ============================================================ */
+function renderMyOrders() {
+  const u = user();
+  if (!u) { document.getElementById('myordersBody').innerHTML = '<div class="empty">Please log in.</div>'; return; }
+  const orders = DB.get('orders');
+
+  const asBuyer = orders.filter(o => o.buyerId === u.id);
+  const asSeller = orders.filter(o => o.sellerId === u.sellerId);
+
+  document.getElementById('myordersBody').innerHTML = `
+    <div class="sec-title"><h3>📥 As Buyer</h3></div>
+    ${asBuyer.length ? asBuyer.map(o => orderCard(o, 'buyer')).join('') : '<div class="empty"><div class="big">🛒</div><p>No orders yet.</p></div>'}
+
+    <div class="sec-title"><h3>📤 As Seller</h3></div>
+    ${asSeller.length ? asSeller.map(o => orderCard(o, 'seller')).join('') : '<div class="empty"><div class="big">📦</div><p>No incoming orders.</p></div>'}
+  `;
+}
+window.renderMyOrders = renderMyOrders;
+
+function orderCard(o, perspective) {
+  const statusColor = { 'Pending':'badge red', 'Confirmed':'badge blue', 'Shipped':'badge', 'Delivered':'badge green', 'Cancelled':'badge red' }[o.status] || 'badge';
+  return `
+    <div class="card">
+      <div class="row"><span><b>${esc(o.listingTitle)}</b></span><span class="${statusColor}">${o.status}</span></div>
+      <div class="row"><span>${perspective === 'buyer' ? 'Seller' : 'Buyer'}</span><span>${esc(perspective === 'buyer' ? o.sellerName : o.buyerName)}</span></div>
+      <div class="row"><span>Qty</span><span>${o.qty}</span></div>
+      <div class="row"><span>Type</span><span>${esc(o.type)}</span></div>
+      <div class="row"><span>Total</span><span><b style="color:var(--green);">ETB ${o.total.toLocaleString()}</b></span></div>
+      <div class="row"><span>Date</span><span>${new Date(o.date).toLocaleDateString()}</span></div>
+      ${perspective === 'seller' && o.status === 'Pending' ? `
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="updateOrder('${o.id}','Cancelled')">Cancel</button>
+          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder('${o.id}','Confirmed')">Confirm</button>
+        </div>` : ''}
+      ${perspective === 'seller' && o.status === 'Confirmed' ? `
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder('${o.id}','Shipped')">Mark Shipped</button>
+        </div>` : ''}
+      ${perspective === 'buyer' && o.status === 'Shipped' ? `
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder('${o.id}','Delivered')">Mark Delivered</button>
+        </div>` : ''}
+    </div>
+  `;
+}
+
+function updateOrder(id, status) {
+  const orders = DB.get('orders');
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  o.status = status;
+  DB.set('orders', orders);
+  toast('Order ' + status);
+  renderMyOrders();
+}
+window.updateOrder = updateOrder;
+
+/* ============================================================
+   SUPPLIER PROFILE
+   ============================================================ */
+function openSupplier(id) {
+  currentSupplierId = id;
+  const s = sellerById(id);
+  if (!s) return;
+  const listings = DB.get('listings').filter(l => l.sellerId === id && l.status === 'active');
+
+  document.getElementById('supplierBody').innerHTML = `
+    <div class="supplier-hero">
+      <div class="avatar">${s.icon || '🏪'}</div>
+      <h3>${esc(s.name)}</h3>
+      <p>${esc(s.city)}, ${esc(s.region)}</p>
+      <div class="verif">${s.status === 'approved' ? '✔ Verified' : '⏳ Pending'} · ${esc(s.size)}</div>
     </div>
 
-  </div>
-</div>
+    <div class="stat-grid">
+      <div class="stat"><b>${s.rating || '—'}★</b><span>Rating</span></div>
+      <div class="stat"><b>${s.orders}</b><span>Orders</span></div>
+      <div class="stat"><b>${listings.length}</b><span>Listings</span></div>
+    </div>
 
-<!-- ============================================================ -->
-<div class="page-note">8 • Seller Dashboard</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">Seller Dashboard <small>የሻጭ ዳሽቦርድ</small></div>
-    <div class="lang">👤 Abebe</div>
-  </div>
-  <div class="screen-body">
+    <div style="padding:0 16px 16px;">
+      <div class="card">
+        <h4>Business Info</h4>
+        <div class="row"><span>Business Size</span><span>${esc(s.size)}</span></div>
+        <div class="row"><span>Business Type</span><span>${esc(s.type)}</span></div>
+        <div class="row"><span>Phone</span><span>${esc(s.phone)}</span></div>
+      </div>
 
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="toast('Calling '+ '${esc(s.phone)}')">📞 Call</button>
+        <button class="btn btn-primary" onclick="toast('Message sent (demo)')">💬 Message</button>
+      </div>
+
+      <div class="sec-title"><h3>Their Listings</h3></div>
+      ${listings.length ? listings.map(l => `
+        <div class="listing" onclick="openDetail('${l.id}')">
+          <div class="thumb">${l.icon || '📦'}</div>
+          <div class="info">
+            <h4>${esc(l.title)}</h4>
+            <div class="meta">📍 ${esc(l.city)}</div>
+            <div class="price">ETB ${l.price.toLocaleString()}</div>
+          </div>
+        </div>
+      `).join('') : '<div class="empty"><p>No listings yet.</p></div>'}
+    </div>
+  `;
+  go('s-supplier');
+}
+window.openSupplier = openSupplier;
+
+/* ============================================================
+   SELLER DASHBOARD
+   ============================================================ */
+function renderDashboard() {
+  const u = user();
+  if (!u || !u.sellerId) {
+    document.getElementById('dashboardBody').innerHTML = '<div class="empty"><div class="big">🏪</div><p>You are not a seller.</p><button class="btn btn-primary" style="margin-top:12px;" onclick="becomeSeller()">Become a Seller</button></div>';
+    return;
+  }
+  const s = sellerById(u.sellerId);
+  if (!s) return;
+  const listings = DB.get('listings').filter(l => l.sellerId === s.id);
+  const orders = DB.get('orders').filter(o => o.sellerId === s.id);
+  const pending = orders.filter(o => o.status === 'Pending').length;
+
+  document.getElementById('dashboardBody').innerHTML = `
     <div class="card" style="background:#e8f5ec; border-color:#b8e0c4;">
-      <div class="row"><span>My Listings</span><span><b>12 active</b></span></div>
-      <div class="row"><span>New Orders</span><span><b style="color:var(--red);">3 pending</b></span></div>
-      <div class="row"><span>Service Requests</span><span><b style="color:#7c5800;">2 new</b></span></div>
-      <div class="row"><span>Availability</span><span style="color:var(--green); font-weight:700;">● Open</span></div>
+      <div class="row"><span>My Listings</span><span><b>${listings.filter(l=>l.status==='active').length} active</b></span></div>
+      <div class="row"><span>New Orders</span><span><b style="color:var(--red);">${pending} pending</b></span></div>
+      <div class="row"><span>Status</span><span>${s.status === 'approved' ? '<b style="color:var(--green);">✔ Approved</b>' : '<b style="color:#92680a;">⏳ Pending approval</b>'}</span></div>
     </div>
 
-    <button class="btn btn-primary" style="margin-bottom:12px;">➕ Add New Listing</button>
+    <button class="btn btn-primary" style="margin-bottom:12px;" onclick="openListingForm()">➕ Add New Listing</button>
 
-    <div class="sec-title"><h3>Recent Orders</h3><a href="#">See all</a></div>
-
-    <div class="listing">
-      <div class="thumb">📦</div>
-      <div class="info">
-        <h4>Order #1042</h4>
-        <div class="meta">Buyer: Sara M. · Cash on Delivery</div>
-        <div class="price" style="color:var(--green);">ETB 8,500</div>
+    <div class="sec-title"><h3>My Listings (${listings.length})</h3></div>
+    ${listings.length ? listings.map(l => `
+      <div class="card">
+        <div class="row"><span><b>${esc(l.title)}</b></span><span>${l.status}</span></div>
+        <div class="row"><span>Price</span><span>ETB ${l.price.toLocaleString()}</span></div>
+        <div class="row"><span>Category</span><span>${esc(l.category)}</span></div>
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm" style="flex:1;" onclick="openListingForm('${l.id}')">Edit</button>
+          <button class="btn btn-red btn-sm" style="flex:1;" onclick="deleteListing('${l.id}');renderDashboard();">Delete</button>
+        </div>
       </div>
-      <span class="badge green">New</span>
+    `).join('') : '<div class="empty"><p>No listings yet. Add your first one!</p></div>'}
+
+    <div class="sec-title"><h3>Incoming Orders</h3></div>
+    ${orders.length ? orders.map(o => orderCard(o, 'seller')).join('') : '<div class="empty"><p>No orders yet.</p></div>'}
+  `;
+}
+window.renderDashboard = renderDashboard;
+
+function becomeSeller() {
+  const u = user();
+  if (!u) return;
+  if (u.sellerId) return;
+  const sellers = DB.get('sellers');
+  const sid = uid('s');
+  sellers.push({
+    id: sid, name: u.name, phone: u.phone,
+    city: u.city, region: u.region,
+    size: 'Individual', type: 'Product Seller',
+    status: 'pending', icon: '🏪', rating: 0, orders: 0
+  });
+  DB.set('sellers', sellers);
+  u.sellerId = sid;
+  u.role = 'seller';
+  updateUser(u);
+  toast('Seller account created — pending admin approval');
+  renderDashboard();
+}
+window.becomeSeller = becomeSeller;
+
+/* ============================================================
+   LISTING FORM (Add / Edit)
+   ============================================================ */
+let editingListingId = null;
+
+function openListingForm(id) {
+  const u = user();
+  if (!u || !u.sellerId) { toast('Seller account required'); return; }
+  editingListingId = id || null;
+  const l = id ? listingById(id) : null;
+
+  document.getElementById('lfTitle').textContent = l ? 'Edit Listing' : 'Add Listing';
+
+  const flatCats = Object.values(CATEGORIES).flat();
+
+  document.getElementById('lfBody').innerHTML = `
+    <div class="field">
+      <label>Title / ርዕስ</label>
+      <input id="lfTitleIn" value="${l ? esc(l.title) : ''}" placeholder="e.g. Organic Teff 100kg" />
     </div>
 
-    <div class="listing">
-      <div class="thumb">📦</div>
-      <div class="info">
-        <h4>Order #1041</h4>
-        <div class="meta">Buyer: Yohannes T. · Pickup</div>
-        <div class="price" style="color:var(--muted);">ETB 2,300</div>
-      </div>
-      <span class="badge">Shipped</span>
+    <div class="field">
+      <label>Listing Type</label>
+      <select id="lfType">
+        ${['product','service','skill','idea','knowledge','manufacturing','maintenance','professional'].map(t => `<option value="${t}" ${l && l.type===t?'selected':''}>${t}</option>`).join('')}
+      </select>
     </div>
 
-  </div>
-</div>
+    <div class="field">
+      <label>Category</label>
+      <select id="lfCat">
+        ${flatCats.map(c => `<option ${l && l.category===c?'selected':''}>${c}</option>`).join('')}
+      </select>
+    </div>
 
-<!-- ============================================================ -->
-<div class="page-note">9 • Wallet (Coins)</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">My Wallet <small>የኪስ ቦርሳ</small></div>
-    <div class="lang">1 ሳንቲም = 10 ብር</div>
-  </div>
-  <div class="screen-body">
+    <div class="field">
+      <label>Description</label>
+      <textarea id="lfDesc" placeholder="Describe your product or service…">${l ? esc(l.description) : ''}</textarea>
+    </div>
+
+    <div class="field">
+      <label>Price (ETB)</label>
+      <input id="lfPrice" type="number" value="${l ? l.price : ''}" placeholder="0" />
+    </div>
+
+    <div class="field">
+      <label>Negotiable?</label>
+      <select id="lfNeg">
+        <option value="true" ${l && l.negotiable?'selected':''}>Yes</option>
+        <option value="false" ${l && !l.negotiable?'selected':''}>No (Fixed)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>City</label>
+      <select id="lfCity">
+        ${['Addis Ababa','Adama','Bishoftu','Hawassa','Bahir Dar','Gondar','Dessie','Mekelle','Jimma','Dire Dawa','Harar','Jijiga','Shashemene','Arba Minch'].map(c => `<option ${((l && l.city===c) || (!l && u.city===c))?'selected':''}>${c}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Icon (emoji)</label>
+      <input id="lfIcon" value="${l ? l.icon : '📦'}" maxlength="2" />
+    </div>
+
+    <button class="btn btn-primary" onclick="saveListing()">${l ? 'Save Changes' : 'Publish Listing'}</button>
+  `;
+  go('s-listing-form');
+}
+window.openListingForm = openListingForm;
+
+function saveListing() {
+  const u = user();
+  const title = document.getElementById('lfTitleIn').value.trim();
+  const type = document.getElementById('lfType').value;
+  const category = document.getElementById('lfCat').value;
+  const description = document.getElementById('lfDesc').value.trim();
+  const price = parseFloat(document.getElementById('lfPrice').value) || 0;
+  const negotiable = document.getElementById('lfNeg').value === 'true';
+  const city = document.getElementById('lfCity').value;
+  const icon = document.getElementById('lfIcon').value || '📦';
+
+  if (!title) { toast('Title required'); return; }
+  if (!price) { toast('Price required'); return; }
+
+  const arr = DB.get('listings');
+  if (editingListingId) {
+    const i = arr.findIndex(l => l.id === editingListingId);
+    arr[i] = { ...arr[i], title, type, category, description, price, negotiable, city, icon };
+    toast('Listing updated ✅');
+  } else {
+    arr.push({
+      id: uid('l'), title, type, category, description, price, negotiable,
+      city, region: u.region, sellerId: u.sellerId, icon,
+      status: 'active', createdAt: Date.now()
+    });
+    toast('Listing published ✅');
+  }
+  DB.set('listings', arr);
+  editingListingId = null;
+  go('s-dashboard');
+}
+window.saveListing = saveListing;
+
+/* ============================================================
+   WALLET
+   ============================================================ */
+function renderWallet() {
+  const u = user();
+  if (!u) { document.getElementById('walletBody').innerHTML = '<div class="empty">Please log in.</div>'; return; }
+  const requests = DB.get('coinRequests').filter(r => r.userId === u.id);
+
+  document.getElementById('walletBody').innerHTML = `
     <div class="wallet-card">
-      <div class="label">Available Balance / ቀሪ ሒሳብ</div>
-      <div class="amount">250 ሳንቲም</div>
-      <div class="rate">≈ ETB 2,500 · Rate: 1 Coin = 10 ETB</div>
+      <div class="label">Available Balance</div>
+      <div class="amount">${u.coins.toLocaleString()} ሳንቲም</div>
+      <div class="rate">≈ ETB ${(u.coins * COIN_RATE).toLocaleString()}</div>
     </div>
 
-    <button class="btn btn-yellow" style="margin-bottom:8px;">🪙 Buy Coins / ሳንቲም ግዛ</button>
-    <button class="btn btn-outline">📜 Transaction History</button>
+    <button class="btn btn-yellow" style="margin-bottom:8px;" onclick="openBuyCoins()">🪙 Buy Coins</button>
+    <button class="btn btn-outline" onclick="go('s-myorders')">📦 My Orders</button>
 
-    <div class="card" style="margin-top:14px;">
+    <div class="card" style="margin-top:12px;">
       <h4>How Coin Purchase Works</h4>
       <div class="row"><span>1. Request coins</span><span>→</span></div>
-      <div class="row"><span>2. Pay via Telebirr / CBE Birr</span><span>→</span></div>
-      <div class="row"><span>3. Send FT number to Admin</span><span>→</span></div>
-      <div class="row"><span>4. Auto-verify & credit</span><span>✔</span></div>
-      <p style="font-size:11px; color:var(--muted); margin-top:8px;">
-        Admin contact: <b>+251 920 353 460</b>
+      <div class="row"><span>2. Pay via Telebirr / CBE</span><span>→</span></div>
+      <div class="row"><span>3. Send FT to Admin</span><span>→</span></div>
+      <div class="row"><span>4. Admin approves & credits</span><span>✔</span></div>
+      <p style="font-size:10.5px; color:var(--muted); margin-top:8px;">
+        Admin: <b>${ADMIN_PHONE}</b>
       </p>
     </div>
-  </div>
-</div>
 
-<!-- ============================================================ -->
-<div class="page-note">10 • Admin Panel (+251920353460)</div>
-<div class="phone">
-  <div class="admin-head">
-    <div>🛡️ Admin Control</div>
-    <div class="phone">+251920353460</div>
-  </div>
-  <div class="screen-body">
+    <div class="sec-title"><h3>My Coin Requests</h3></div>
+    ${requests.length ? requests.map(r => `
+      <div class="card">
+        <div class="row"><span>Amount</span><span><b>${r.coins} ሳንቲም</b></span></div>
+        <div class="row"><span>Paid</span><span>ETB ${r.etb.toLocaleString()}</span></div>
+        <div class="row"><span>FT</span><span>${esc(r.ft)}</span></div>
+        <div class="row"><span>Status</span><span style="color:${r.status==='approved'?'var(--green)':r.status==='rejected'?'var(--red)':'#92680a'};font-weight:700;">${r.status}</span></div>
+      </div>
+    `).join('') : '<div class="empty"><p>No coin requests yet.</p></div>'}
+  `;
+}
+window.renderWallet = renderWallet;
 
+function openBuyCoins() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:flex;align-items:flex-end;';
+  modal.innerHTML = `
+    <div style="background:#fff;width:100%;max-width:430px;margin:0 auto;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow:auto;">
+      <h3 style="margin-bottom:12px;">🪙 Buy Coins</h3>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">1 Coin = 10 ETB</p>
+
+      <div class="field">
+        <label>How many coins?</label>
+        <input id="buyCoinsAmt" type="number" placeholder="e.g. 100" oninput="document.getElementById('buyEtbAmt').textContent = (this.value*10).toLocaleString()" />
+      </div>
+
+      <div class="card" style="background:#fffbeb;border-color:#fde68a;">
+        <div class="row"><span>You pay</span><span><b id="buyEtbAmt">0</b> ETB</span></div>
+      </div>
+
+      <div class="field">
+        <label>Pay via</label>
+        <select id="buyMethod">
+          <option>Telebirr</option>
+          <option>CBE Birr</option>
+          <option>Chapa</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>FT / Transaction Number</label>
+        <input id="buyFT" placeholder="e.g. FT25091612345" />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="this.closest('div').parentElement.remove()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitCoinRequest()">Submit Request</button>
+      </div>
+
+      <p style="font-size:11px;color:var(--muted);margin-top:10px;">Admin will verify your payment and credit coins.</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+window.openBuyCoins = openBuyCoins;
+
+function submitCoinRequest() {
+  const u = user();
+  const coins = parseInt(document.getElementById('buyCoinsAmt').value) || 0;
+  const ft = document.getElementById('buyFT').value.trim();
+  const method = document.getElementById('buyMethod').value;
+
+  if (coins < 1) { toast('Enter coin amount'); return; }
+  if (!ft) { toast('Enter FT number'); return; }
+
+  const reqs = DB.get('coinRequests');
+  reqs.push({
+    id: uid('cr'),
+    userId: u.id, userName: u.name, phone: u.phone,
+    coins, etb: coins * COIN_RATE,
+    method, ft, status: 'pending', date: Date.now()
+  });
+  DB.set('coinRequests', reqs);
+
+  document.querySelectorAll('body > div').forEach(d => { if (d.style.position === 'fixed') d.remove(); });
+  toast('✅ Request submitted. Awaiting admin approval.');
+  renderWallet();
+}
+window.submitCoinRequest = submitCoinRequest;
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+function renderProfile() {
+  const u = user();
+  if (!u) { document.getElementById('profileBody').innerHTML = '<div class="empty">Please log in.</div>'; return; }
+
+  document.getElementById('profileBody').innerHTML = `
+    <div class="card" style="text-align:center;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin:0 auto 8px;">${u.name.charAt(0).toUpperCase()}</div>
+      <h3>${esc(u.name)} <span class="role-tag ${u.role}">${u.role}</span></h3>
+      <p style="font-size:11.5px;color:var(--muted);">${esc(u.phone)}</p>
+    </div>
+
+    <div class="card">
+      <div class="row"><span>👤 Role</span><span>${u.role}</span></div>
+      <div class="row"><span>📍 City</span><span>${esc(u.city)}</span></div>
+      <div class="row"><span>🗺 Region</span><span>${esc(u.region)}</span></div>
+      <div class="row"><span>💰 Coins</span><span>${u.coins.toLocaleString()}</span></div>
+      ${u.sellerId ? `<div class="row"><span>🏪 Seller ID</span><span>${esc(u.sellerId)}</span></div>` : ''}
+    </div>
+
+    ${u.role === 'admin' ? '<button class="btn btn-primary" style="margin-bottom:8px;" onclick="go(\'s-admin\')">🛡️ Open Admin Panel</button>' : ''}
+    ${u.role === 'seller' || u.sellerId ? '<button class="btn btn-primary" style="margin-bottom:8px;" onclick="go(\'s-dashboard\')">📊 Seller Dashboard</button>' : '<button class="btn btn-outline" style="margin-bottom:8px;" onclick="becomeSeller()">🏪 Become a Seller</button>'}
+    <button class="btn btn-outline" style="margin-bottom:8px;" onclick="go('s-myorders')">📦 My Orders</button>
+    <button class="btn btn-red" onclick="logout()">🚪 Logout</button>
+  `;
+}
+window.renderProfile = renderProfile;
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+function renderAdmin() {
+  const users = DB.get('users');
+  const sellers = DB.get('sellers');
+  const listings = DB.get('listings');
+  const orders = DB.get('orders');
+  const coinReqs = DB.get('coinRequests');
+  const admin = users.find(u => u.phone === ADMIN_PHONE);
+
+  document.getElementById('adminBody').innerHTML = `
     <div class="card">
       <h4>Admin Wallet</h4>
-      <div class="row"><span>Balance</span><span><b style="color:var(--green);">100,000 ሳንቲም</b></span></div>
-      <div class="row"><span>Value</span><span>ETB 1,000,000</span></div>
+      <div class="row"><span>Balance</span><span><b style="color:var(--green);">${(admin?.coins || 0).toLocaleString()} ሳንቲም</b></span></div>
+      <div class="row"><span>Value</span><span>ETB ${((admin?.coins || 0) * COIN_RATE).toLocaleString()}</span></div>
     </div>
 
-    <div class="sec-title"><h3>Pending Seller Approvals</h3><a href="#">All</a></div>
-
-    <div class="listing">
-      <div class="thumb">🏪</div>
-      <div class="info">
-        <h4>Kebede Electronics</h4>
-        <div class="meta">📍 Adama · Small Business</div>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <button class="btn btn-primary btn-sm">✔</button>
-        <button class="btn btn-red btn-sm">✖</button>
-      </div>
+    <div class="card" style="background:#f8fafc;">
+      <div class="row"><span>👥 Total Users</span><span>${users.length}</span></div>
+      <div class="row"><span>🏪 Total Sellers</span><span>${sellers.length}</span></div>
+      <div class="row"><span>📦 Total Listings</span><span>${listings.length}</span></div>
+      <div class="row"><span>🧾 Total Orders</span><span>${orders.length}</span></div>
     </div>
 
-    <div class="listing">
-      <div class="thumb">🔧</div>
-      <div class="info">
-        <h4>Hanna Plumbing</h4>
-        <div class="meta">📍 Hawassa · Freelancer</div>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <button class="btn btn-primary btn-sm">✔</button>
-        <button class="btn btn-red btn-sm">✖</button>
-      </div>
+    <div class="sec-title"><h3>Pending Approvals</h3></div>
+    <div class="card" onclick="go('s-admin-sellers')" style="cursor:pointer;background:#fff7d6;border-color:#fde68a;">
+      <div class="row"><span>🏪 Seller approvals</span><span><b>${sellers.filter(s=>s.status==='pending').length}</b> pending →</span></div>
     </div>
-
-    <div class="sec-title"><h3>Coin Purchase Requests</h3><a href="#">All</a></div>
-
-    <div class="card">
-      <div class="row"><span>User</span><span>+251 911 22 33 44</span></div>
-      <div class="row"><span>Requested</span><span>500 ሳንቲም = ETB 5,000</span></div>
-      <div class="row"><span>FT Number</span><span>FT25091612345</span></div>
-      <div class="row"><span>Status</span><span style="color:var(--red);">Pending</span></div>
-      <div class="btn-row">
-        <button class="btn btn-outline btn-sm" style="flex:1;">Reject</button>
-        <button class="btn btn-primary btn-sm" style="flex:1;">Approve</button>
-      </div>
+    <div class="card" onclick="go('s-admin-coins')" style="cursor:pointer;background:#fff7d6;border-color:#fde68a;">
+      <div class="row"><span>🪙 Coin requests</span><span><b>${coinReqs.filter(r=>r.status==='pending').length}</b> pending →</span></div>
     </div>
 
     <div class="sec-title"><h3>Quick Admin Tools</h3></div>
     <div class="card">
-      <div class="row"><span>🏙️ Manage Cities</span><span>→</span></div>
-      <div class="row"><span>📂 Manage Categories</span><span>→</span></div>
-      <div class="row"><span>📊 Monitor Listings</span><span>→</span></div>
-      <div class="row"><span>🧾 All Orders</span><span>→</span></div>
-      <div class="row"><span>🚫 Blocked Users</span><span>→</span></div>
+      <div class="row" onclick="go('s-admin-sellers')" style="cursor:pointer;"><span>🏪 Manage Sellers</span><span>→</span></div>
+      <div class="row" onclick="go('s-admin-coins')" style="cursor:pointer;"><span>🪙 Coin Requests</span><span>→</span></div>
+      <div class="row" onclick="toast('Cities management (demo)')" style="cursor:pointer;"><span>🏙️ Manage Cities</span><span>→</span></div>
+      <div class="row" onclick="toast('Categories management (demo)')" style="cursor:pointer;"><span>📂 Manage Categories</span><span>→</span></div>
+      <div class="row" onclick="toast('All listings viewed')" style="cursor:pointer;"><span>📊 Monitor Listings</span><span>→</span></div>
+      <div class="row" onclick="toast('Orders monitor (demo)')" style="cursor:pointer;"><span>🧾 All Orders</span><span>→</span></div>
+      <div class="row" onclick="toast('Blocked users (demo)')" style="cursor:pointer;"><span>🚫 Blocked Users</span><span>→</span></div>
     </div>
+  `;
+}
+window.renderAdmin = renderAdmin;
 
-  </div>
-</div>
-
-<!-- ============================================================ -->
-<div class="page-note">11 • Profile / Settings</div>
-<div class="phone">
-  <div class="topbar">
-    <div class="brand">Profile <small>መገለጫ</small></div>
-    <div class="lang">Edit</div>
-  </div>
-  <div class="screen-body">
-    <div class="card" style="text-align:center;">
-      <div style="width:70px; height:70px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; margin:0 auto 8px;">A</div>
-      <h3>Abebe Tesfaye</h3>
-      <p style="font-size:12px; color:var(--muted);">+251 920 353 460</p>
-      <span class="badge green" style="margin-top:8px;">Seller · Cooperative</span>
-    </div>
-
+function renderAdminSellers() {
+  const sellers = DB.get('sellers');
+  document.getElementById('adminSellersBody').innerHTML = sellers.map(s => `
     <div class="card">
-      <div class="row"><span>👤 Role</span><span>Seller / Buyer</span></div>
-      <div class="row"><span>📍 City</span><span>Bahir Dar</span></div>
-      <div class="row"><span>🏢 Business Size</span><span>Cooperative</span></div>
-      <div class="row"><span>📦 Business Type</span><span>Product Seller</span></div>
-      <div class="row"><span>🌐 Language</span><span>አማርኛ / English</span></div>
-      <div class="row"><span>💰 Coins</span><span>250</span></div>
+      <div class="row"><span><b>${esc(s.name)}</b></span><span class="${s.status==='approved'?'badge green':s.status==='pending'?'badge red':'badge'}">${s.status}</span></div>
+      <div class="row"><span>📞 Phone</span><span>${esc(s.phone)}</span></div>
+      <div class="row"><span>📍 Location</span><span>${esc(s.city)}, ${esc(s.region)}</span></div>
+      <div class="row"><span>🏢 Size / Type</span><span>${esc(s.size)} · ${esc(s.type)}</span></div>
+      <div class="btn-row">
+        ${s.status !== 'approved' ? `<button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveSeller('${s.id}')">✔ Approve</button>` : ''}
+        ${s.status !== 'blocked' ? `<button class="btn btn-red btn-sm" style="flex:1;" onclick="blockSeller('${s.id}')">🚫 Block</button>` : `<button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveSeller('${s.id}')">Unblock</button>`}
+      </div>
     </div>
+  `).join('');
+}
+window.renderAdminSellers = renderAdminSellers;
 
-    <button class="btn btn-outline" style="margin-bottom:8px;">📜 My Orders</button>
-    <button class="btn btn-outline" style="margin-bottom:8px;">⚙️ Settings</button>
-    <button class="btn btn-red">🚪 Logout</button>
-  </div>
-</div>
+function approveSeller(id) {
+  const s = sellerById(id);
+  s.status = 'approved';
+  updateSeller(s);
+  toast('Seller approved ✅');
+  renderAdminSellers();
+  renderAdmin();
+}
+window.approveSeller = approveSeller;
 
-<hr class="divider" />
-<p style="text-align:center; font-size:11px; color:var(--muted); margin-bottom:24px;">
-  Soyam Gebeya — Alibaba-Inspired Prototype © 2026
-</p>
+function blockSeller(id) {
+  const s = sellerById(id);
+  s.status = 'blocked';
+  updateSeller(s);
+  toast('Seller blocked');
+  renderAdminSellers();
+  renderAdmin();
+}
+window.blockSeller = blockSeller;
 
+function renderAdminCoins() {
+  const reqs = DB.get('coinRequests');
+  const el = document.getElementById('adminCoinsBody');
+  if (!reqs.length) { el.innerHTML = '<div class="empty"><div class="big">🪙</div><p>No coin requests yet.</p></div>'; return; }
+  el.innerHTML = reqs.slice().reverse().map(r => `
+    <div class="card">
+      <div class="row"><span><b>${esc(r.userName)}</b></span><span style="color:${r.status==='approved'?'var(--green)':r.status==='rejected'?'var(--red)':'#92680a'};font-weight:700;">${r.status}</span></div>
+      <div class="row"><span>📞 Phone</span><span>${esc(r.phone)}</span></div>
+      <div class="row"><span>🪙 Requested</span><span>${r.coins} ሳንቲም = ETB ${r.etb.toLocaleString()}</span></div>
+      <div class="row"><span>💳 Method</span><span>${esc(r.method)}</span></div>
+      <div class="row"><span>🧾 FT Number</span><span>${esc(r.ft)}</span></div>
+      ${r.status === 'pending' ? `
+        <div class="btn-row">
+          <button class="btn btn-red btn-sm" style="flex:1;" onclick="rejectCoin('${r.id}')">✖ Reject</button>
+          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveCoin('${r.id}')">✔ Approve & Credit</button>
+        </div>` : ''}
+    </div>
+  `).join('');
+}
+window.renderAdminCoins = renderAdminCoins;
+
+function approveCoin(id) {
+  const reqs = DB.get('coinRequests');
+  const r = reqs.find(x => x.id === id);
+  if (!r || r.status !== 'pending') return;
+
+  const users = DB.get('users');
+  const u = users.find(x => x.id === r.userId);
+  const admin = users.find(x => x.phone === ADMIN_PHONE);
+
+  if (!u || !admin) { toast('User not found'); return; }
+  if (admin.coins < r.coins) { toast('Admin wallet insufficient'); return; }
+
+  admin.coins -= r.coins;
+  u.coins += r.coins;
+  r.status = 'approved';
+  r.approvedAt = Date.now();
+
+  DB.set('users', users);
+  DB.set('coinRequests', reqs);
+
+  // Update session user if it's this user
+  if (me()?.userId === u.id) { /* session unchanged */ }
+
+  toast(`✅ Approved — ${u.name} now has ${u.coins} coins`);
+  renderAdminCoins();
+  renderAdmin();
+}
+window.approveCoin = approveCoin;
+
+function rejectCoin(id) {
+  const reqs = DB.get('coinRequests');
+  const r = reqs.find(x => x.id === id);
+  if (!r) return;
+  r.status = 'rejected';
+  DB.set('coinRequests', reqs);
+  toast('Request rejected');
+  renderAdminCoins();
+  renderAdmin();
+}
+window.rejectCoin = rejectCoin;
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+(function boot() {
+  const session = me();
+  if (session) {
+    const u = user();
+    if (u) {
+      if (u.role === 'admin') go('s-admin', true);
+      else go('s-home', true);
+      return;
+    }
+  }
+  go('s-splash', true);
+})();
+</script>
 </body>
 </html>
