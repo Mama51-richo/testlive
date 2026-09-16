@@ -1,9 +1,109 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>T</title></head>
-<body style="font-family:sans-serif;padding:20px;background:#078930;color:white;">
-<h1>Test 1 works ✅</h1>
-<p id="out">loading…</p>
-<script>document.getElementById('out').textContent = 'JS OK ' + new Date();</script>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ሶያም ገበያ | Soyam Gebeya</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Noto Sans Ethiopic", sans-serif; background: #f5f6f7; }
+  .app { max-width: 430px; margin: 0 auto; background: #fff; min-height: 100vh; }
+  .top { background: #078930; color: #fff; padding: 16px; }
+  .top h1 { font-size: 18px; }
+  .top small { font-size: 11px; opacity: .9; display: block; }
+  .body { padding: 16px; }
+  .search { padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 12px; width: 100%; font-size: 14px; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; }
+  .chip { padding: 6px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .chip.active { background: #078930; color: #fff; border-color: #078930; }
+  .sec { font-size: 14px; font-weight: 700; margin: 16px 0 8px; }
+  .listing { display: flex; gap: 10px; border: 1px solid #e5e7eb; border-radius: 14px; padding: 10px; margin-bottom: 10px; background: #fff; }
+  .thumb { width: 68px; height: 68px; background: #e8f5ec; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+  .info h4 { font-size: 13px; margin-bottom: 3px; }
+  .info .meta { font-size: 11px; color: #6b7280; margin-bottom: 5px; }
+  .price { font-size: 13px; font-weight: 800; color: #078930; }
+  .nav { display: flex; border-top: 1px solid #e5e7eb; background: #fff; position: sticky; bottom: 0; }
+  .nav div { flex: 1; text-align: center; padding: 10px 4px; font-size: 10px; color: #6b7280; }
+  .nav div.active { color: #078930; font-weight: 700; }
+  .nav .ico { font-size: 18px; display: block; }
+  .badge { display: inline-block; background: #d1f2da; color: #078930; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+  .empty { text-align: center; color: #6b7280; padding: 30px 20px; font-size: 13px; }
+  .empty .big { font-size: 40px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+(function(){
+  var app = document.getElementById('app');
+
+  var listings = [
+    { icon: '🌾', title: 'Organic Teff — 100kg', cat: 'Agriculture', city: 'Bahir Dar', price: 8500, neg: true },
+    { icon: '📱', title: 'Phone Repair Service', cat: 'Maintenance', city: 'Addis Ababa', price: 500, neg: false },
+    { icon: '🪑', title: 'Handmade Wooden Chair', cat: 'Furniture', city: 'Hawassa', price: 2300, neg: true },
+    { icon: '🎨', title: 'Logo & Brand Design', cat: 'Creative', city: 'Adama', price: 1500, neg: false }
+  ];
+
+  function render(filter) {
+    var list = filter ? listings.filter(function(l){ return l.cat === filter; }) : listings;
+
+    var html = '';
+    html += '<div class="top">';
+    html += '<h1>ሶያም ገበያ</h1>';
+    html += '<small>Soyam Gebeya — Everything Market</small>';
+    html += '</div>';
+
+    html += '<div class="body">';
+    html += '<input class="search" placeholder="Search anything…" />';
+
+    html += '<div class="chips" id="chips">';
+    html += '<div class="chip active" data-f="">All</div>';
+    html += '<div class="chip" data-f="Agriculture">Agriculture</div>';
+    html += '<div class="chip" data-f="Furniture">Furniture</div>';
+    html += '<div class="chip" data-f="Maintenance">Maintenance</div>';
+    html += '<div class="chip" data-f="Creative">Creative</div>';
+    html += '</div>';
+
+    html += '<div class="sec">🔥 Featured</div>';
+
+    if (list.length === 0) {
+      html += '<div class="empty"><div class="big">📦</div><p>No listings.</p></div>';
+    } else {
+      list.forEach(function(l){
+        html += '<div class="listing">';
+        html += '<div class="thumb">' + l.icon + '</div>';
+        html += '<div class="info">';
+        html += '<h4>' + l.title + ' <span class="badge">Verified</span></h4>';
+        html += '<div class="meta">📍 ' + l.city + ' · ' + l.cat + '</div>';
+        html += '<div class="price">ETB ' + l.price.toLocaleString() + ' <span style="font-weight:400;color:#6b7280;font-size:10px;">· ' + (l.neg ? 'Negotiable' : 'Fixed') + '</span></div>';
+        html += '</div></div>';
+      });
+    }
+
+    html += '</div>';
+
+    html += '<div class="nav">';
+    html += '<div class="active"><span class="ico">🏠</span>Home</div>';
+    html += '<div><span class="ico">🔍</span>Search</div>';
+    html += '<div><span class="ico">📂</span>Categories</div>';
+    html += '<div><span class="ico">💰</span>Wallet</div>';
+    html += '<div><span class="ico">👤</span>Profile</div>';
+    html += '</div>';
+
+    app.innerHTML = html;
+
+    document.querySelectorAll('.chip').forEach(function(c){
+      c.addEventListener('click', function(){
+        document.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('active'); });
+        c.classList.add('active');
+        render(c.dataset.f);
+      });
+    });
+  }
+
+  render('');
+})();
+</script>
 </body>
 </html>
