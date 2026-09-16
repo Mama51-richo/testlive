@@ -1,199 +1,738 @@
 <!DOCTYPE html>
 <html lang="am">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soyam Gebeya - ሶያም ገበያ</title>
-    <style>
-        :root {
-            --primary: #1e3a8a;      /* Trustworthy dark blue */
-            --accent: #059669;       /* Merchant green */
-            --gold: #d97706;         /* Soyam Coin Gold */
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ሶያም ገበያ | Soyam Gebeya</title>
+<style>
+  :root {
+    --green: #078930;
+    --yellow: #FCDD09;
+    --red: #DA121A;
+    --bg: #f5f6f7;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Noto Sans Ethiopic", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+    padding: 12px;
+  }
+  .page-note {
+    max-width: 430px;
+    margin: 24px auto 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-left: 4px solid var(--green);
+    padding-left: 8px;
+  }
+  .phone {
+    max-width: 430px;
+    margin: 0 auto 28px;
+    background: var(--card);
+    border-radius: 22px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .topbar {
+    background: linear-gradient(135deg, var(--green), #046b25);
+    color: #fff;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar .brand { font-weight: 700; font-size: 16px; }
+  .topbar .brand small { display: block; font-size: 10px; opacity: .85; font-weight: 400; }
+  .topbar .lang {
+    background: rgba(255,255,255,.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+  }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0; padding: 0;
-            padding-bottom: 80px; /* Space for bottom nav */
-        }
+  .screen-body { padding: 16px; }
 
-        /* Top Header Area */
-        .app-bar {
-            background-color: var(--primary);
-            color: white;
-            padding: 16px;
-            text-align: center;
-            position: sticky;
-            top: 0; z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .app-bar h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
-        .app-bar p { margin: 4px 0 0 0; font-size: 0.85rem; opacity: 0.9; }
+  /* SPLASH */
+  .splash {
+    background: linear-gradient(160deg, var(--green) 0%, #046b25 60%, #024a19 100%);
+    color: #fff;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .splash .logo {
+    width: 90px; height: 90px;
+    background: var(--yellow);
+    border-radius: 22px;
+    margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; font-weight: 800; color: var(--green);
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  }
+  .splash h1 { font-size: 26px; margin-bottom: 6px; }
+  .splash p { font-size: 13px; opacity: .9; }
+  .splash .stripes {
+    display: flex; gap: 6px; justify-content: center; margin-top: 24px;
+  }
+  .splash .stripes span { width: 40px; height: 6px; border-radius: 3px; }
 
-        .container { max-width: 500px; margin: 0 auto; padding: 16px; }
+  /* LOGIN */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 14px;
+    background: #fafafa;
+    font-family: inherit;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-outline { background: #fff; color: var(--green); border: 2px solid var(--green); }
+  .btn-yellow { background: var(--yellow); color: #1a1a1a; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-sm { padding: 8px 12px; font-size: 12px; width: auto; display: inline-block; border-radius: 8px; }
+  .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-row .btn { flex: 1; }
 
-        /* Role Switcher Tab */
-        .role-tabs {
-            display: flex; background: var(--border);
-            padding: 4px; border-radius: 8px; margin-bottom: 20px;
-        }
-        .role-btn {
-            flex: 1; padding: 8px; border: none; background: transparent;
-            font-weight: 600; border-radius: 6px; cursor: pointer; color: var(--text-muted);
-        }
-        .role-btn.active { background: white; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  /* SEARCH */
+  .searchbar {
+    display: flex;
+    gap: 8px;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    align-items: center;
+  }
+  .searchbar input {
+    flex: 1; border: none; outline: none; font-size: 14px;
+    background: transparent; font-family: inherit;
+  }
+  .searchbar .icon { color: var(--muted); font-size: 16px; }
 
-        /* General Section Layouts */
-        .view-panel { display: none; }
-        .view-panel.active { display: block; }
+  /* CHIPS */
+  .chips {
+    display: flex; gap: 8px; overflow-x: auto;
+    padding: 10px 0; margin-top: 10px;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: 0 0 auto;
+    padding: 7px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .chip.active { background: var(--green); color: #fff; border-color: var(--green); }
 
-        .card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 16px; margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-        .card h2 { margin-top: 0; font-size: 1.2rem; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  /* SECTION TITLE */
+  .sec-title {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 18px 0 10px;
+  }
+  .sec-title h3 { font-size: 15px; }
+  .sec-title a { font-size: 12px; color: var(--green); font-weight: 600; text-decoration: none; }
 
-        /* Form elements */
-        label { display: block; font-weight: 600; margin: 12px 0 4px 0; font-size: 0.9rem; }
-        .input-field, select, textarea {
-            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border);
-            box-sizing: border-box; font-size: 1srem; background: var(--bg);
-        }
-        .btn {
-            display: block; width: 100%; padding: 12px; border: none; border-radius: 8px;
-            font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; margin-top: 12px;
-            box-sizing: border-box; text-decoration: none;
-        }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-accent { background: var(--accent); color: white; }
-        .btn-gold { background: var(--gold); color: white; }
+  /* LISTING CARD */
+  .listing {
+    display: flex; gap: 10px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .listing .thumb {
+    width: 78px; height: 78px;
+    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; flex: 0 0 auto;
+  }
+  .listing .info { flex: 1; min-width: 0; }
+  .listing .info h4 { font-size: 14px; margin-bottom: 3px; }
+  .listing .info .meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .listing .price { font-size: 14px; font-weight: 800; color: var(--green); }
+  .listing .price small { font-weight: 400; color: var(--muted); font-size: 10px; }
+  .badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: #1a1a1a;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+  }
+  .badge.green { background: #d1f2da; color: var(--green); }
+  .badge.red { background: #fde0e2; color: var(--red); }
 
-        /* Listing Grid */
-        .grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .item-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
-        .item-header { display: flex; justify-content: space-between; align-items: start; }
-        .item-title { font-weight: bold; font-size: 1.1rem; margin: 0; }
-        .badge { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: #e2e8f0; }
-        .badge-gold { background: #fef3c7; color: #b45309; }
-        .badge-success { background: #d1fae5; color: #065f46; }
+  /* BOTTOM NAV */
+  .bottomnav {
+    display: flex;
+    border-top: 1px solid var(--line);
+    background: #fff;
+  }
+  .bottomnav div {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .bottomnav div.active { color: var(--green); font-weight: 700; }
+  .bottomnav div .ico { font-size: 18px; display: block; margin-bottom: 2px; }
 
-        /* Bottom Fixed Navigation Bar */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
-            background: white; border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
-        }
-        .nav-item {
-            background: none; border: none; color: var(--text-muted);
-            font-size: 0.8rem; font-weight: 500; display: flex; flex-direction: column; align-items: center; cursor: pointer;
-        }
-        .nav-item.active { color: var(--primary); font-weight: bold; }
-        .nav-icon { font-size: 1.3rem; margin-bottom: 2px; }
+  /* CARD */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .card h4 { font-size: 14px; margin-bottom: 8px; }
+  .row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .row:last-child { border-bottom: none; }
+  .row span:last-child { color: var(--muted); }
 
-        /* Schema Table Viewers styling */
-        .table-wrapper { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; }
-        th, td { padding: 8px; border: 1px solid var(--border); }
-        th { background: #f1f5f9; }
-    </style>
+  /* FILTER SECTION */
+  .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .filter-grid .field { margin-bottom: 0; }
+
+  /* ADMIN */
+  .admin-head {
+    background: #1a1a1a; color: #fff;
+    padding: 12px 16px; font-size: 13px; font-weight: 700;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .admin-head .phone { font-size: 11px; opacity: .7; }
+
+  /* WALLET */
+  .wallet-card {
+    background: linear-gradient(135deg, var(--green), #046b25);
+    color: #fff;
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .wallet-card .label { font-size: 12px; opacity: .85; }
+  .wallet-card .amount { font-size: 34px; font-weight: 800; margin: 6px 0; }
+  .wallet-card .rate { font-size: 12px; background: rgba(255,255,255,.15); display: inline-block; padding: 4px 10px; border-radius: 20px; }
+
+  /* DETAIL HEADER */
+  .detail-hero {
+    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px;
+  }
+
+  /* STACKED SCREEN LABELS */
+  .phone + .phone { margin-top: 0; }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 430px; margin: 28px auto;
+    border: none; border-top: 2px dashed #cbd5e1;
+  }
+</style>
 </head>
 <body>
 
-    <div class="app-bar">
-        <h1>Soyam Gebeya — ሶያም ገበያ</h1>
-        <p>Everything Marketplace — Ethiopian Context Engine</p>
+<!-- ============================================================ -->
+<div class="page-note">1 • Splash Screen</div>
+<div class="phone">
+  <div class="splash">
+    <div class="logo">ሶ</div>
+    <h1>ሶያም ገበያ</h1>
+    <p>Soyam Gebeya — Everything Market</p>
+    <p style="margin-top:8px; font-size:11px;">Every product · service · skill · idea · knowledge</p>
+    <div class="stripes">
+      <span style="background:#078930"></span>
+      <span style="background:#FCDD09"></span>
+      <span style="background:#DA121A"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">2 • Login (Phone Number)</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
+    <div class="lang">አማ / EN</div>
+  </div>
+  <div class="screen-body">
+    <h3 style="margin-bottom:4px;">እንኳን ደህና መጡ</h3>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:16px;">Welcome — log in with your phone number</p>
+
+    <div class="field">
+      <label>Phone Number / ስልክ ቁጥር</label>
+      <input type="tel" placeholder="+251 9XX XXX XXX" />
+    </div>
+    <button class="btn btn-primary">Continue / ቀጥል</button>
+    <p style="text-align:center; font-size:11px; color:var(--muted); margin-top:12px;">
+      By continuing you agree to our terms · በመቀጠል ውሎቻችንን ተቀብለዋል
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">3 • Buyer Home</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
+    <div class="lang">👤 አዲስ አበባ</div>
+  </div>
+  <div class="screen-body">
+    <div class="searchbar">
+      <span class="icon">🔍</span>
+      <input placeholder="Search anything… / ማንኛውንም ፈልግ" />
     </div>
 
-    <div class="container">
-        <!-- System Role Engine View Tabs Selector -->
-        <div class="role-tabs">
-            <button class="role-btn active" onclick="switchRole('buyer')">📱 Buyer Perspective</button>
-            <button class="role-btn" onclick="switchRole('seller')">💼 Seller Center</button>
-            <button class="role-btn" onclick="switchRole('admin')">🛡️ Admin (+251920353460)</button>
-        </div>
+    <div class="chips">
+      <div class="chip active">All</div>
+      <div class="chip">Products</div>
+      <div class="chip">Services</div>
+      <div class="chip">Manufacturing</div>
+      <div class="chip">Maintenance</div>
+      <div class="chip">Professional</div>
+      <div class="chip">Creative</div>
+    </div>
 
-        <!-- ================= BUYER INTERFACE PANEL ================= -->
-        <div id="panel-buyer" class="view-panel active">
-            <!-- Search & Filter Parameters -->
-            <div class="card">
-                <h2>🔍 Smart Multi-Filter Directory</h2>
-                <label>Regional Filter Location</label>
-                <select id="filter-city">
-                    <option value="">All Ethiopian Regions/Cities</option>
-                    <option value="Addis Ababa">Addis Ababa (አዲስ አበባ)</option>
-                    <option value="Adama">Adama (አዳማ)</option>
-                    <option value="Hawassa">Hawassa (ሐዋሳ)</option>
-                    <option value="Bahir Dar">Bahir Dar (ባሕር ዳር)</option>
-                    <option value="Dire Dawa">Dire Dawa (ድሬዳዋ)</option>
-                    <option value="Jijiga">Jijiga (ጅጅጋ)</option>
-                </select>
+    <div class="sec-title">
+      <h3>🔥 Featured / ተመራጭ</h3>
+      <a href="#">See all</a>
+    </div>
 
-                <label>Business Classification Categories</label>
-                <select id="filter-category">
-                    <option value="">All Cross-Inclusive Categories</option>
-                    <optgroup label="Products">
-                        <option>Agriculture & Raw Foodstuff</option>
-                        <option>Electronics & Phones</option>
-                        <option>Handicrafts & Cultural Items</option>
-                    </optgroup>
-                    <optgroup label="Services & Knowledge">
-                        <option>Technical Maintenance Repairs</option>
-                        <option>Creative Design & Ideas</option>
-                    </optgroup>
-                </select>
+    <div class="listing">
+      <div class="thumb">🌾</div>
+      <div class="info">
+        <h4>Organic Teff — 100kg <span class="badge green">Verified</span></h4>
+        <div class="meta">📍 Bahir Dar · Agriculture</div>
+        <div class="price">ETB 8,500 <small>· Negotiable</small></div>
+      </div>
+    </div>
 
-                <label>Vendor Enterprise Scale</label>
-                <select id="filter-size">
-                    <option value="">All Business Sizes</option>
-                    <option>Freelancer / Individual Artist</option>
-                    <option>Micro Business (ጥቃቅን)</option>
-                    <option>Small Business Startup</option>
-                    <option>Cooperative Association</option>
-                </select>
-                <button class="btn btn-primary" onclick="alert('Filtering complete! Showing context-matched local entries.')">Apply Localized Filter</button>
-            </div>
+    <div class="listing">
+      <div class="thumb">📱</div>
+      <div class="info">
+        <h4>Phone Repair Service</h4>
+        <div class="meta">📍 Addis Ababa · Maintenance</div>
+        <div class="price">ETB 500 <small>· Fixed</small></div>
+      </div>
+    </div>
 
-            <!-- Main Stream Listings -->
-            <h2>🛒 Current Marketplace Streams</h2>
-            <div class="grid">
-                <div class="item-card">
-                    <div class="item-header">
-                        <h3 class="item-title">Fresh Teff (Premium Magna)</h3>
-                        <span class="badge badge-gold">25 Coins</span>
-                    </div>
-                    <p style="margin:6px 0; font-size:0.9rem; color:var(--text-muted)">Category: Agriculture Products | Location: Adama</p>
-                    <p style="margin:4px 0; font-size:0.85rem;">Seller Size: Cooperative Asset | Price Mode: Fixed</p>
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <button class="btn btn-accent" style="margin:0; padding:6px;" onclick="initiateCall('+251911223344')">📞 Call Seller</button>
-                        <button class="btn btn-primary" style="margin:0; padding:6px;" onclick="placeOrder('Fresh Teff')">💳 Place Order</button>
-                    </div>
-                </div>
+    <div class="listing">
+      <div class="thumb">🪑</div>
+      <div class="info">
+        <h4>Handmade Wooden Chair</h4>
+        <div class="meta">📍 Hawassa · Manufacturing</div>
+        <div class="price">ETB 2,300 <small>· Negotiable</small></div>
+      </div>
+    </div>
 
-                <div class="item-card">
-                    <div class="item-header">
-                        <h3 class="item-title">Android App Localization Layout</h3>
-                        <span class="badge badge-gold">120 Coins</span>
-                    </div>
-                    <p style="margin:6px 0; font-size:0.9rem; color:var(--text-muted)">Category: IT & Software | Location: Addis Ababa</p>
-                    <p style="margin:4px 0; font-size:0.85rem;">Seller Size: Freelancer | Price Mode: Negotiable</p>
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <button class="btn btn-accent" style="margin:0; padding:6px;" onclick="initiateCall('+251922334455')">📞 Call Seller</button>
-                        <button class="btn btn-primary" style="margin:0; padding:6px;" onclick="placeOrder('Android Localization')">💳 Place Order</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="listing">
+      <div class="thumb">🎨</div>
+      <div class="info">
+        <h4>Logo & Brand Design</h4>
+        <div class="meta">📍 Adama · Creative</div>
+        <div class="price">ETB 1,500 <small>· Fixed</small></div>
+      </div>
+    </div>
+  </div>
 
-        <!-- ================= SELLER CENTER INTERFACE ================= -->
-        <div id="panel-seller" class="view-panel">
-            <!-- Coin Registration Wallet State -->
-            <div class="card" style="border-left: 4px solid var(--gold);">
-                <h2>🪙 Wallet & Coin Gateway Integration</h2>
+  <div class="bottomnav">
+    <div class="active"><span class="ico">🏠</span>Home</div>
+    <div><span class="ico">🔍</span>Search</div>
+    <div><span class="ico">📦</span>Orders</div>
+    <div><span class="ico">💰</span>Wallet</div>
+    <div><span class="ico">👤</span>Profile</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">4 • Search & Filters</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">Filter / ማጣሪያ</div>
+    <div class="lang">Clear</div>
+  </div>
+  <div class="screen-body">
+
+    <div class="field">
+      <label>Region / ክልል</label>
+      <select>
+        <option>All Regions</option>
+        <option>Addis Ababa</option>
+        <option>Oromia</option>
+        <option>Amhara</option>
+        <option>Tigray</option>
+        <option>Sidama</option>
+        <option>SNNPR</option>
+        <option>Somali</option>
+        <option>Afar</option>
+        <option>Benishangul-Gumuz</option>
+        <option>Gambella</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>City / ከተማ</label>
+      <select>
+        <option>All Cities</option>
+        <option>Addis Ababa</option>
+        <option>Adama</option>
+        <option>Bishoftu</option>
+        <option>Hawassa</option>
+        <option>Bahir Dar</option>
+        <option>Gondar</option>
+        <option>Dessie</option>
+        <option>Mekelle</option>
+        <option>Jimma</option>
+        <option>Dire Dawa</option>
+        <option>Harar</option>
+        <option>Jijiga</option>
+        <option>Shashemene</option>
+        <option>Arba Minch</option>
+      </select>
+    </div>
+
+    <div class="filter-grid">
+      <div class="field">
+        <label>Business Size</label>
+        <select>
+          <option>All Sizes</option>
+          <option>Individual</option>
+          <option>Freelancer</option>
+          <option>Micro</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
+          <option>Cooperative</option>
+          <option>Startup</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Business Type</label>
+        <select>
+          <option>All Types</option>
+          <option>Product Seller</option>
+          <option>Service Provider</option>
+          <option>Manufacturer</option>
+          <option>Technician</option>
+          <option>Professional</option>
+          <option>Creator</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:14px;">
+      <label>Category / ምድብ</label>
+      <select>
+        <option>All Categories</option>
+        <optgroup label="Products">
+          <option>Agriculture Products</option>
+          <option>Food & Beverages</option>
+          <option>Clothing & Textiles</option>
+          <option>Electronics & Phones</option>
+          <option>Furniture</option>
+          <option>Handicrafts & Cultural</option>
+        </optgroup>
+        <optgroup label="Services">
+          <option>Transportation</option>
+          <option>Delivery</option>
+          <option>Cleaning</option>
+          <option>Events & Catering</option>
+          <option>Tourism & Travel</option>
+        </optgroup>
+        <optgroup label="Manufacturing">
+          <option>Furniture Manufacturing</option>
+          <option>Metal Works</option>
+          <option>Food Processing</option>
+        </optgroup>
+        <optgroup label="Maintenance">
+          <option>Electrical</option>
+          <option>Plumbing</option>
+          <option>Phone Repair</option>
+          <option>Vehicle Maintenance</option>
+        </optgroup>
+        <optgroup label="Professional">
+          <option>Legal</option>
+          <option>Accounting</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>IT & Software</option>
+        </optgroup>
+        <optgroup label="Creative & Knowledge">
+          <option>Graphic Design</option>
+          <option>Photography</option>
+          <option>Music</option>
+          <option>Training</option>
+          <option>Digital Products</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline">Reset</button>
+      <button class="btn btn-primary">Apply Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">5 • Listing Detail</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">← Back</div>
+    <div class="lang">♡ Save</div>
+  </div>
+  <div class="detail-hero">🌾</div>
+  <div class="screen-body">
+    <h2 style="font-size:18px;">Organic Teff — 100kg</h2>
+    <p style="color:var(--muted); font-size:12px; margin-top:4px;">📍 Bahir Dar, Amhara · Agriculture Products</p>
+
+    <div style="margin-top:12px; display:flex; align-items:center; gap:10px;">
+      <div style="font-size:22px; font-weight:800; color:var(--green);">ETB 8,500</div>
+      <span class="badge">Negotiable</span>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h4>Description</h4>
+      <p style="font-size:13px; color:#374151;">
+        Freshly harvested organic teff from local farms. Clean, sorted, and ready for delivery. Bulk orders welcome.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>Seller / ሻጭ</h4>
+      <div class="row"><span>Name</span><span>Abebe Farms</span></div>
+      <div class="row"><span>Size</span><span>Cooperative</span></div>
+      <div class="row"><span>Type</span><span>Product Seller</span></div>
+      <div class="row"><span>Status</span><span style="color:var(--green); font-weight:700;">✔ Verified</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline">📞 Call Seller</button>
+      <button class="btn btn-primary">💬 Message</button>
+    </div>
+    <button class="btn btn-yellow" style="margin-top:8px;">🛒 Place Order</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">6 • Seller Dashboard</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">Seller Dashboard <small>የሻጭ ዳሽቦርድ</small></div>
+    <div class="lang">👤 Abebe</div>
+  </div>
+  <div class="screen-body">
+
+    <div class="card" style="background:#e8f5ec; border-color:#b8e0c4;">
+      <div class="row"><span>My Listings</span><span><b>12 active</b></span></div>
+      <div class="row"><span>New Orders</span><span><b style="color:var(--red);">3 pending</b></span></div>
+      <div class="row"><span>Availability</span><span style="color:var(--green); font-weight:700;">● Open</span></div>
+    </div>
+
+    <button class="btn btn-primary" style="margin-bottom:12px;">➕ Add New Listing</button>
+
+    <div class="sec-title">
+      <h3>Recent Orders</h3>
+      <a href="#">See all</a>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">📦</div>
+      <div class="info">
+        <h4>Order #1042</h4>
+        <div class="meta">Buyer: Sara M. · Cash on Delivery</div>
+        <div class="price" style="color:var(--green);">ETB 8,500</div>
+      </div>
+      <span class="badge green">New</span>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">📦</div>
+      <div class="info">
+        <h4>Order #1041</h4>
+        <div class="meta">Buyer: Yohannes T. · Pickup</div>
+        <div class="price" style="color:var(--muted);">ETB 2,300</div>
+      </div>
+      <span class="badge">Shipped</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">7 • Wallet (Coins)</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">My Wallet <small>የኪስ ቦርሳ</small></div>
+    <div class="lang">1 ሳንቲም = 10 ብር</div>
+  </div>
+  <div class="screen-body">
+    <div class="wallet-card">
+      <div class="label">Available Balance / ቀሪ ሒሳብ</div>
+      <div class="amount">250 ሳንቲም</div>
+      <div class="rate">≈ ETB 2,500 · Rate: 1 Coin = 10 ETB</div>
+    </div>
+
+    <button class="btn btn-yellow" style="margin-bottom:8px;">🪙 Buy Coins / ሳንቲም ግዛ</button>
+    <button class="btn btn-outline">📜 Transaction History</button>
+
+    <div class="card" style="margin-top:14px;">
+      <h4>How Coin Purchase Works</h4>
+      <div class="row"><span>1. Request coins</span><span>→</span></div>
+      <div class="row"><span>2. Pay via Telebirr / CBE Birr</span><span>→</span></div>
+      <div class="row"><span>3. Send FT number to Admin</span><span>→</span></div>
+      <div class="row"><span>4. Auto-verify & credit</span><span>✔</span></div>
+      <p style="font-size:11px; color:var(--muted); margin-top:8px;">
+        Admin contact: <b>+251 920 353 460</b>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">8 • Admin Panel (Phone: +251920353460)</div>
+<div class="phone">
+  <div class="admin-head">
+    <div>🛡️ Admin Control</div>
+    <div class="phone">+251920353460</div>
+  </div>
+  <div class="screen-body">
+
+    <div class="card">
+      <h4>Admin Wallet</h4>
+      <div class="row"><span>Balance</span><span><b style="color:var(--green);">100,000 ሳንቲም</b></span></div>
+      <div class="row"><span>Value</span><span>ETB 1,000,000</span></div>
+    </div>
+
+    <div class="sec-title">
+      <h3>Pending Seller Approvals</h3>
+      <a href="#">All</a>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">🏪</div>
+      <div class="info">
+        <h4>Kebede Electronics</h4>
+        <div class="meta">📍 Adama · Small Business</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <button class="btn btn-primary btn-sm">✔</button>
+        <button class="btn btn-red btn-sm">✖</button>
+      </div>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">🔧</div>
+      <div class="info">
+        <h4>Hanna Plumbing</h4>
+        <div class="meta">📍 Hawassa · Freelancer</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <button class="btn btn-primary btn-sm">✔</button>
+        <button class="btn btn-red btn-sm">✖</button>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <h3>Coin Purchase Requests</h3>
+      <a href="#">All</a>
+    </div>
+
+    <div class="card">
+      <div class="row"><span>User</span><span>+251 911 22 33 44</span></div>
+      <div class="row"><span>Requested</span><span>500 ሳንቲም = ETB 5,000</span></div>
+      <div class="row"><span>FT Number</span><span>FT25091612345</span></div>
+      <div class="row"><span>Status</span><span style="color:var(--red);">Pending</span></div>
+      <div class="btn-row">
+        <button class="btn btn-outline btn-sm" style="flex:1;">Reject</button>
+        <button class="btn btn-primary btn-sm" style="flex:1;">Approve</button>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <h3>Quick Admin Tools</h3>
+    </div>
+    <div class="card">
+      <div class="row"><span>🏙️ Manage Cities</span><span>→</span></div>
+      <div class="row"><span>📂 Manage Categories</span><span>→</span></div>
+      <div class="row"><span>📊 Monitor Listings</span><span>→</span></div>
+      <div class="row"><span>🧾 All Orders</span><span>→</span></div>
+      <div class="row"><span>🚫 Blocked Users</span><span>→</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">9 • Profile / Settings</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">Profile <small>መገለጫ</small></div>
+    <div class="lang">Edit</div>
+  </div>
+  <div class="screen-body">
+    <div class="card" style="text-align:center;">
+      <div style="width:70px; height:70px; border-radius:50%; background:var(--green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; margin:0 auto 8px;">A</div>
+      <h3>Abebe Tesfaye</h3>
+      <p style="font-size:12px; color:var(--muted);">+251 920 353 460</p>
+      <span class="badge green" style="margin-top:8px;">Seller · Cooperative</span>
+    </div>
+
+    <div class="card">
+      <div class="row"><span>👤 Role</span><span>Seller / Buyer</span></div>
+      <div class="row"><span>📍 City</span><span>Bahir Dar</span></div>
+      <div class="row"><span>🏢 Business Size</span><span>Cooperative</span></div>
+      <div class="row"><span>📦 Business Type</span><span>Product Seller</span></div>
+      <div class="row"><span>🌐 Language</span><span>አማርኛ / English</span></div>
+      <div class="row"><span>💰 Coins</span><span>250</span></div>
+    </div>
+
+    <button class="btn btn-outline" style="margin-bottom:8px;">📜 My Orders</button>
+    <button class="btn btn-outline" style="margin-bottom:8px;">⚙️ Settings</button>
+    <button class="btn btn-red">🚪 Logout</button>
+  </div>
+</div>
+
+<hr class="divider" />
+<p style="text-align:center; font-size:11px; color:var(--muted); margin-bottom:24px;">
+  Soyam Gebeya — Prototype Layout © 2026
+</p>
+
+</body>
+</html>
