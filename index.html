@@ -2,268 +2,1311 @@
 <html lang="am">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ሶያም ገበያ | Soyam Gebeya</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, "Noto Sans Ethiopic", sans-serif; background: #f5f6f7; }
-  .app { max-width: 430px; margin: 0 auto; background: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;overflow:hidden;font-family:-apple-system,"Noto Sans Ethiopic","Segoe UI",Roboto,sans-serif;background:#eef1f3;color:#1a1a1a;line-height:1.4}
+  .app{max-width:430px;height:100vh;height:100dvh;margin:0 auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.12)}
+  .screen{display:none;flex:1;flex-direction:column;overflow:hidden}
+  .screen.active{display:flex}
+  .screen-body{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
+  .screen-body::-webkit-scrollbar{width:0}
 
-  /* SCREENS */
-  .screen { display: none; flex: 1; flex-direction: column; }
-  .screen.active { display: flex; }
+  .topbar{background:linear-gradient(135deg,#078930,#046b25);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .topbar .brand{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+  .topbar .brand small{display:block;font-size:10px;opacity:.85;font-weight:400}
+  .topbar .lang{background:rgba(255,255,255,.2);padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer}
+  .topbar.back-only{justify-content:flex-start;gap:10px}
+  .back-btn{background:rgba(255,255,255,.18);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer}
+
+  /* LOGO */
+  .logo-mark{width:34px;height:34px;background:#FCDD09;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#078930;font-size:17px;flex-shrink:0}
+  .logo-mark.lg{width:104px;height:104px;border-radius:26px;font-size:0;margin:0 auto 22px;background:linear-gradient(135deg,#FCDD09,#f7c900);box-shadow:0 12px 32px rgba(0,0,0,.35);display:flex}
+  .logo-mark.lg svg{width:66px;height:66px}
 
   /* SPLASH */
-  .splash {
-    flex: 1; background: linear-gradient(160deg, #078930, #046b25 60%, #024a19);
-    color: #fff; text-align: center; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 24px;
-  }
-  .splash .logo {
-    width: 100px; height: 100px; background: #FCDD09; border-radius: 24px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px; font-weight: 800; color: #078930; margin-bottom: 22px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  }
-  .splash h1 { font-size: 30px; margin-bottom: 6px; }
-  .splash p { font-size: 13px; opacity: .9; }
-  .splash .sub { margin-top: 8px; font-size: 11px; opacity: .75; }
-  .splash .stripes { display: flex; gap: 8px; margin-top: 28px; }
-  .splash .stripes span { width: 44px; height: 6px; border-radius: 3px; }
+  .splash{flex:1;background:linear-gradient(160deg,#078930 0%,#046b25 60%,#024a19 100%);color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+  .splash h1{font-size:30px;margin-bottom:6px}
+  .splash p{font-size:13px;opacity:.92}
+  .splash .sub{margin-top:8px;font-size:11px;opacity:.75}
+  .splash .stripes{display:flex;gap:8px;margin-top:26px}
+  .splash .stripes span{width:44px;height:6px;border-radius:3px}
 
-  /* BUTTONS */
-  .btn {
-    display: block; width: 100%; padding: 12px; border: none;
-    border-radius: 12px; font-size: 14px; font-weight: 700;
-    cursor: pointer; font-family: inherit;
-  }
-  .btn-primary { background: #078930; color: #fff; }
-  .btn-yellow { background: #FCDD09; color: #1a1a1a; }
+  /* FORM */
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:#6b7280}
+  .field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid #e5e7eb;border-radius:12px;font-size:14px;background:#fafafa;font-family:inherit}
+  .field textarea{resize:vertical;min-height:70px}
+  .btn{display:block;width:100%;padding:12px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
+  .btn:active{opacity:.75}
+  .btn-primary{background:#078930;color:#fff}
+  .btn-outline{background:#fff;color:#078930;border:2px solid #078930}
+  .btn-yellow{background:#FCDD09;color:#1a1a1a}
+  .btn-red{background:#DA121A;color:#fff}
+  .btn-sm{padding:7px 11px;font-size:12px;width:auto;display:inline-block;border-radius:8px}
+  .btn-row{display:flex;gap:8px;margin-top:10px}
+  .btn-row .btn{flex:1}
 
-  /* LOGIN */
-  .login-wrap { padding: 24px 20px; }
-  .login-wrap h2 { font-size: 22px; margin-bottom: 4px; }
-  .login-wrap .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 5px; }
-  .field input, .field select {
-    width: 100%; padding: 12px 14px; border: 1px solid #e5e7eb;
-    border-radius: 12px; font-size: 14px; background: #fafafa; font-family: inherit;
-  }
-  .demo-box {
-    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px;
-    padding: 12px; margin-top: 20px; font-size: 12px; color: #166534;
-  }
-  .demo-box b { color: #078930; }
+  .searchbar{display:flex;gap:8px;background:#fff;padding:9px 12px;border-radius:14px;border:1px solid #e5e7eb;align-items:center}
+  .searchbar input{flex:1;border:none;outline:none;font-size:14px;background:transparent;font-family:inherit}
+  .searchbar .icon{color:#6b7280;font-size:15px}
 
-  /* HOME */
-  .top { background: #078930; color: #fff; padding: 16px; }
-  .top h1 { font-size: 18px; }
-  .top small { font-size: 11px; opacity: .9; display: block; }
-  .body { padding: 16px; }
-  .search { padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 12px; width: 100%; font-size: 14px; }
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; }
-  .chip { padding: 6px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
-  .chip.active { background: #078930; color: #fff; border-color: #078930; }
-  .sec { font-size: 14px; font-weight: 700; margin: 16px 0 8px; }
-  .listing { display: flex; gap: 10px; border: 1px solid #e5e7eb; border-radius: 14px; padding: 10px; margin-bottom: 10px; background: #fff; }
-  .thumb { width: 68px; height: 68px; background: #e8f5ec; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
-  .info h4 { font-size: 13px; margin-bottom: 3px; }
-  .info .meta { font-size: 11px; color: #6b7280; margin-bottom: 5px; }
-  .price { font-size: 13px; font-weight: 800; color: #078930; }
-  .badge { display: inline-block; background: #d1f2da; color: #078930; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
-  .empty { text-align: center; color: #6b7280; padding: 30px 20px; font-size: 13px; }
-  .empty .big { font-size: 40px; margin-bottom: 8px; }
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0;margin-top:6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;padding:6px 13px;background:#fff;border:1px solid #e5e7eb;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
+  .chip.active{background:#078930;color:#fff;border-color:#078930}
 
-  /* NAV */
-  .nav { display: flex; border-top: 1px solid #e5e7eb; background: #fff; margin-top: auto; }
-  .nav div { flex: 1; text-align: center; padding: 10px 4px; font-size: 10px; color: #6b7280; }
-  .nav div.active { color: #078930; font-weight: 700; }
-  .nav .ico { font-size: 18px; display: block; }
+  .sec-title{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
+  .sec-title h3{font-size:14px}
+  .sec-title a{font-size:11px;color:#078930;font-weight:600;text-decoration:none;cursor:pointer}
 
-  /* TOPBAR (home) */
-  .topbar {
-    background: #078930; color: #fff; padding: 14px 16px;
-    display: flex; justify-content: space-between; align-items: center;
+  .listing{display:flex;gap:10px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:10px;margin-bottom:9px;cursor:pointer}
+  .listing .thumb{width:68px;height:68px;background:linear-gradient(135deg,#e8f5ec,#d3ecd9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;flex:0 0 auto}
+  .listing .info{flex:1;min-width:0}
+  .listing .info h4{font-size:13px;margin-bottom:2px}
+  .listing .info .meta{font-size:10.5px;color:#6b7280;margin-bottom:5px}
+  .listing .price{font-size:13px;font-weight:800;color:#078930}
+  .listing .price small{font-weight:400;color:#6b7280;font-size:10px}
+  .badge{display:inline-block;background:#FCDD09;color:#1a1a1a;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:4px}
+  .badge.green{background:#d1f2da;color:#078930}
+  .badge.red{background:#fde0e2;color:#DA121A}
+  .badge.blue{background:#dbeafe;color:#1e40af}
+
+  .bottomnav{display:flex;border-top:1px solid #e5e7eb;background:#fff;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+  .bottomnav div{flex:1;text-align:center;padding:8px 4px 6px;font-size:10px;color:#6b7280;cursor:pointer}
+  .bottomnav div.active{color:#078930;font-weight:700}
+  .bottomnav div .ico{font-size:18px;display:block;margin-bottom:1px}
+
+  .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-bottom:10px}
+  .card h4{font-size:13px;margin-bottom:6px}
+  .row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px dashed #e5e7eb}
+  .row:last-child{border-bottom:none}
+  .row span:last-child{color:#6b7280}
+
+  .verified-strip{display:flex;gap:9px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+  .verified-strip::-webkit-scrollbar{display:none}
+  .verified-seller{flex:0 0 auto;width:118px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:10px 8px;text-align:center;position:relative;cursor:pointer}
+  .verified-seller .avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#e8f5ec,#b8e0c4);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #078930}
+  .verified-seller .name{font-size:11px;font-weight:700;margin-bottom:1px}
+  .verified-seller .meta{font-size:9.5px;color:#6b7280}
+  .verified-seller .check{position:absolute;top:5px;right:5px;background:#078930;color:#fff;width:16px;height:16px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center}
+
+  .trending-strip{display:flex;gap:9px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+  .trending-strip::-webkit-scrollbar{display:none}
+  .trend-card{flex:0 0 auto;width:138px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;position:relative;cursor:pointer}
+  .trend-card .img{height:88px;background:linear-gradient(135deg,#e8f5ec,#d3ecd9);display:flex;align-items:center;justify-content:center;font-size:38px}
+  .trend-card .info{padding:7px 9px}
+  .trend-card .info h5{font-size:11px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trend-card .info .price{font-size:11.5px;color:#078930;font-weight:800}
+  .trend-card .hot{position:absolute;top:5px;left:5px;background:#DA121A;color:#fff;font-size:8.5px;padding:2px 6px;border-radius:20px;font-weight:700}
+
+  .megamenu{background:#fff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden}
+  .megamenu details{border-bottom:1px solid #e5e7eb}
+  .megamenu details:last-child{border-bottom:none}
+  .megamenu summary{list-style:none;cursor:pointer;padding:12px 13px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+  .megamenu summary::-webkit-details-marker{display:none}
+  .megamenu summary::after{content:"▾";color:#6b7280;font-size:11px}
+  .megamenu details[open] summary::after{content:"▴"}
+  .megamenu .sub{padding:0 13px 12px 13px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .megamenu .sub a{font-size:10.5px;color:#374151;text-decoration:none;padding:6px 8px;background:#f8fafc;border-radius:8px;cursor:pointer}
+
+  .rfq{background:linear-gradient(135deg,#fff7d6,#fde68a);border:1px dashed #d4a017;border-radius:14px;padding:12px;margin:12px 0}
+  .rfq h4{font-size:13px;margin-bottom:3px;color:#7c5800}
+  .rfq p{font-size:10.5px;color:#92680a;margin-bottom:8px}
+  .rfq .btn{padding:9px;font-size:12px}
+
+  .supplier-hero{background:linear-gradient(135deg,#078930,#046b25);color:#fff;padding:18px 16px;text-align:center;flex-shrink:0}
+  .supplier-hero .avatar{width:64px;height:64px;border-radius:50%;background:#FCDD09;color:#078930;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800}
+  .supplier-hero h3{font-size:16px}
+  .supplier-hero p{font-size:10.5px;opacity:.92;margin-top:2px}
+  .supplier-hero .verif{display:inline-block;margin-top:6px;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:20px;font-size:10px}
+
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:12px}
+  .stat-grid .stat{text-align:center;padding:7px;background:#f8fafc;border-radius:10px}
+  .stat-grid .stat b{display:block;font-size:15px;color:#078930}
+  .stat-grid .stat span{font-size:9.5px;color:#6b7280}
+
+  .detail-hero{background:linear-gradient(135deg,#e8f5ec,#d3ecd9);height:130px;display:flex;align-items:center;justify-content:center;font-size:54px}
+
+  .admin-head{background:#1a1a1a;color:#fff;padding:12px 16px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+  .admin-head .phone{font-size:10.5px;opacity:.7}
+
+  .wallet-card{background:linear-gradient(135deg,#078930,#046b25);color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:12px}
+  .wallet-card .label{font-size:11.5px;opacity:.85}
+  .wallet-card .amount{font-size:32px;font-weight:800;margin:5px 0}
+  .wallet-card .rate{font-size:11px;background:rgba(255,255,255,.18);display:inline-block;padding:3px 10px;border-radius:20px}
+
+  .empty{text-align:center;padding:40px 20px;color:#6b7280;font-size:13px}
+  .empty .big{font-size:44px;margin-bottom:8px}
+
+  .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:24px;font-size:13px;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+  .toast.show{opacity:1}
+
+  .role-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-left:6px}
+  .role-tag.admin{background:#fde0e2;color:#DA121A}
+  .role-tag.seller{background:#d1f2da;color:#078930}
+  .role-tag.buyer{background:#dbeafe;color:#1e40af}
+
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;display:flex;align-items:flex-end}
+  .modal-box{background:#fff;width:100%;max-width:430px;margin:0 auto;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow:auto}
+
+  @media(min-width:500px){
+    body{background:linear-gradient(135deg,#0f172a,#1e293b);padding:20px 0}
+    .app{border-radius:28px;height:calc(100vh - 40px);border:8px solid #0f172a}
   }
-  .topbar .brand { font-weight: 700; font-size: 15px; }
-  .topbar .brand small { display: block; font-size: 10px; opacity: .85; font-weight: 400; }
-  .topbar .lang { background: rgba(255,255,255,.2); padding: 4px 10px; border-radius: 20px; font-size: 11px; }
 </style>
 </head>
 <body>
-<div class="app" id="app">
 
-  <!-- SPLASH SCREEN -->
-  <div class="screen active" id="s-splash">
-    <div class="splash">
-      <div class="logo">ሶ</div>
-      <h1>ሶያም ገበያ</h1>
-      <p>Soyam Gebeya — Everything Market</p>
-      <p class="sub">Every product · service · skill · idea · knowledge</p>
-      <div class="stripes">
-        <span style="background:#078930"></span>
-        <span style="background:#FCDD09"></span>
-        <span style="background:#DA121A"></span>
-      </div>
-      <button class="btn btn-yellow" style="margin-top:40px; max-width:240px;" onclick="go('s-login')">Get Started / ጀምር</button>
-    </div>
-  </div>
-
-  <!-- LOGIN SCREEN -->
-  <div class="screen" id="s-login">
-    <div class="topbar">
-      <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
-      <div class="lang">አማ / EN</div>
-    </div>
-    <div class="login-wrap">
-      <h2>እንኳን ደህና መጡ</h2>
-      <p class="sub">Welcome — log in with your phone number</p>
-
-      <div class="field">
-        <label>Phone Number / ስልክ ቁጥር</label>
-        <input id="phone" type="tel" placeholder="+251 9XX XXX XXX" />
-      </div>
-
-      <div class="field">
-        <label>Full Name (for new users)</label>
-        <input id="name" placeholder="ሙሉ ስም / Full Name" />
-      </div>
-
-      <div class="field">
-        <label>Role</label>
-        <select id="role">
-          <option value="buyer">Buyer / ገዢ</option>
-          <option value="seller">Seller / ሻጭ</option>
-        </select>
-      </div>
-
-      <button class="btn btn-primary" onclick="doLogin()">Continue / ቀጥል</button>
-
-      <div class="demo-box">
-        <b>Demo Accounts:</b><br>
-        Buyer: +251933333333<br>
-        Seller: +251911111111<br>
-        Admin: +251920353460<br>
-        <br>
-        Type any phone to log in, or enter a new one with a name.
-      </div>
-    </div>
-  </div>
-
-  <!-- HOME SCREEN -->
-  <div class="screen" id="s-home">
-    <div class="topbar">
-      <div class="brand">ሶያም ገበያ <small id="whoami">Soyam Gebeya</small></div>
-      <div class="lang" onclick="logout()">Logout</div>
-    </div>
-    <div class="body" id="homeBody"></div>
-    <div class="nav">
-      <div class="active"><span class="ico">🏠</span>Home</div>
-      <div><span class="ico">🔍</span>Search</div>
-      <div><span class="ico">📂</span>Categories</div>
-      <div><span class="ico">💰</span>Wallet</div>
-      <div><span class="ico">👤</span>Profile</div>
-    </div>
-  </div>
-
-</div>
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
 
 <script>
+/* ============================================================
+   SOYAM GEBEYA — FULL WORKING APP
+   Storage: localStorage (per device)
+   ============================================================ */
 (function(){
-  /* ---------- STATE ---------- */
-  var session = null; // { phone, name, role }
+  'use strict';
 
-  /* ---------- SEED DATA ---------- */
-  var listings = [
-    { icon: '🌾', title: 'Organic Teff — 100kg', cat: 'Agriculture', city: 'Bahir Dar', price: 8500, neg: true },
-    { icon: '📱', title: 'Phone Repair Service', cat: 'Maintenance', city: 'Addis Ababa', price: 500, neg: false },
-    { icon: '🪑', title: 'Handmade Wooden Chair', cat: 'Furniture', city: 'Hawassa', price: 2300, neg: true },
-    { icon: '🎨', title: 'Logo & Brand Design', cat: 'Creative', city: 'Adama', price: 1500, neg: false }
-  ];
+  var ADMIN_PHONE = '+251920353460';
+  var COIN_RATE = 10;
 
-  /* ---------- NAVIGATION ---------- */
-  function go(id) {
+  /* ---------- LOGO SVG ---------- */
+  var LOGO_SVG = '<svg viewBox="0 0 64 64" fill="none">'
+    + '<path d="M10 24 L32 10 L54 24 Z" fill="#078930"/>'
+    + '<rect x="10" y="24" width="44" height="4" fill="#046b25"/>'
+    + '<rect x="14" y="30" width="8" height="22" fill="#078930"/>'
+    + '<rect x="28" y="30" width="8" height="22" fill="#078930"/>'
+    + '<rect x="42" y="30" width="8" height="22" fill="#078930"/>'
+    + '<rect x="10" y="52" width="44" height="4" fill="#046b25"/>'
+    + '<circle cx="32" cy="20" r="3" fill="#FCDD09"/>'
+    + '</svg>';
+
+  /* ---------- STORAGE ---------- */
+  function get(k, fb){ try { var v = localStorage.getItem('soyam_'+k); return v ? JSON.parse(v) : fb; } catch(e){ return fb; } }
+  function set(k, v){ try { localStorage.setItem('soyam_'+k, JSON.stringify(v)); } catch(e){} }
+
+  /* ---------- SEED ---------- */
+  function seed(){
+    if(!get('users')){
+      set('users', [
+        {id:'u_admin', name:'Platform Admin', phone:ADMIN_PHONE, role:'admin', city:'Addis Ababa', region:'Addis Ababa', coins:100000},
+        {id:'u_abebe', name:'Abebe Tesfaye', phone:'+251911111111', role:'seller', city:'Bahir Dar', region:'Amhara', coins:250, sellerId:'s_abebe'},
+        {id:'u_hanna', name:'Hanna Girma', phone:'+251922222222', role:'seller', city:'Hawassa', region:'Sidama', coins:80, sellerId:'s_hanna'},
+        {id:'u_sara', name:'Sara Mekonnen', phone:'+251933333333', role:'buyer', city:'Addis Ababa', region:'Addis Ababa', coins:50}
+      ]);
+    }
+    if(!get('sellers')){
+      set('sellers', [
+        {id:'s_abebe', name:'Abebe Farms', phone:'+251911111111', city:'Bahir Dar', region:'Amhara', size:'Cooperative', type:'Product Seller', status:'approved', icon:'🌾', rating:4.8, orders:126},
+        {id:'s_hanna', name:'Hanna Plumbing', phone:'+251922222222', city:'Hawassa', region:'Sidama', size:'Freelancer', type:'Technician', status:'approved', icon:'🔧', rating:4.6, orders:48},
+        {id:'s_kebede', name:'Kebede Electronics', phone:'+251944444444', city:'Adama', region:'Oromia', size:'Small Business', type:'Product Seller', status:'pending', icon:'🏪', rating:0, orders:0},
+        {id:'s_wood', name:'Wood Works ET', phone:'+251955555555', city:'Hawassa', region:'Sidama', size:'Micro Business', type:'Manufacturer', status:'approved', icon:'🪑', rating:4.7, orders:62}
+      ]);
+    }
+    if(!get('listings')){
+      set('listings', [
+        {id:'l_1', title:'Organic Teff — 100kg', type:'product', category:'Agriculture Products', price:8500, negotiable:true, city:'Bahir Dar', region:'Amhara', sellerId:'s_abebe', icon:'🌾', description:'Freshly harvested organic teff from local farms. Clean, sorted, ready for delivery.', status:'active'},
+        {id:'l_2', title:'Phone Repair Service', type:'service', category:'Phone Repair', price:500, negotiable:false, city:'Addis Ababa', region:'Addis Ababa', sellerId:'s_hanna', icon:'📱', description:'Fast and reliable phone repair. Screen, battery, software.', status:'active'},
+        {id:'l_3', title:'Handmade Wooden Chair', type:'product', category:'Furniture', price:2300, negotiable:true, city:'Hawassa', region:'Sidama', sellerId:'s_wood', icon:'🪑', description:'Handcrafted traditional wooden chair. Strong and durable.', status:'active'},
+        {id:'l_4', title:'Logo & Brand Design', type:'skill', category:'Graphic Design', price:1500, negotiable:false, city:'Adama', region:'Oromia', sellerId:'s_abebe', icon:'🎨', description:'Professional logo and brand identity design.', status:'active'},
+        {id:'l_5', title:'Fresh Maize — 50kg', type:'product', category:'Agriculture Products', price:3200, negotiable:true, city:'Bahir Dar', region:'Amhara', sellerId:'s_abebe', icon:'🌽', description:'Fresh maize from Bahir Dar farms.', status:'active'}
+      ]);
+    }
+    if(!get('orders')) set('orders', []);
+    if(!get('coinRequests')) set('coinRequests', []);
+    if(!get('session')) set('session', null);
+  }
+  seed();
+
+  /* ---------- HELPERS ---------- */
+  function uid(p){ return p + '_' + Math.random().toString(36).slice(2,9); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function me(){ return get('session', null); }
+  function currentUser(){ var s = me(); return s ? get('users',[]).find(function(u){return u.id===s.userId;}) : null; }
+  function sellerById(id){ return get('sellers',[]).find(function(s){return s.id===id;}); }
+  function listingById(id){ return get('listings',[]).find(function(l){return l.id===id;}); }
+  function updateUser(u){ var arr = get('users',[]); var i = arr.findIndex(function(x){return x.id===u.id;}); if(i>=0){arr[i]=u; set('users',arr);} }
+  function updateSeller(s){ var arr = get('sellers',[]); var i = arr.findIndex(function(x){return x.id===s.id;}); if(i>=0){arr[i]=s; set('sellers',arr);} }
+
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window._toastT);
+    window._toastT = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+  window._toast = toast;
+
+  function closeModal(){
+    var m = document.querySelector('.modal-back');
+    if(m) m.remove();
+  }
+  window._closeModal = closeModal;
+
+  /* ---------- NAV ---------- */
+  var currentScreen = '';
+  var backStack = [];
+
+  function go(id, skipStack){
+    if(!skipStack && currentScreen && currentScreen !== id) backStack.push(currentScreen);
     var screens = document.querySelectorAll('.screen');
-    for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+    for(var i=0;i<screens.length;i++) screens[i].classList.remove('active');
     var el = document.getElementById(id);
-    if (el) el.classList.add('active');
-    if (id === 's-home') renderHome('');
-    window.scrollTo(0, 0);
+    if(!el) return;
+    el.classList.add('active');
+    currentScreen = id;
+
+    var navs = document.querySelectorAll('.bottomnav div');
+    for(var j=0;j<navs.length;j++){
+      if(navs[j].getAttribute('data-target') === id) navs[j].classList.add('active');
+      else navs[j].classList.remove('active');
+    }
+    var sb = el.querySelector('.screen-body');
+    if(sb) sb.scrollTop = 0;
+
+    if(id === 's-home') renderHome('');
+    if(id === 's-search') renderSearch();
+    if(id === 's-categories') renderCategories();
+    if(id === 's-wallet') renderWallet();
+    if(id === 's-profile') renderProfile();
+    if(id === 's-dashboard') renderDashboard();
+    if(id === 's-myorders') renderMyOrders();
+    if(id === 's-admin') renderAdmin();
+    if(id === 's-admin-sellers') renderAdminSellers();
+    if(id === 's-admin-coins') renderAdminCoins();
   }
   window.go = go;
 
-  /* ---------- LOGIN ---------- */
-  function doLogin() {
-    var phone = document.getElementById('phone').value.trim();
-    var name = document.getElementById('name').value.trim();
-    var role = document.getElementById('role').value;
+  function back(){
+    var prev = backStack.pop();
+    go(prev || 's-home', true);
+  }
+  window.back = back;
 
-    if (!phone) { alert('Enter a phone number'); return; }
-    if (!name) name = 'User ' + phone.slice(-4);
+  /* ---------- APP SHELL ---------- */
+  var app = document.getElementById('app');
 
-    session = { phone: phone, name: name, role: role };
-    document.getElementById('whoami').textContent = name + ' · ' + role;
-    go('s-home');
+  var html = '';
+
+  /* SPLASH */
+  html += '<div class="screen active" id="s-splash">';
+  html += '<div class="splash">';
+  html += '<div class="logo-mark lg">' + LOGO_SVG + '</div>';
+  html += '<h1>ሶያም ገበያ</h1>';
+  html += '<p>Soyam Gebeya — Everything Market</p>';
+  html += '<p class="sub">Every product · service · skill · idea · knowledge</p>';
+  html += '<div class="stripes"><span style="background:#078930"></span><span style="background:#FCDD09"></span><span style="background:#DA121A"></span></div>';
+  html += '<button class="btn btn-yellow" style="margin-top:36px; max-width:240px;" onclick="go(\'s-login\')">Get Started / ጀምር</button>';
+  html += '</div></div>';
+
+  /* LOGIN */
+  html += '<div class="screen" id="s-login">';
+  html += '<div class="topbar"><div class="brand"><div class="logo-mark">' + LOGO_SVG + '</div><div>ሶያም ገበያ<small>Soyam Gebeya</small></div></div><div class="lang">አማ/EN</div></div>';
+  html += '<div class="screen-body">';
+  html += '<h3 style="margin-bottom:4px;">እንኳን ደህና መጡ</h3>';
+  html += '<p style="font-size:12px;color:#6b7280;margin-bottom:16px;">Welcome — log in or register</p>';
+  html += '<div class="field"><label>Phone Number / ስልክ ቁጥር</label><input id="loginPhone" type="tel" placeholder="+251 9XX XXX XXX" /></div>';
+  html += '<div class="field"><label>Full Name (for new users)</label><input id="loginName" placeholder="ሙሉ ስም / Full Name" /></div>';
+  html += '<div class="field"><label>Role</label><select id="loginRole"><option value="buyer">Buyer / ገዢ</option><option value="seller">Seller / ሻጭ</option></select></div>';
+  html += '<button class="btn btn-primary" onclick="doLogin()">Continue / ቀጥል</button>';
+  html += '<div class="card" style="margin-top:18px;background:#f0fdf4;border-color:#bbf7d0;">';
+  html += '<h4>Demo Accounts</h4>';
+  html += '<div class="row"><span>👤 Buyer (Sara)</span><span>+251933333333</span></div>';
+  html += '<div class="row"><span>🛒 Seller (Abebe)</span><span>+251911111111</span></div>';
+  html += '<div class="row"><span>🛡️ Admin</span><span>+251920353460</span></div>';
+  html += '</div>';
+  html += '</div></div>';
+
+  /* HOME */
+  html += '<div class="screen" id="s-home">';
+  html += '<div class="topbar"><div class="brand"><div class="logo-mark">' + LOGO_SVG + '</div><div>ሶያም ገበያ<small id="homeSub">Soyam Gebeya</small></div></div><div class="lang" id="homeLoc">📍</div></div>';
+  html += '<div class="screen-body" id="homeBody"></div>';
+  html += '<div class="bottomnav">';
+  html += '<div data-target="s-home" onclick="go(\'s-home\')"><span class="ico">🏠</span>Home</div>';
+  html += '<div data-target="s-search" onclick="go(\'s-search\')"><span class="ico">🔍</span>Search</div>';
+  html += '<div data-target="s-categories" onclick="go(\'s-categories\')"><span class="ico">📂</span>Categories</div>';
+  html += '<div data-target="s-wallet" onclick="go(\'s-wallet\')"><span class="ico">💰</span>Wallet</div>';
+  html += '<div data-target="s-profile" onclick="go(\'s-profile\')"><span class="ico">👤</span>Profile</div>';
+  html += '</div></div>';
+
+  /* SEARCH */
+  html += '<div class="screen" id="s-search">';
+  html += '<div class="topbar"><div class="brand">Search & Filter<small>ፍለጋ</small></div><div class="lang" onclick="clearFilters()">Clear</div></div>';
+  html += '<div class="screen-body" id="searchBody"></div>';
+  html += '</div>';
+
+  /* CATEGORIES */
+  html += '<div class="screen" id="s-categories">';
+  html += '<div class="topbar"><div class="brand">All Categories<small>ሁሉም ምድቦች</small></div><div class="lang" onclick="go(\'s-home\')">×</div></div>';
+  html += '<div class="screen-body" id="catsBody"></div>';
+  html += '</div>';
+
+  /* DETAIL */
+  html += '<div class="screen" id="s-detail">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">Listing</div></div>';
+  html += '<div class="screen-body" id="detailBody" style="padding:0;"></div>';
+  html += '</div>';
+
+  /* SUPPLIER */
+  html += '<div class="screen" id="s-supplier">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">Seller Profile</div></div>';
+  html += '<div class="screen-body" id="supplierBody" style="padding:0;"></div>';
+  html += '</div>';
+
+  /* DASHBOARD */
+  html += '<div class="screen" id="s-dashboard">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">Seller Dashboard<small>የሻጭ ዳሽቦርድ</small></div></div>';
+  html += '<div class="screen-body" id="dashboardBody"></div>';
+  html += '</div>';
+
+  /* LISTING FORM */
+  html += '<div class="screen" id="s-listing-form">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;" id="lfTitle">Add Listing</div></div>';
+  html += '<div class="screen-body" id="lfBody"></div>';
+  html += '</div>';
+
+  /* MY ORDERS */
+  html += '<div class="screen" id="s-myorders">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">My Orders<small>የእኔ ትዕዛዞች</small></div></div>';
+  html += '<div class="screen-body" id="myordersBody"></div>';
+  html += '</div>';
+
+  /* WALLET */
+  html += '<div class="screen" id="s-wallet">';
+  html += '<div class="topbar"><div class="brand">My Wallet<small>የኪስ ቦርሳ</small></div><div class="lang">1 ሳንቲም = 10 ብር</div></div>';
+  html += '<div class="screen-body" id="walletBody"></div>';
+  html += '<div class="bottomnav">';
+  html += '<div data-target="s-home" onclick="go(\'s-home\')"><span class="ico">🏠</span>Home</div>';
+  html += '<div data-target="s-search" onclick="go(\'s-search\')"><span class="ico">🔍</span>Search</div>';
+  html += '<div data-target="s-categories" onclick="go(\'s-categories\')"><span class="ico">📂</span>Categories</div>';
+  html += '<div data-target="s-wallet" onclick="go(\'s-wallet\')"><span class="ico">💰</span>Wallet</div>';
+  html += '<div data-target="s-profile" onclick="go(\'s-profile\')"><span class="ico">👤</span>Profile</div>';
+  html += '</div></div>';
+
+  /* PROFILE */
+  html += '<div class="screen" id="s-profile">';
+  html += '<div class="topbar"><div class="brand">Profile<small>መገለጫ</small></div><div class="lang" onclick="logout()">Logout</div></div>';
+  html += '<div class="screen-body" id="profileBody"></div>';
+  html += '<div class="bottomnav">';
+  html += '<div data-target="s-home" onclick="go(\'s-home\')"><span class="ico">🏠</span>Home</div>';
+  html += '<div data-target="s-search" onclick="go(\'s-search\')"><span class="ico">🔍</span>Search</div>';
+  html += '<div data-target="s-categories" onclick="go(\'s-categories\')"><span class="ico">📂</span>Categories</div>';
+  html += '<div data-target="s-wallet" onclick="go(\'s-wallet\')"><span class="ico">💰</span>Wallet</div>';
+  html += '<div data-target="s-profile" onclick="go(\'s-profile\')"><span class="ico">👤</span>Profile</div>';
+  html += '</div></div>';
+
+  /* ADMIN */
+  html += '<div class="screen" id="s-admin">';
+  html += '<div class="admin-head"><div>🛡️ Admin Control</div><div class="phone">+251920353460</div></div>';
+  html += '<div class="screen-body" id="adminBody"></div>';
+  html += '</div>';
+
+  html += '<div class="screen" id="s-admin-sellers">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">Manage Sellers</div></div>';
+  html += '<div class="screen-body" id="adminSellersBody"></div>';
+  html += '</div>';
+
+  html += '<div class="screen" id="s-admin-coins">';
+  html += '<div class="topbar back-only"><button class="back-btn" onclick="back()">←</button><div class="brand" style="flex:1;">Coin Requests</div></div>';
+  html += '<div class="screen-body" id="adminCoinsBody"></div>';
+  html += '</div>';
+
+  app.innerHTML = html;
+
+  /* ============================================================
+     LOGIN / LOGOUT
+     ============================================================ */
+  function doLogin(){
+    var phone = document.getElementById('loginPhone').value.trim();
+    var name = document.getElementById('loginName').value.trim();
+    var role = document.getElementById('loginRole').value;
+    if(!phone){ toast('Enter a phone number'); return; }
+    var norm = phone.charAt(0) === '+' ? phone : ('+' + phone.replace(/\D/g,''));
+    var users = get('users',[]);
+    var u = users.find(function(x){return x.phone === norm;});
+    if(!u){
+      if(!name){ toast('Enter your full name to register'); return; }
+      var isAdmin = norm === ADMIN_PHONE;
+      u = { id: uid('u'), name:name, phone:norm, role: isAdmin?'admin':role, city:'Addis Ababa', region:'Addis Ababa', coins: isAdmin?100000:0 };
+      users.push(u);
+      set('users', users);
+      if(u.role === 'seller'){
+        var sellers = get('sellers',[]);
+        var sid = uid('s');
+        sellers.push({ id:sid, name:u.name, phone:u.phone, city:u.city, region:u.region, size:'Individual', type:'Product Seller', status:'pending', icon:'🏪', rating:0, orders:0 });
+        set('sellers', sellers);
+        u.sellerId = sid;
+        updateUser(u);
+      }
+      toast('Welcome, ' + name + '!');
+    } else {
+      toast('Welcome back, ' + u.name + '!');
+    }
+    if(norm === ADMIN_PHONE && u.role !== 'admin'){ u.role='admin'; updateUser(u); }
+    set('session', { userId: u.id, loggedInAt: Date.now() });
+    if(u.role === 'admin') go('s-admin', true);
+    else go('s-home', true);
   }
   window.doLogin = doLogin;
 
-  function logout() {
-    session = null;
-    document.getElementById('phone').value = '';
-    document.getElementById('name').value = '';
-    go('s-login');
+  function logout(){
+    if(!confirm('Log out?')) return;
+    set('session', null);
+    backStack = [];
+    go('s-login', true);
   }
   window.logout = logout;
 
-  /* ---------- RENDER HOME ---------- */
-  function renderHome(filter) {
-    var list = filter ? listings.filter(function(l){ return l.cat === filter; }) : listings;
-
-    var html = '';
-    html += '<input class="search" placeholder="Search anything… / ማንኛውንም ፈልግ" />';
-
-    html += '<div class="chips">';
-    var chips = [
-      { k: '', t: 'All' },
-      { k: 'Agriculture', t: 'Agriculture' },
-      { k: 'Furniture', t: 'Furniture' },
-      { k: 'Maintenance', t: 'Maintenance' },
-      { k: 'Creative', t: 'Creative' }
-    ];
-    for (var i = 0; i < chips.length; i++) {
-      var c = chips[i];
-      html += '<div class="chip ' + (filter === c.k ? 'active' : '') + '" data-f="' + c.k + '">' + c.t + '</div>';
+  /* ============================================================
+     HOME
+     ============================================================ */
+  function renderHome(){
+    var u = currentUser();
+    if(u){
+      var subEl = document.getElementById('homeSub');
+      var locEl = document.getElementById('homeLoc');
+      if(subEl) subEl.textContent = u.name;
+      if(locEl) locEl.textContent = '📍 ' + u.city;
     }
-    html += '</div>';
+    var sellers = get('sellers',[]).filter(function(s){return s.status==='approved';});
+    var listings = get('listings',[]).filter(function(l){return l.status==='active';});
 
-    html += '<div class="sec">🔥 Featured</div>';
-
-    if (list.length === 0) {
-      html += '<div class="empty"><div class="big">📦</div><p>No listings.</p></div>';
+    var vs = '';
+    if(sellers.length === 0){
+      vs = '<p style="color:#6b7280;font-size:12px;">No sellers yet.</p>';
     } else {
-      for (var j = 0; j < list.length; j++) {
-        var l = list[j];
-        html += '<div class="listing">';
-        html += '<div class="thumb">' + l.icon + '</div>';
-        html += '<div class="info">';
-        html += '<h4>' + l.title + ' <span class="badge">Verified</span></h4>';
-        html += '<div class="meta">📍 ' + l.city + ' · ' + l.cat + '</div>';
-        html += '<div class="price">ETB ' + l.price.toLocaleString() + ' <span style="font-weight:400;color:#6b7280;font-size:10px;">· ' + (l.neg ? 'Negotiable' : 'Fixed') + '</span></div>';
-        html += '</div></div>';
+      for(var i=0;i<Math.min(sellers.length,6);i++){
+        var s = sellers[i];
+        vs += '<div class="verified-seller" onclick="openSupplier(\'' + s.id + '\')">';
+        vs += '<div class="check">✔</div>';
+        vs += '<div class="avatar">' + (s.icon||'🏪') + '</div>';
+        vs += '<div class="name">' + esc(s.name) + '</div>';
+        vs += '<div class="meta">' + esc(s.city) + ' · ' + esc(s.size) + '</div>';
+        vs += '</div>';
       }
     }
 
-    document.getElementById('homeBody').innerHTML = html;
-
-    /* Wire up chips */
-    var chipEls = document.querySelectorAll('.chip');
-    for (var k = 0; k < chipEls.length; k++) {
-      chipEls[k].addEventListener('click', function(){
-        renderHome(this.getAttribute('data-f'));
-      });
+    var ts = '';
+    if(listings.length === 0){
+      ts = '<p style="color:#6b7280;font-size:12px;">No listings yet.</p>';
+    } else {
+      for(var j=0;j<Math.min(listings.length,8);j++){
+        var l = listings[j];
+        ts += '<div class="trend-card" onclick="openDetail(\'' + l.id + '\')">';
+        ts += '<div class="hot">HOT</div>';
+        ts += '<div class="img">' + (l.icon||'📦') + '</div>';
+        ts += '<div class="info"><h5>' + esc(l.title) + '</h5><div class="price">ETB ' + l.price.toLocaleString() + '</div></div>';
+        ts += '</div>';
+      }
     }
+
+    var fs = '';
+    if(listings.length === 0){
+      fs = '<div class="empty"><div class="big">📦</div><p>No listings yet.</p></div>';
+    } else {
+      for(var k=0;k<Math.min(listings.length,6);k++){
+        var ll = listings[k];
+        var ss = sellerById(ll.sellerId);
+        fs += '<div class="listing" onclick="openDetail(\'' + ll.id + '\')">';
+        fs += '<div class="thumb">' + (ll.icon||'📦') + '</div>';
+        fs += '<div class="info">';
+        fs += '<h4>' + esc(ll.title) + (ss && ss.status==='approved' ? ' <span class="badge green">Verified</span>' : '') + '</h4>';
+        fs += '<div class="meta">📍 ' + esc(ll.city) + ' · ' + esc(ll.category) + '</div>';
+        fs += '<div class="price">ETB ' + ll.price.toLocaleString() + ' <small>· ' + (ll.negotiable?'Negotiable':'Fixed') + '</small></div>';
+        fs += '</div></div>';
+      }
+    }
+
+    var body = '';
+    body += '<div class="searchbar"><span class="icon">🔍</span><input placeholder="Search anything… / ማንኛውንም ፈልግ" onkeydown="if(event.key===\'Enter\'){go(\'s-search\');setTimeout(function(){var i=document.getElementById(\'searchInput\');if(i){i.value=this.value;doSearch(i.value);}},100);}" /></div>';
+    body += '<div class="chips" id="homeChips">';
+    body += '<div class="chip active" onclick="filterHome(this,\'\')">All</div>';
+    body += '<div class="chip" onclick="filterHome(this,\'product\')">Products</div>';
+    body += '<div class="chip" onclick="filterHome(this,\'service\')">Services</div>';
+    body += '<div class="chip" onclick="filterHome(this,\'manufacturing\')">Manufacturing</div>';
+    body += '<div class="chip" onclick="filterHome(this,\'maintenance\')">Maintenance</div>';
+    body += '<div class="chip" onclick="filterHome(this,\'skill\')">Creative</div>';
+    body += '</div>';
+    body += '<div class="sec-title"><h3>✔ Verified Sellers</h3><a onclick="go(\'s-search\')">See all</a></div>';
+    body += '<div class="verified-strip">' + vs + '</div>';
+    body += '<div class="sec-title"><h3>🔥 Trending Now</h3><a onclick="go(\'s-search\')">See all</a></div>';
+    body += '<div class="trending-strip">' + ts + '</div>';
+    body += '<div class="rfq"><h4>📢 Need Something?</h4><p>Post a request — sellers will respond with offers.</p><button class="btn btn-yellow" onclick="toast(\'Service request posted! (demo)\')">Request a Service / ጥያቄ አቅርብ</button></div>';
+    body += '<div class="sec-title"><h3>Featured / ተመራጭ</h3><a onclick="go(\'s-search\')">See all</a></div>';
+    body += '<div id="homeListings">' + fs + '</div>';
+
+    document.getElementById('homeBody').innerHTML = body;
   }
+  window.renderHome = renderHome;
+
+  function filterHome(chip, type){
+    var chips = document.querySelectorAll('#homeChips .chip');
+    for(var i=0;i<chips.length;i++) chips[i].classList.remove('active');
+    chip.classList.add('active');
+    var listings = get('listings',[]).filter(function(l){
+      if(l.status !== 'active') return false;
+      if(!type) return true;
+      if(l.type === type) return true;
+      if(l.category.toLowerCase().indexOf(type.toLowerCase()) >= 0) return true;
+      return false;
+    });
+    var html = '';
+    if(listings.length === 0){
+      html = '<div class="empty"><div class="big">🔍</div><p>No listings in this category.</p></div>';
+    } else {
+      for(var i=0;i<listings.length;i++){
+        var l = listings[i];
+        var s = sellerById(l.sellerId);
+        html += '<div class="listing" onclick="openDetail(\'' + l.id + '\')">';
+        html += '<div class="thumb">' + (l.icon||'📦') + '</div>';
+        html += '<div class="info"><h4>' + esc(l.title) + (s && s.status==='approved' ? ' <span class="badge green">Verified</span>' : '') + '</h4>';
+        html += '<div class="meta">📍 ' + esc(l.city) + ' · ' + esc(l.category) + '</div>';
+        html += '<div class="price">ETB ' + l.price.toLocaleString() + '</div></div></div>';
+      }
+    }
+    document.getElementById('homeListings').innerHTML = html;
+  }
+  window.filterHome = filterHome;
+
+  /* ============================================================
+     SEARCH
+     ============================================================ */
+  var searchState = { q:'', region:'', city:'', size:'', type:'', category:'' };
+
+  var CATEGORIES = {
+    '🛒 Products': ['Agriculture Products','Food & Beverages','Clothing & Textiles','Shoes & Leather','Electronics & Phones','Home Appliances','Furniture','Construction Materials','Beauty & Cosmetics','Health Products','Books & Stationery','Vehicles & Spare Parts','Handicrafts & Cultural'],
+    '🚚 Services': ['Transportation','Delivery','Cleaning','Security','Events','Catering','Tourism & Travel','Rental Services'],
+    '🏭 Manufacturing': ['Small-scale Manufacturing','Factory Products','Furniture Manufacturing','Metal Works','Wood Works','Plastic Products','Textile Manufacturing','Food Processing'],
+    '🔧 Maintenance & Technical': ['Electrical','Plumbing','Phone Repair','Computer Repair','Machinery Maintenance','Vehicle Maintenance','Construction Maintenance'],
+    '💼 Professional Services': ['Legal','Accounting','Audit','Consulting','Architecture','Engineering','Health Services','Education & Tutoring','IT & Software'],
+    '🎨 Creative & Knowledge': ['Graphic Design','Photography','Videography','Content Creation','Music','Art','Writing','Translation','Training','Coaching','Digital Products','Business Ideas','Online Knowledge Sharing']
+  };
+
+  var REGIONS = ['Addis Ababa','Oromia','Amhara','Tigray','Sidama','SNNPR','Somali','Afar','Benishangul-Gumuz','Gambella'];
+  var CITIES = ['Addis Ababa','Adama','Bishoftu','Hawassa','Bahir Dar','Gondar','Dessie','Mekelle','Jimma','Dire Dawa','Harar','Jijiga','Shashemene','Arba Minch'];
+  var SIZES = ['Individual','Freelancer','Micro Business','Small Business','Medium Enterprise','Large Enterprise','Cooperative','Startup'];
+  var TYPES = ['Product Seller','Service Provider','Manufacturer','Technician','Professional','Creator'];
+
+  function renderSearch(){
+    var html = '';
+    html += '<div class="searchbar" style="margin-bottom:12px;"><span class="icon">🔍</span><input id="searchInput" placeholder="Search listings…" oninput="doSearch(this.value)" value="' + esc(searchState.q) + '" /></div>';
+
+    html += '<div class="field"><label>Region</label><select onchange="searchState.region=this.value;applyFilters()"><option value="">All Regions</option>';
+    for(var i=0;i<REGIONS.length;i++) html += '<option ' + (searchState.region===REGIONS[i]?'selected':'') + '>' + REGIONS[i] + '</option>';
+    html += '</select></div>';
+
+    html += '<div class="field"><label>City</label><select onchange="searchState.city=this.value;applyFilters()"><option value="">All Cities</option>';
+    for(var j=0;j<CITIES.length;j++) html += '<option ' + (searchState.city===CITIES[j]?'selected':'') + '>' + CITIES[j] + '</option>';
+    html += '</select></div>';
+
+    html += '<div class="field"><label>Business Size</label><select onchange="searchState.size=this.value;applyFilters()"><option value="">All Sizes</option>';
+    for(var k=0;k<SIZES.length;k++) html += '<option ' + (searchState.size===SIZES[k]?'selected':'') + '>' + SIZES[k] + '</option>';
+    html += '</select></div>';
+
+    html += '<div class="field"><label>Business Type</label><select onchange="searchState.type=this.value;applyFilters()"><option value="">All Types</option>';
+    for(var m=0;m<TYPES.length;m++) html += '<option ' + (searchState.type===TYPES[m]?'selected':'') + '>' + TYPES[m] + '</option>';
+    html += '</select></div>';
+
+    var flatCats = [];
+    for(var group in CATEGORIES){ flatCats = flatCats.concat(CATEGORIES[group]); }
+    html += '<div class="field"><label>Category</label><select onchange="searchState.category=this.value;applyFilters()"><option value="">All Categories</option>';
+    for(var n=0;n<flatCats.length;n++) html += '<option ' + (searchState.category===flatCats[n]?'selected':'') + '>' + flatCats[n] + '</option>';
+    html += '</select></div>';
+
+    html += '<div class="btn-row"><button class="btn btn-outline" onclick="clearFilters()">Reset</button><button class="btn btn-primary" onclick="applyFilters()">Apply</button></div>';
+    html += '<div class="sec-title" style="margin-top:16px;"><h3 id="resultCount">Results</h3></div>';
+    html += '<div id="searchResults"></div>';
+
+    document.getElementById('searchBody').innerHTML = html;
+    applyFilters();
+  }
+  window.renderSearch = renderSearch;
+
+  function doSearch(q){ searchState.q = q; applyFilters(); }
+  window.doSearch = doSearch;
+
+  function applyFilters(){
+    var listings = get('listings',[]).filter(function(l){ return l.status === 'active'; });
+    var sellers = get('sellers',[]);
+    var filtered = listings.filter(function(l){
+      if(searchState.q){
+        var q = searchState.q.toLowerCase();
+        var hit = l.title.toLowerCase().indexOf(q) >= 0 || l.category.toLowerCase().indexOf(q) >= 0 || (l.description||'').toLowerCase().indexOf(q) >= 0;
+        if(!hit) return false;
+      }
+      if(searchState.city && l.city !== searchState.city) return false;
+      if(searchState.region && l.region !== searchState.region) return false;
+      if(searchState.category && l.category !== searchState.category) return false;
+      if(searchState.size || searchState.type){
+        var s = sellers.find(function(x){ return x.id === l.sellerId; });
+        if(!s) return false;
+        if(searchState.size && s.size !== searchState.size) return false;
+        if(searchState.type && s.type !== searchState.type) return false;
+      }
+      return true;
+    });
+
+    var countEl = document.getElementById('resultCount');
+    var resEl = document.getElementById('searchResults');
+    if(countEl) countEl.textContent = 'Results (' + filtered.length + ')';
+    if(!resEl) return;
+
+    if(filtered.length === 0){
+      resEl.innerHTML = '<div class="empty"><div class="big">🔍</div><p>No listings match.</p></div>';
+      return;
+    }
+    var h = '';
+    for(var i=0;i<filtered.length;i++){
+      var l = filtered[i];
+      var s = sellerById(l.sellerId);
+      h += '<div class="listing" onclick="openDetail(\'' + l.id + '\')">';
+      h += '<div class="thumb">' + (l.icon||'📦') + '</div>';
+      h += '<div class="info"><h4>' + esc(l.title) + (s && s.status==='approved' ? ' <span class="badge green">Verified</span>' : '') + '</h4>';
+      h += '<div class="meta">📍 ' + esc(l.city) + ' · ' + esc(l.category) + '</div>';
+      h += '<div class="price">ETB ' + l.price.toLocaleString() + '</div></div></div>';
+    }
+    resEl.innerHTML = h;
+  }
+  window.applyFilters = applyFilters;
+
+  function clearFilters(){
+    searchState = { q:'', region:'', city:'', size:'', type:'', category:'' };
+    renderSearch();
+  }
+  window.clearFilters = clearFilters;
+
+  /* ============================================================
+     CATEGORIES
+     ============================================================ */
+  function renderCategories(){
+    var html = '<div class="megamenu">';
+    var i = 0;
+    for(var group in CATEGORIES){
+      html += '<details ' + (i===0?'open':'') + '>';
+      html += '<summary>' + group + '</summary><div class="sub">';
+      var items = CATEGORIES[group];
+      for(var j=0;j<items.length;j++){
+        html += '<a onclick="selectCategory(\'' + items[j].replace(/'/g,"\\'") + '\')">' + esc(items[j]) + '</a>';
+      }
+      html += '</div></details>';
+      i++;
+    }
+    html += '</div>';
+    document.getElementById('catsBody').innerHTML = html;
+  }
+  window.renderCategories = renderCategories;
+
+  function selectCategory(cat){
+    searchState = { q:'', region:'', city:'', size:'', type:'', category:cat };
+    go('s-search');
+  }
+  window.selectCategory = selectCategory;
+
+  /* ============================================================
+     DETAIL
+     ============================================================ */
+  var currentListingId = null;
+  var currentSupplierId = null;
+
+  function openDetail(id){
+    currentListingId = id;
+    var l = listingById(id);
+    if(!l) return;
+    var s = sellerById(l.sellerId);
+    var u = currentUser();
+    var body = '';
+    body += '<div class="detail-hero">' + (l.icon||'📦') + '</div>';
+    body += '<div style="padding:16px;">';
+    body += '<h2 style="font-size:17px;">' + esc(l.title) + '</h2>';
+    body += '<p style="color:#6b7280;font-size:11.5px;margin-top:3px;">📍 ' + esc(l.city) + ', ' + esc(l.region) + ' · ' + esc(l.category) + '</p>';
+    body += '<div style="margin-top:10px;display:flex;align-items:center;gap:8px;">';
+    body += '<div style="font-size:20px;font-weight:800;color:#078930;">ETB ' + l.price.toLocaleString() + '</div>';
+    body += '<span class="badge">' + (l.negotiable?'Negotiable':'Fixed') + '</span></div>';
+    body += '<div class="card" style="margin-top:12px;"><h4>Description</h4><p style="font-size:12px;color:#374151;">' + esc(l.description) + '</p></div>';
+    body += '<div class="card" onclick="openSupplier(\'' + s.id + '\')" style="cursor:pointer;"><h4>Seller / ሻጭ' + (s.status==='approved'?' <span class="badge green">✔ Verified</span>':'') + '</h4>';
+    body += '<div class="row"><span>Name</span><span>' + esc(s.name) + '</span></div>';
+    body += '<div class="row"><span>Size</span><span>' + esc(s.size) + '</span></div>';
+    body += '<div class="row"><span>Type</span><span>' + esc(s.type) + '</span></div>';
+    body += '<div class="row"><span>Location</span><span>' + esc(s.city) + ', ' + esc(s.region) + '</span></div></div>';
+    body += '<div class="btn-row"><button class="btn btn-outline" onclick="toast(\'Calling ' + esc(s.phone) + '\')">📞 Call</button><button class="btn btn-primary" onclick="toast(\'Message sent (demo)\')">💬 Message</button></div>';
+    body += '<button class="btn btn-yellow" style="margin-top:8px;" onclick="openOrderForm()">🛒 Place Order</button>';
+    if(u && u.sellerId === s.id){
+      body += '<button class="btn btn-red" style="margin-top:8px;" onclick="deleteListing(\'' + l.id + '\')">🗑 Delete Listing</button>';
+    }
+    body += '</div>';
+    document.getElementById('detailBody').innerHTML = body;
+    go('s-detail');
+  }
+  window.openDetail = openDetail;
+
+  function deleteListing(id){
+    if(!confirm('Delete this listing?')) return;
+    var arr = get('listings',[]).filter(function(l){ return l.id !== id; });
+    set('listings', arr);
+    toast('Listing deleted');
+    back();
+  }
+  window.deleteListing = deleteListing;
+
+  /* ============================================================
+     ORDER
+     ============================================================ */
+  function openOrderForm(){
+    var u = currentUser();
+    if(!u){ toast('Please log in'); go('s-login'); return; }
+    var l = listingById(currentListingId);
+    if(!l) return;
+    var s = sellerById(l.sellerId);
+
+    var modal = document.createElement('div');
+    modal.className = 'modal-back';
+    var m = '';
+    m += '<div class="modal-box">';
+    m += '<h3 style="margin-bottom:12px;">Place Order</h3>';
+    m += '<div class="card"><div class="row"><span>Listing</span><span>' + esc(l.title) + '</span></div><div class="row"><span>Price</span><span>ETB ' + l.price.toLocaleString() + '</span></div><div class="row"><span>Seller</span><span>' + esc(s.name) + '</span></div></div>';
+    m += '<div class="field"><label>Quantity</label><input id="orderQty" type="number" value="1" min="1" /></div>';
+    m += '<div class="field"><label>Order Type</label><select id="orderType"><option>Cash on Delivery</option><option>Buyer Pickup</option><option>Seller Delivery</option><option>Negotiated Delivery</option></select></div>';
+    m += '<div class="field"><label>Notes (optional)</label><textarea id="orderNotes" placeholder="Any special instructions…"></textarea></div>';
+    m += '<div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="confirmOrder()">Place Order</button></div>';
+    m += '</div>';
+    modal.innerHTML = m;
+    document.body.appendChild(modal);
+  }
+  window.openOrderForm = openOrderForm;
+
+  function confirmOrder(){
+    var u = currentUser();
+    var l = listingById(currentListingId);
+    if(!u || !l) return;
+    var s = sellerById(l.sellerId);
+    var qty = parseInt(document.getElementById('orderQty').value, 10) || 1;
+    var type = document.getElementById('orderType').value;
+    var notes = document.getElementById('orderNotes').value;
+    var order = {
+      id: uid('o'),
+      buyerId: u.id, buyerName: u.name, buyerPhone: u.phone,
+      sellerId: s.id, sellerName: s.name,
+      listingId: l.id, listingTitle: l.title,
+      qty: qty, type: type, notes: notes,
+      total: l.price * qty,
+      status: 'Pending', date: Date.now()
+    };
+    var orders = get('orders',[]);
+    orders.push(order);
+    set('orders', orders);
+    closeModal();
+    toast('✅ Order placed!');
+    go('s-myorders');
+  }
+  window.confirmOrder = confirmOrder;
+
+  /* ============================================================
+     MY ORDERS
+     ============================================================ */
+  function renderMyOrders(){
+    var u = currentUser();
+    var el = document.getElementById('myordersBody');
+    if(!u){ el.innerHTML = '<div class="empty">Please log in.</div>'; return; }
+    var orders = get('orders',[]);
+    var asBuyer = orders.filter(function(o){ return o.buyerId === u.id; });
+    var asSeller = orders.filter(function(o){ return o.sellerId === u.sellerId; });
+
+    var h = '';
+    h += '<div class="sec-title"><h3>📥 As Buyer</h3></div>';
+    if(asBuyer.length === 0) h += '<div class="empty"><div class="big">🛒</div><p>No orders yet.</p></div>';
+    else for(var i=0;i<asBuyer.length;i++) h += orderCard(asBuyer[i], 'buyer');
+
+    h += '<div class="sec-title"><h3>📤 As Seller</h3></div>';
+    if(asSeller.length === 0) h += '<div class="empty"><div class="big">📦</div><p>No incoming orders.</p></div>';
+    else for(var j=0;j<asSeller.length;j++) h += orderCard(asSeller[j], 'seller');
+
+    el.innerHTML = h;
+  }
+  window.renderMyOrders = renderMyOrders;
+
+  function orderCard(o, perspective){
+    var cls = 'badge';
+    if(o.status === 'Pending') cls = 'badge red';
+    else if(o.status === 'Confirmed') cls = 'badge blue';
+    else if(o.status === 'Delivered') cls = 'badge green';
+    else if(o.status === 'Cancelled') cls = 'badge red';
+
+    var h = '';
+    h += '<div class="card">';
+    h += '<div class="row"><span><b>' + esc(o.listingTitle) + '</b></span><span class="' + cls + '">' + o.status + '</span></div>';
+    h += '<div class="row"><span>' + (perspective==='buyer'?'Seller':'Buyer') + '</span><span>' + esc(perspective==='buyer'?o.sellerName:o.buyerName) + '</span></div>';
+    h += '<div class="row"><span>Qty</span><span>' + o.qty + '</span></div>';
+    h += '<div class="row"><span>Type</span><span>' + esc(o.type) + '</span></div>';
+    h += '<div class="row"><span>Total</span><span><b style="color:#078930;">ETB ' + o.total.toLocaleString() + '</b></span></div>';
+    h += '<div class="row"><span>Date</span><span>' + new Date(o.date).toLocaleDateString() + '</span></div>';
+
+    if(perspective === 'seller' && o.status === 'Pending'){
+      h += '<div class="btn-row"><button class="btn btn-outline btn-sm" style="flex:1;" onclick="updateOrder(\'' + o.id + '\',\'Cancelled\')">Cancel</button><button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder(\'' + o.id + '\',\'Confirmed\')">Confirm</button></div>';
+    } else if(perspective === 'seller' && o.status === 'Confirmed'){
+      h += '<div class="btn-row"><button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder(\'' + o.id + '\',\'Shipped\')">Mark Shipped</button></div>';
+    } else if(perspective === 'buyer' && o.status === 'Shipped'){
+      h += '<div class="btn-row"><button class="btn btn-primary btn-sm" style="flex:1;" onclick="updateOrder(\'' + o.id + '\',\'Delivered\')">Mark Delivered</button></div>';
+    }
+    h += '</div>';
+    return h;
+  }
+
+  function updateOrder(id, status){
+    var orders = get('orders',[]);
+    var o = orders.find(function(x){ return x.id === id; });
+    if(!o) return;
+    o.status = status;
+    set('orders', orders);
+    toast('Order ' + status);
+    renderMyOrders();
+  }
+  window.updateOrder = updateOrder;
+
+  /* ============================================================
+     SUPPLIER
+     ============================================================ */
+  function openSupplier(id){
+    currentSupplierId = id;
+    var s = sellerById(id);
+    if(!s) return;
+    var listings = get('listings',[]).filter(function(l){ return l.sellerId === id && l.status === 'active'; });
+
+    var h = '';
+    h += '<div class="supplier-hero">';
+    h += '<div class="avatar">' + (s.icon||'🏪') + '</div>';
+    h += '<h3>' + esc(s.name) + '</h3>';
+    h += '<p>' + esc(s.city) + ', ' + esc(s.region) + '</p>';
+    h += '<div class="verif">' + (s.status==='approved'?'✔ Verified':'⏳ Pending') + ' · ' + esc(s.size) + '</div>';
+    h += '</div>';
+    h += '<div class="stat-grid">';
+    h += '<div class="stat"><b>' + (s.rating||'—') + '★</b><span>Rating</span></div>';
+    h += '<div class="stat"><b>' + s.orders + '</b><span>Orders</span></div>';
+    h += '<div class="stat"><b>' + listings.length + '</b><span>Listings</span></div>';
+    h += '</div>';
+    h += '<div style="padding:0 16px 16px;">';
+    h += '<div class="card"><h4>Business Info</h4>';
+    h += '<div class="row"><span>Size</span><span>' + esc(s.size) + '</span></div>';
+    h += '<div class="row"><span>Type</span><span>' + esc(s.type) + '</span></div>';
+    h += '<div class="row"><span>Phone</span><span>' + esc(s.phone) + '</span></div></div>';
+    h += '<div class="btn-row"><button class="btn btn-outline" onclick="toast(\'Calling ' + esc(s.phone) + '\')">📞 Call</button><button class="btn btn-primary" onclick="toast(\'Message sent\')">💬 Message</button></div>';
+    h += '<div class="sec-title"><h3>Their Listings</h3></div>';
+    if(listings.length === 0) h += '<div class="empty"><p>No listings yet.</p></div>';
+    else for(var i=0;i<listings.length;i++){
+      var l = listings[i];
+      h += '<div class="listing" onclick="openDetail(\'' + l.id + '\')"><div class="thumb">' + (l.icon||'📦') + '</div><div class="info"><h4>' + esc(l.title) + '</h4><div class="meta">📍 ' + esc(l.city) + '</div><div class="price">ETB ' + l.price.toLocaleString() + '</div></div></div>';
+    }
+    h += '</div>';
+
+    document.getElementById('supplierBody').innerHTML = h;
+    go('s-supplier');
+  }
+  window.openSupplier = openSupplier;
+
+  /* ============================================================
+     SELLER DASHBOARD
+     ============================================================ */
+  function renderDashboard(){
+    var u = currentUser();
+    var el = document.getElementById('dashboardBody');
+    if(!u || !u.sellerId){
+      el.innerHTML = '<div class="empty"><div class="big">🏪</div><p>You are not a seller yet.</p><button class="btn btn-primary" style="margin-top:12px;" onclick="becomeSeller()">Become a Seller</button></div>';
+      return;
+    }
+    var s = sellerById(u.sellerId);
+    if(!s){ el.innerHTML = '<div class="empty"><p>Seller record missing.</p></div>'; return; }
+    var listings = get('listings',[]).filter(function(l){ return l.sellerId === s.id; });
+    var orders = get('orders',[]).filter(function(o){ return o.sellerId === s.id; });
+    var pending = orders.filter(function(o){ return o.status === 'Pending'; }).length;
+
+    var h = '';
+    h += '<div class="card" style="background:#e8f5ec;border-color:#b8e0c4;">';
+    h += '<div class="row"><span>My Listings</span><span><b>' + listings.filter(function(l){return l.status==='active';}).length + ' active</b></span></div>';
+    h += '<div class="row"><span>New Orders</span><span><b style="color:#DA121A;">' + pending + ' pending</b></span></div>';
+    h += '<div class="row"><span>Status</span><span>' + (s.status==='approved' ? '<b style="color:#078930;">✔ Approved</b>' : '<b style="color:#92680a;">⏳ Pending</b>') + '</span></div>';
+    h += '</div>';
+    h += '<button class="btn btn-primary" style="margin-bottom:12px;" onclick="openListingForm()">➕ Add New Listing</button>';
+    h += '<div class="sec-title"><h3>My Listings (' + listings.length + ')</h3></div>';
+    if(listings.length === 0){
+      h += '<div class="empty"><p>No listings yet. Add your first!</p></div>';
+    } else {
+      for(var i=0;i<listings.length;i++){
+        var l = listings[i];
+        h += '<div class="card">';
+        h += '<div class="row"><span><b>' + esc(l.title) + '</b></span><span>' + l.status + '</span></div>';
+        h += '<div class="row"><span>Price</span><span>ETB ' + l.price.toLocaleString() + '</span></div>';
+        h += '<div class="row"><span>Category</span><span>' + esc(l.category) + '</span></div>';
+        h += '<div class="btn-row"><button class="btn btn-outline btn-sm" style="flex:1;" onclick="openListingForm(\'' + l.id + '\')">Edit</button><button class="btn btn-red btn-sm" style="flex:1;" onclick="deleteListing(\'' + l.id + '\');renderDashboard();">Delete</button></div>';
+        h += '</div>';
+      }
+    }
+    h += '<div class="sec-title"><h3>Incoming Orders</h3></div>';
+    if(orders.length === 0) h += '<div class="empty"><p>No orders yet.</p></div>';
+    else for(var j=0;j<orders.length;j++) h += orderCard(orders[j], 'seller');
+
+    el.innerHTML = h;
+  }
+  window.renderDashboard = renderDashboard;
+
+  function becomeSeller(){
+    var u = currentUser();
+    if(!u) return;
+    if(u.sellerId) return;
+    var sellers = get('sellers',[]);
+    var sid = uid('s');
+    sellers.push({ id:sid, name:u.name, phone:u.phone, city:u.city, region:u.region, size:'Individual', type:'Product Seller', status:'pending', icon:'🏪', rating:0, orders:0 });
+    set('sellers', sellers);
+    u.sellerId = sid;
+    u.role = 'seller';
+    updateUser(u);
+    toast('Seller account created — pending approval');
+    renderDashboard();
+  }
+  window.becomeSeller = becomeSeller;
+
+  /* ============================================================
+     LISTING FORM
+     ============================================================ */
+  var editingListingId = null;
+
+  function openListingForm(id){
+    var u = currentUser();
+    if(!u || !u.sellerId){ toast('Seller account required'); return; }
+    editingListingId = id || null;
+    var l = id ? listingById(id) : null;
+
+    document.getElementById('lfTitle').textContent = l ? 'Edit Listing' : 'Add Listing';
+
+    var flatCats = [];
+    for(var g in CATEGORIES) flatCats = flatCats.concat(CATEGORIES[g]);
+
+    var h = '';
+    h += '<div class="field"><label>Title</label><input id="lfTitleIn" value="' + (l?esc(l.title):'') + '" placeholder="e.g. Organic Teff 100kg" /></div>';
+    h += '<div class="field"><label>Listing Type</label><select id="lfType">';
+    var types = ['product','service','skill','idea','knowledge','manufacturing','maintenance','professional'];
+    for(var i=0;i<types.length;i++) h += '<option value="' + types[i] + '" ' + (l && l.type===types[i]?'selected':'') + '>' + types[i] + '</option>';
+    h += '</select></div>';
+    h += '<div class="field"><label>Category</label><select id="lfCat">';
+    for(var j=0;j<flatCats.length;j++) h += '<option ' + (l && l.category===flatCats[j]?'selected':'') + '>' + flatCats[j] + '</option>';
+    h += '</select></div>';
+    h += '<div class="field"><label>Description</label><textarea id="lfDesc">' + (l?esc(l.description):'') + '</textarea></div>';
+    h += '<div class="field"><label>Price (ETB)</label><input id="lfPrice" type="number" value="' + (l?l.price:'') + '" placeholder="0" /></div>';
+    h += '<div class="field"><label>Negotiable?</label><select id="lfNeg"><option value="true" ' + (l && l.negotiable?'selected':'') + '>Yes</option><option value="false" ' + (l && !l.negotiable?'selected':'') + '>No</option></select></div>';
+    h += '<div class="field"><label>City</label><select id="lfCity">';
+    for(var k=0;k<CITIES.length;k++) h += '<option ' + ((l && l.city===CITIES[k]) || (!l && u.city===CITIES[k]) ? 'selected':'') + '>' + CITIES[k] + '</option>';
+    h += '</select></div>';
+    h += '<div class="field"><label>Icon (emoji)</label><input id="lfIcon" value="' + (l?l.icon:'📦') + '" maxlength="2" /></div>';
+    h += '<button class="btn btn-primary" onclick="saveListing()">' + (l?'Save Changes':'Publish Listing') + '</button>';
+
+    document.getElementById('lfBody').innerHTML = h;
+    go('s-listing-form');
+  }
+  window.openListingForm = openListingForm;
+
+  function saveListing(){
+    var u = currentUser();
+    var title = document.getElementById('lfTitleIn').value.trim();
+    var type = document.getElementById('lfType').value;
+    var category = document.getElementById('lfCat').value;
+    var description = document.getElementById('lfDesc').value.trim();
+    var price = parseFloat(document.getElementById('lfPrice').value) || 0;
+    var negotiable = document.getElementById('lfNeg').value === 'true';
+    var city = document.getElementById('lfCity').value;
+    var icon = document.getElementById('lfIcon').value || '📦';
+
+    if(!title){ toast('Title required'); return; }
+    if(!price){ toast('Price required'); return; }
+
+    var arr = get('listings',[]);
+    if(editingListingId){
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].id === editingListingId){
+          arr[i].title = title; arr[i].type = type; arr[i].category = category;
+          arr[i].description = description; arr[i].price = price;
+          arr[i].negotiable = negotiable; arr[i].city = city; arr[i].icon = icon;
+        }
+      }
+      toast('Listing updated ✅');
+    } else {
+      arr.push({ id:uid('l'), title:title, type:type, category:category, description:description, price:price, negotiable:negotiable, city:city, region:u.region, sellerId:u.sellerId, icon:icon, status:'active', createdAt:Date.now() });
+      toast('Listing published ✅');
+    }
+    set('listings', arr);
+    editingListingId = null;
+    go('s-dashboard');
+  }
+  window.saveListing = saveListing;
+
+  /* ============================================================
+     WALLET
+     ============================================================ */
+  function renderWallet(){
+    var u = currentUser();
+    var el = document.getElementById('walletBody');
+    if(!u){ el.innerHTML = '<div class="empty">Please log in.</div>'; return; }
+    var requests = get('coinRequests',[]).filter(function(r){ return r.userId === u.id; });
+
+    var h = '';
+    h += '<div class="wallet-card"><div class="label">Available Balance</div><div class="amount">' + u.coins.toLocaleString() + ' ሳንቲም</div><div class="rate">≈ ETB ' + (u.coins * COIN_RATE).toLocaleString() + '</div></div>';
+    h += '<button class="btn btn-yellow" style="margin-bottom:8px;" onclick="openBuyCoins()">🪙 Buy Coins</button>';
+    h += '<button class="btn btn-outline" onclick="go(\'s-myorders\')">📦 My Orders</button>';
+    h += '<div class="card" style="margin-top:12px;"><h4>How Coin Purchase Works</h4>';
+    h += '<div class="row"><span>1. Request coins</span><span>→</span></div>';
+    h += '<div class="row"><span>2. Pay via Telebirr / CBE</span><span>→</span></div>';
+    h += '<div class="row"><span>3. Send FT to Admin</span><span>→</span></div>';
+    h += '<div class="row"><span>4. Admin approves</span><span>✔</span></div>';
+    h += '<p style="font-size:10.5px;color:#6b7280;margin-top:8px;">Admin: <b>' + ADMIN_PHONE + '</b></p></div>';
+    h += '<div class="sec-title"><h3>My Coin Requests</h3></div>';
+    if(requests.length === 0) h += '<div class="empty"><p>No requests yet.</p></div>';
+    else for(var i=0;i<requests.length;i++){
+      var r = requests[i];
+      var color = r.status==='approved' ? '#078930' : r.status==='rejected' ? '#DA121A' : '#92680a';
+      h += '<div class="card"><div class="row"><span>Amount</span><span><b>' + r.coins + ' ሳንቲም</b></span></div><div class="row"><span>Paid</span><span>ETB ' + r.etb.toLocaleString() + '</span></div><div class="row"><span>FT</span><span>' + esc(r.ft) + '</span></div><div class="row"><span>Status</span><span style="color:' + color + ';font-weight:700;">' + r.status + '</span></div></div>';
+    }
+    el.innerHTML = h;
+  }
+  window.renderWallet = renderWallet;
+
+  function openBuyCoins(){
+    var modal = document.createElement('div');
+    modal.className = 'modal-back';
+    var m = '';
+    m += '<div class="modal-box">';
+    m += '<h3 style="margin-bottom:12px;">🪙 Buy Coins</h3>';
+    m += '<p style="font-size:12px;color:#6b7280;margin-bottom:12px;">1 Coin = 10 ETB</p>';
+    m += '<div class="field"><label>How many coins?</label><input id="buyCoinsAmt" type="number" placeholder="e.g. 100" oninput="document.getElementById(\'buyEtbAmt\').textContent=(this.value*10||0).toLocaleString()" /></div>';
+    m += '<div class="card" style="background:#fffbeb;border-color:#fde68a;"><div class="row"><span>You pay</span><span><b id="buyEtbAmt">0</b> ETB</span></div></div>';
+    m += '<div class="field"><label>Pay via</label><select id="buyMethod"><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select></div>';
+    m += '<div class="field"><label>FT / Transaction Number</label><input id="buyFT" placeholder="e.g. FT25091612345" /></div>';
+    m += '<div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitCoinRequest()">Submit</button></div>';
+    m += '</div>';
+    modal.innerHTML = m;
+    document.body.appendChild(modal);
+  }
+  window.openBuyCoins = openBuyCoins;
+
+  function submitCoinRequest(){
+    var u = currentUser();
+    var coins = parseInt(document.getElementById('buyCoinsAmt').value, 10) || 0;
+    var ft = document.getElementById('buyFT').value.trim();
+    var method = document.getElementById('buyMethod').value;
+
+    if(coins < 1){ toast('Enter coin amount'); return; }
+    if(!ft){ toast('Enter FT number'); return; }
+
+    var reqs = get('coinRequests',[]);
+    reqs.push({ id: uid('cr'), userId:u.id, userName:u.name, phone:u.phone, coins:coins, etb:coins*COIN_RATE, method:method, ft:ft, status:'pending', date:Date.now() });
+    set('coinRequests', reqs);
+
+    closeModal();
+    toast('✅ Request submitted. Awaiting admin approval.');
+    renderWallet();
+  }
+  window.submitCoinRequest = submitCoinRequest;
+
+  /* ============================================================
+     PROFILE
+     ============================================================ */
+  function renderProfile(){
+    var u = currentUser();
+    var el = document.getElementById('profileBody');
+    if(!u){ el.innerHTML = '<div class="empty">Please log in.</div>'; return; }
+
+    var h = '';
+    h += '<div class="card" style="text-align:center;">';
+    h += '<div style="width:64px;height:64px;border-radius:50%;background:#078930;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin:0 auto 8px;">' + u.name.charAt(0).toUpperCase() + '</div>';
+    h += '<h3>' + esc(u.name) + ' <span class="role-tag ' + u.role + '">' + u.role + '</span></h3>';
+    h += '<p style="font-size:11.5px;color:#6b7280;">' + esc(u.phone) + '</p></div>';
+
+    h += '<div class="card">';
+    h += '<div class="row"><span>👤 Role</span><span>' + u.role + '</span></div>';
+    h += '<div class="row"><span>📍 City</span><span>' + esc(u.city) + '</span></div>';
+    h += '<div class="row"><span>🗺 Region</span><span>' + esc(u.region) + '</span></div>';
+    h += '<div class="row"><span>💰 Coins</span><span>' + u.coins.toLocaleString() + '</span></div>';
+    h += '</div>';
+
+    if(u.role === 'admin'){
+      h += '<button class="btn btn-primary" style="margin-bottom:8px;" onclick="go(\'s-admin\')">🛡️ Open Admin Panel</button>';
+    }
+    if(u.role === 'seller' || u.sellerId){
+      h += '<button class="btn btn-primary" style="margin-bottom:8px;" onclick="go(\'s-dashboard\')">📊 Seller Dashboard</button>';
+    } else {
+      h += '<button class="btn btn-outline" style="margin-bottom:8px;" onclick="becomeSeller()">🏪 Become a Seller</button>';
+    }
+    h += '<button class="btn btn-outline" style="margin-bottom:8px;" onclick="go(\'s-myorders\')">📦 My Orders</button>';
+    h += '<button class="btn btn-red" onclick="logout()">🚪 Logout</button>';
+
+    el.innerHTML = h;
+  }
+  window.renderProfile = renderProfile;
+
+  /* ============================================================
+     ADMIN
+     ============================================================ */
+  function renderAdmin(){
+    var users = get('users',[]);
+    var sellers = get('sellers',[]);
+    var listings = get('listings',[]);
+    var orders = get('orders',[]);
+    var reqs = get('coinRequests',[]);
+    var admin = users.find(function(u){ return u.phone === ADMIN_PHONE; });
+
+    var h = '';
+    h += '<div class="card"><h4>Admin Wallet</h4>';
+    h += '<div class="row"><span>Balance</span><span><b style="color:#078930;">' + (admin?admin.coins.toLocaleString():0) + ' ሳንቲም</b></span></div>';
+    h += '<div class="row"><span>Value</span><span>ETB ' + (admin?(admin.coins*COIN_RATE).toLocaleString():0) + '</span></div></div>';
+
+    h += '<div class="card" style="background:#f8fafc;">';
+    h += '<div class="row"><span>👥 Users</span><span>' + users.length + '</span></div>';
+    h += '<div class="row"><span>🏪 Sellers</span><span>' + sellers.length + '</span></div>';
+    h += '<div class="row"><span>📦 Listings</span><span>' + listings.length + '</span></div>';
+    h += '<div class="row"><span>🧾 Orders</span><span>' + orders.length + '</span></div></div>';
+
+    h += '<div class="sec-title"><h3>Pending Approvals</h3></div>';
+    var pendingSellers = sellers.filter(function(s){ return s.status === 'pending'; }).length;
+    var pendingCoins = reqs.filter(function(r){ return r.status === 'pending'; }).length;
+
+    h += '<div class="card" onclick="go(\'s-admin-sellers\')" style="cursor:pointer;background:#fff7d6;border-color:#fde68a;">';
+    h += '<div class="row"><span>🏪 Seller approvals</span><span><b>' + pendingSellers + '</b> pending →</span></div></div>';
+    h += '<div class="card" onclick="go(\'s-admin-coins\')" style="cursor:pointer;background:#fff7d6;border-color:#fde68a;">';
+    h += '<div class="row"><span>🪙 Coin requests</span><span><b>' + pendingCoins + '</b> pending →</span></div></div>';
+
+    h += '<div class="sec-title"><h3>Quick Tools</h3></div>';
+    h += '<div class="card">';
+    h += '<div class="row" onclick="go(\'s-admin-sellers\')" style="cursor:pointer;"><span>🏪 Manage Sellers</span><span>→</span></div>';
+    h += '<div class="row" onclick="go(\'s-admin-coins\')" style="cursor:pointer;"><span>🪙 Coin Requests</span><span>→</span></div>';
+    h += '<div class="row" onclick="toast(\'Cities management (demo)\')" style="cursor:pointer;"><span>🏙️ Manage Cities</span><span>→</span></div>';
+    h += '<div class="row" onclick="toast(\'Categories management (demo)\')" style="cursor:pointer;"><span>📂 Manage Categories</span><span>→</span></div>';
+    h += '<div class="row" onclick="toast(\'Monitoring (demo)\')" style="cursor:pointer;"><span>📊 Monitor Listings</span><span>→</span></div>';
+    h += '<div class="row" onclick="toast(\'All orders (demo)\')" style="cursor:pointer;"><span>🧾 All Orders</span><span>→</span></div></div>';
+
+    h += '<button class="btn btn-red" style="margin-top:12px;" onclick="logout()">🚪 Logout</button>';
+
+    document.getElementById('adminBody').innerHTML = h;
+  }
+  window.renderAdmin = renderAdmin;
+
+  function renderAdminSellers(){
+    var sellers = get('sellers',[]);
+    var h = '';
+    if(sellers.length === 0) h = '<div class="empty"><p>No sellers.</p></div>';
+    for(var i=0;i<sellers.length;i++){
+      var s = sellers[i];
+      var cls = s.status==='approved' ? 'badge green' : s.status==='pending' ? 'badge red' : 'badge';
+      h += '<div class="card">';
+      h += '<div class="row"><span><b>' + esc(s.name) + '</b></span><span class="' + cls + '">' + s.status + '</span></div>';
+      h += '<div class="row"><span>📞 Phone</span><span>' + esc(s.phone) + '</span></div>';
+      h += '<div class="row"><span>📍 Location</span><span>' + esc(s.city) + ', ' + esc(s.region) + '</span></div>';
+      h += '<div class="row"><span>🏢 Size / Type</span><span>' + esc(s.size) + ' · ' + esc(s.type) + '</span></div>';
+      h += '<div class="btn-row">';
+      if(s.status !== 'approved') h += '<button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveSeller(\'' + s.id + '\')">✔ Approve</button>';
+      if(s.status !== 'blocked') h += '<button class="btn btn-red btn-sm" style="flex:1;" onclick="blockSeller(\'' + s.id + '\')">🚫 Block</button>';
+      else h += '<button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveSeller(\'' + s.id + '\')">Unblock</button>';
+      h += '</div></div>';
+    }
+    document.getElementById('adminSellersBody').innerHTML = h;
+  }
+  window.renderAdminSellers = renderAdminSellers;
+
+  function approveSeller(id){
+    var s = sellerById(id);
+    if(!s) return;
+    s.status = 'approved';
+    updateSeller(s);
+    toast('Seller approved ✅');
+    renderAdminSellers();
+  }
+  window.approveSeller = approveSeller;
+
+  function blockSeller(id){
+    var s = sellerById(id);
+    if(!s) return;
+    s.status = 'blocked';
+    updateSeller(s);
+    toast('Seller blocked');
+    renderAdminSellers();
+  }
+  window.blockSeller = blockSeller;
+
+  function renderAdminCoins(){
+    var reqs = get('coinRequests',[]);
+    var el = document.getElementById('adminCoinsBody');
+    if(reqs.length === 0){ el.innerHTML = '<div class="empty"><div class="big">🪙</div><p>No coin requests yet.</p></div>'; return; }
+    var h = '';
+    for(var i=reqs.length-1;i>=0;i--){
+      var r = reqs[i];
+      var color = r.status==='approved'?'#078930':r.status==='rejected'?'#DA121A':'#92680a';
+      h += '<div class="card">';
+      h += '<div class="row"><span><b>' + esc(r.userName) + '</b></span><span style="color:' + color + ';font-weight:700;">' + r.status + '</span></div>';
+      h += '<div class="row"><span>📞 Phone</span><span>' + esc(r.phone) + '</span></div>';
+      h += '<div class="row"><span>🪙 Requested</span><span>' + r.coins + ' ሳንቲም = ETB ' + r.etb.toLocaleString() + '</span></div>';
+      h += '<div class="row"><span>💳 Method</span><span>' + esc(r.method) + '</span></div>';
+      h += '<div class="row"><span>🧾 FT Number</span><span>' + esc(r.ft) + '</span></div>';
+      if(r.status === 'pending'){
+        h += '<div class="btn-row"><button class="btn btn-red btn-sm" style="flex:1;" onclick="rejectCoin(\'' + r.id + '\')">✖ Reject</button><button class="btn btn-primary btn-sm" style="flex:1;" onclick="approveCoin(\'' + r.id + '\')">✔ Approve</button></div>';
+      }
+      h += '</div>';
+    }
+    el.innerHTML = h;
+  }
+  window.renderAdminCoins = renderAdminCoins;
+
+  function approveCoin(id){
+    var reqs = get('coinRequests',[]);
+    var r = null;
+    for(var i=0;i<reqs.length;i++) if(reqs[i].id === id) r = reqs[i];
+    if(!r || r.status !== 'pending') return;
+
+    var users = get('users',[]);
+    var target = null, admin = null;
+    for(var j=0;j<users.length;j++){
+      if(users[j].id === r.userId) target = users[j];
+      if(users[j].phone === ADMIN_PHONE) admin = users[j];
+    }
+    if(!target || !admin){ toast('User not found'); return; }
+    if(admin.coins < r.coins){ toast('Admin wallet insufficient'); return; }
+
+    admin.coins -= r.coins;
+    target.coins += r.coins;
+    r.status = 'approved';
+    r.approvedAt = Date.now();
+
+    set('users', users);
+    set('coinRequests', reqs);
+
+    toast('✅ Approved — ' + target.name + ' now has ' + target.coins + ' coins');
+    renderAdminCoins();
+  }
+  window.approveCoin = approveCoin;
+
+  function rejectCoin(id){
+    var reqs = get('coinRequests',[]);
+    for(var i=0;i<reqs.length;i++){
+      if(reqs[i].id === id) reqs[i].status = 'rejected';
+    }
+    set('coinRequests', reqs);
+    toast('Request rejected');
+    renderAdminCoins();
+  }
+  window.rejectCoin = rejectCoin;
+
+  /* ============================================================
+     BOOT
+     ============================================================ */
+  (function boot(){
+    var s = me();
+    if(s){
+      var u = currentUser();
+      if(u){
+        if(u.role === 'admin') go('s-admin', true);
+        else go('s-home', true);
+        return;
+      }
+    }
+    go('s-splash', true);
+  })();
 
 })();
 </script>
