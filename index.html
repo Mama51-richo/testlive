@@ -59,7 +59,6 @@
     border-radius: 20px;
     font-size: 11px;
   }
-
   .screen-body { padding: 16px; }
 
   /* SPLASH */
@@ -80,33 +79,22 @@
   }
   .splash h1 { font-size: 26px; margin-bottom: 6px; }
   .splash p { font-size: 13px; opacity: .9; }
-  .splash .stripes {
-    display: flex; gap: 6px; justify-content: center; margin-top: 24px;
-  }
+  .splash .stripes { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
   .splash .stripes span { width: 40px; height: 6px; border-radius: 3px; }
 
-  /* LOGIN */
+  /* FORM */
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
   .field input, .field select, .field textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    font-size: 14px;
-    background: #fafafa;
-    font-family: inherit;
+    width: 100%; padding: 12px 14px;
+    border: 1px solid var(--line); border-radius: 12px;
+    font-size: 14px; background: #fafafa; font-family: inherit;
   }
   .btn {
-    display: block;
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
+    display: block; width: 100%; padding: 13px;
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
   }
   .btn-primary { background: var(--green); color: #fff; }
   .btn-outline { background: #fff; color: var(--green); border: 2px solid var(--green); }
@@ -118,56 +106,34 @@
 
   /* SEARCH */
   .searchbar {
-    display: flex;
-    gap: 8px;
-    background: #fff;
-    padding: 8px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    align-items: center;
+    display: flex; gap: 8px; background: #fff;
+    padding: 8px 12px; border-radius: 14px;
+    border: 1px solid var(--line); align-items: center;
   }
-  .searchbar input {
-    flex: 1; border: none; outline: none; font-size: 14px;
-    background: transparent; font-family: inherit;
-  }
+  .searchbar input { flex: 1; border: none; outline: none; font-size: 14px; background: transparent; font-family: inherit; }
   .searchbar .icon { color: var(--muted); font-size: 16px; }
 
   /* CHIPS */
-  .chips {
-    display: flex; gap: 8px; overflow-x: auto;
-    padding: 10px 0; margin-top: 10px;
-    scrollbar-width: none;
-  }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-top: 10px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
   .chip {
-    flex: 0 0 auto;
-    padding: 7px 14px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    white-space: nowrap;
+    flex: 0 0 auto; padding: 7px 14px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 20px; font-size: 12px; font-weight: 600;
+    color: var(--ink); white-space: nowrap;
   }
   .chip.active { background: var(--green); color: #fff; border-color: var(--green); }
 
   /* SECTION TITLE */
-  .sec-title {
-    display: flex; justify-content: space-between; align-items: center;
-    margin: 18px 0 10px;
-  }
+  .sec-title { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 10px; }
   .sec-title h3 { font-size: 15px; }
   .sec-title a { font-size: 12px; color: var(--green); font-weight: 600; text-decoration: none; }
 
   /* LISTING CARD */
   .listing {
     display: flex; gap: 10px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 10px;
-    margin-bottom: 10px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 14px; padding: 10px; margin-bottom: 10px;
   }
   .listing .thumb {
     width: 78px; height: 78px;
@@ -182,48 +148,28 @@
   .listing .price { font-size: 14px; font-weight: 800; color: var(--green); }
   .listing .price small { font-weight: 400; color: var(--muted); font-size: 10px; }
   .badge {
-    display: inline-block;
-    background: var(--yellow);
-    color: #1a1a1a;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-left: 6px;
+    display: inline-block; background: var(--yellow); color: #1a1a1a;
+    font-size: 10px; font-weight: 700; padding: 2px 8px;
+    border-radius: 20px; margin-left: 6px;
   }
   .badge.green { background: #d1f2da; color: var(--green); }
   .badge.red { background: #fde0e2; color: var(--red); }
+  .badge.blue { background: #dbeafe; color: #1e40af; }
 
   /* BOTTOM NAV */
-  .bottomnav {
-    display: flex;
-    border-top: 1px solid var(--line);
-    background: #fff;
-  }
-  .bottomnav div {
-    flex: 1;
-    text-align: center;
-    padding: 10px 4px;
-    font-size: 10px;
-    color: var(--muted);
-  }
+  .bottomnav { display: flex; border-top: 1px solid var(--line); background: #fff; }
+  .bottomnav div { flex: 1; text-align: center; padding: 10px 4px; font-size: 10px; color: var(--muted); }
   .bottomnav div.active { color: var(--green); font-weight: 700; }
   .bottomnav div .ico { font-size: 18px; display: block; margin-bottom: 2px; }
 
   /* CARD */
-  .card {
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 12px;
-  }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
   .card h4 { font-size: 14px; margin-bottom: 8px; }
   .row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
   .row:last-child { border-bottom: none; }
   .row span:last-child { color: var(--muted); }
 
-  /* FILTER SECTION */
+  /* FILTER */
   .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .filter-grid .field { margin-bottom: 0; }
 
@@ -238,32 +184,146 @@
   /* WALLET */
   .wallet-card {
     background: linear-gradient(135deg, var(--green), #046b25);
-    color: #fff;
-    border-radius: 18px;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 14px;
+    color: #fff; border-radius: 18px;
+    padding: 20px; text-align: center; margin-bottom: 14px;
   }
   .wallet-card .label { font-size: 12px; opacity: .85; }
   .wallet-card .amount { font-size: 34px; font-weight: 800; margin: 6px 0; }
   .wallet-card .rate { font-size: 12px; background: rgba(255,255,255,.15); display: inline-block; padding: 4px 10px; border-radius: 20px; }
 
-  /* DETAIL HEADER */
+  /* DETAIL HERO */
   .detail-hero {
     background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
-    height: 160px;
-    display: flex; align-items: center; justify-content: center;
+    height: 160px; display: flex; align-items: center; justify-content: center;
     font-size: 60px;
   }
 
-  /* STACKED SCREEN LABELS */
-  .phone + .phone { margin-top: 0; }
-
-  /* DIVIDER */
-  .divider {
-    max-width: 430px; margin: 28px auto;
-    border: none; border-top: 2px dashed #cbd5e1;
+  /* ============ NEW: VERIFIED SELLERS STRIP ============ */
+  .verified-strip {
+    display: flex; gap: 10px; overflow-x: auto;
+    padding: 6px 0 12px; scrollbar-width: none;
   }
+  .verified-strip::-webkit-scrollbar { display: none; }
+  .verified-seller {
+    flex: 0 0 auto; width: 130px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 14px; padding: 12px 10px; text-align: center;
+    position: relative;
+  }
+  .verified-seller .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #e8f5ec, #b8e0c4);
+    margin: 0 auto 6px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 24px; border: 2px solid var(--green);
+  }
+  .verified-seller .name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .verified-seller .meta { font-size: 10px; color: var(--muted); }
+  .verified-seller .check {
+    position: absolute; top: 6px; right: 6px;
+    background: var(--green); color: #fff;
+    width: 18px; height: 18px; border-radius: 50%;
+    font-size: 11px; display: flex;
+    align-items: center; justify-content: center;
+  }
+
+  /* ============ NEW: TRENDING CAROUSEL ============ */
+  .trending-strip {
+    display: flex; gap: 10px; overflow-x: auto;
+    padding: 6px 0 12px; scrollbar-width: none;
+  }
+  .trending-strip::-webkit-scrollbar { display: none; }
+  .trend-card {
+    flex: 0 0 auto; width: 150px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 14px; overflow: hidden;
+    position: relative;
+  }
+  .trend-card .img {
+    height: 100px;
+    background: linear-gradient(135deg, #e8f5ec, #d3ecd9);
+    display: flex; align-items: center;
+    justify-content: center; font-size: 44px;
+  }
+  .trend-card .info { padding: 8px 10px; }
+  .trend-card .info h5 { font-size: 12px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .trend-card .info .price { font-size: 12px; color: var(--green); font-weight: 800; }
+  .trend-card .hot {
+    position: absolute; top: 6px; left: 6px;
+    background: var(--red); color: #fff;
+    font-size: 9px; padding: 2px 7px;
+    border-radius: 20px; font-weight: 700;
+  }
+
+  /* ============ NEW: MEGA MENU ============ */
+  .megamenu { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .megamenu details { border-bottom: 1px solid var(--line); }
+  .megamenu details:last-child { border-bottom: none; }
+  .megamenu summary {
+    list-style: none; cursor: pointer;
+    padding: 12px 14px; font-weight: 700; font-size: 13px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .megamenu summary::-webkit-details-marker { display: none; }
+  .megamenu summary::after { content: "▾"; color: var(--muted); font-size: 12px; }
+  .megamenu details[open] summary::after { content: "▴"; }
+  .megamenu .sub { padding: 0 14px 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .megamenu .sub a {
+    font-size: 11px; color: #374151; text-decoration: none;
+    padding: 6px 8px; background: #f8fafc; border-radius: 8px;
+  }
+
+  /* ============ NEW: SERVICE REQUEST (RFQ-style) ============ */
+  .rfq {
+    background: linear-gradient(135deg, #fff7d6, #fde68a);
+    border: 1px dashed #d4a017;
+    border-radius: 14px; padding: 14px;
+    margin: 14px 0;
+  }
+  .rfq h4 { font-size: 14px; margin-bottom: 4px; color: #7c5800; }
+  .rfq p { font-size: 11px; color: #92680a; margin-bottom: 10px; }
+  .rfq .btn { padding: 10px; font-size: 13px; }
+
+  /* ============ NEW: SUPPLIER PAGE (SELLER PROFILE) ============ */
+  .supplier-hero {
+    background: linear-gradient(135deg, var(--green), #046b25);
+    color: #fff; padding: 20px 16px; text-align: center;
+  }
+  .supplier-hero .avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--yellow); color: var(--green);
+    margin: 0 auto 10px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 800;
+  }
+  .supplier-hero h3 { font-size: 17px; }
+  .supplier-hero p { font-size: 11px; opacity: .9; margin-top: 2px; }
+  .supplier-hero .verif {
+    display: inline-block; margin-top: 8px;
+    background: rgba(255,255,255,.2);
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px;
+  }
+  .stat-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; padding: 14px;
+  }
+  .stat-grid .stat {
+    text-align: center; padding: 8px;
+    background: #f8fafc; border-radius: 10px;
+  }
+  .stat-grid .stat b { display: block; font-size: 16px; color: var(--green); }
+  .stat-grid .stat span { font-size: 10px; color: var(--muted); }
+
+  .divider { max-width: 430px; margin: 28px auto; border: none; border-top: 2px dashed #cbd5e1; }
+
+  /* TABS */
+  .tabs { display: flex; border-bottom: 1px solid var(--line); background: #fff; }
+  .tabs div {
+    flex: 1; text-align: center; padding: 10px;
+    font-size: 12px; color: var(--muted); font-weight: 600;
+  }
+  .tabs div.active { color: var(--green); border-bottom: 2px solid var(--green); }
 </style>
 </head>
 <body>
@@ -307,7 +367,7 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">3 • Buyer Home</div>
+<div class="page-note">3 • Buyer Home — with Verified Sellers + Trending</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">ሶያም ገበያ <small>Soyam Gebeya</small></div>
@@ -329,8 +389,87 @@
       <div class="chip">Creative</div>
     </div>
 
+    <!-- ✅ VERIFIED SELLERS STRIP (Alibaba style) -->
     <div class="sec-title">
-      <h3>🔥 Featured / ተመራጭ</h3>
+      <h3>✔ Verified Sellers / የተረጋገጡ ሻጮች</h3>
+      <a href="#">See all</a>
+    </div>
+    <div class="verified-strip">
+      <div class="verified-seller">
+        <div class="check">✔</div>
+        <div class="avatar">🏪</div>
+        <div class="name">Kebede Electronics</div>
+        <div class="meta">Adama · Small</div>
+      </div>
+      <div class="verified-seller">
+        <div class="check">✔</div>
+        <div class="avatar">🔧</div>
+        <div class="name">Hanna Plumbing</div>
+        <div class="meta">Hawassa · Freelancer</div>
+      </div>
+      <div class="verified-seller">
+        <div class="check">✔</div>
+        <div class="avatar">🌾</div>
+        <div class="name">Abebe Farms</div>
+        <div class="meta">Bahir Dar · Coop</div>
+      </div>
+      <div class="verified-seller">
+        <div class="check">✔</div>
+        <div class="avatar">🪑</div>
+        <div class="name">Wood Works ET</div>
+        <div class="meta">Hawassa · Micro</div>
+      </div>
+    </div>
+
+    <!-- ✅ TRENDING NOW CAROUSEL (Alibaba style) -->
+    <div class="sec-title">
+      <h3>🔥 Trending Now / አሁን ተወዳጅ</h3>
+      <a href="#">See all</a>
+    </div>
+    <div class="trending-strip">
+      <div class="trend-card">
+        <div class="hot">HOT</div>
+        <div class="img">🌾</div>
+        <div class="info">
+          <h5>Organic Teff 100kg</h5>
+          <div class="price">ETB 8,500</div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="hot">NEW</div>
+        <div class="img">📱</div>
+        <div class="info">
+          <h5>Phone Repair</h5>
+          <div class="price">ETB 500</div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="hot">TOP</div>
+        <div class="img">🪑</div>
+        <div class="info">
+          <h5>Wooden Chair</h5>
+          <div class="price">ETB 2,300</div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="hot">HOT</div>
+        <div class="img">🎨</div>
+        <div class="info">
+          <h5>Logo Design</h5>
+          <div class="price">ETB 1,500</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ SERVICE REQUEST (RFQ style) -->
+    <div class="rfq">
+      <h4>📢 Need Something? / የሚፈልጉት ነገር?</h4>
+      <p>Post a request — sellers will respond with offers.</p>
+      <button class="btn btn-yellow">Request a Service / ጥያቄ አቅርብ</button>
+    </div>
+
+    <div class="sec-title">
+      <h3>Featured / ተመራጭ</h3>
       <a href="#">See all</a>
     </div>
 
@@ -361,14 +500,6 @@
       </div>
     </div>
 
-    <div class="listing">
-      <div class="thumb">🎨</div>
-      <div class="info">
-        <h4>Logo & Brand Design</h4>
-        <div class="meta">📍 Adama · Creative</div>
-        <div class="price">ETB 1,500 <small>· Fixed</small></div>
-      </div>
-    </div>
   </div>
 
   <div class="bottomnav">
@@ -381,7 +512,115 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">4 • Search & Filters</div>
+<div class="page-note">4 • Category Mega-Menu (Alibaba style)</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">All Categories <small>ሁሉም ምድቦች</small></div>
+    <div class="lang">×</div>
+  </div>
+  <div class="screen-body">
+    <div class="megamenu">
+
+      <details open>
+        <summary>🛒 Products</summary>
+        <div class="sub">
+          <a href="#">Agriculture</a>
+          <a href="#">Food & Beverages</a>
+          <a href="#">Clothing & Textiles</a>
+          <a href="#">Shoes & Leather</a>
+          <a href="#">Electronics & Phones</a>
+          <a href="#">Home Appliances</a>
+          <a href="#">Furniture</a>
+          <a href="#">Construction Materials</a>
+          <a href="#">Beauty & Cosmetics</a>
+          <a href="#">Health Products</a>
+          <a href="#">Books & Stationery</a>
+          <a href="#">Vehicles & Spare Parts</a>
+          <a href="#">Handicrafts & Cultural</a>
+        </div>
+      </details>
+
+      <details>
+        <summary>🚚 Services</summary>
+        <div class="sub">
+          <a href="#">Transportation</a>
+          <a href="#">Delivery</a>
+          <a href="#">Cleaning</a>
+          <a href="#">Security</a>
+          <a href="#">Events</a>
+          <a href="#">Catering</a>
+          <a href="#">Tourism & Travel</a>
+          <a href="#">Rental Services</a>
+        </div>
+      </details>
+
+      <details>
+        <summary>🏭 Manufacturing</summary>
+        <div class="sub">
+          <a href="#">Small-scale Mfg</a>
+          <a href="#">Factory Products</a>
+          <a href="#">Furniture Mfg</a>
+          <a href="#">Metal Works</a>
+          <a href="#">Wood Works</a>
+          <a href="#">Plastic Products</a>
+          <a href="#">Textile Mfg</a>
+          <a href="#">Food Processing</a>
+        </div>
+      </details>
+
+      <details>
+        <summary>🔧 Maintenance & Technical</summary>
+        <div class="sub">
+          <a href="#">Electrical</a>
+          <a href="#">Plumbing</a>
+          <a href="#">Phone Repair</a>
+          <a href="#">Computer Repair</a>
+          <a href="#">Machinery Maintenance</a>
+          <a href="#">Vehicle Maintenance</a>
+          <a href="#">Construction Maintenance</a>
+        </div>
+      </details>
+
+      <details>
+        <summary>💼 Professional Services</summary>
+        <div class="sub">
+          <a href="#">Legal</a>
+          <a href="#">Accounting</a>
+          <a href="#">Audit</a>
+          <a href="#">Consulting</a>
+          <a href="#">Architecture</a>
+          <a href="#">Engineering</a>
+          <a href="#">Health Services</a>
+          <a href="#">Education & Tutoring</a>
+          <a href="#">IT & Software</a>
+        </div>
+      </details>
+
+      <details>
+        <summary>🎨 Creative & Knowledge</summary>
+        <div class="sub">
+          <a href="#">Graphic Design</a>
+          <a href="#">Photography</a>
+          <a href="#">Videography</a>
+          <a href="#">Content Creation</a>
+          <a href="#">Music</a>
+          <a href="#">Art</a>
+          <a href="#">Writing</a>
+          <a href="#">Translation</a>
+          <a href="#">Training</a>
+          <a href="#">Coaching</a>
+          <a href="#">Digital Products</a>
+          <a href="#">Business Ideas</a>
+          <a href="#">Online Knowledge</a>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">5 • Search & Filters</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">Filter / ማጣሪያ</div>
@@ -456,53 +695,6 @@
       </div>
     </div>
 
-    <div class="field" style="margin-top:14px;">
-      <label>Category / ምድብ</label>
-      <select>
-        <option>All Categories</option>
-        <optgroup label="Products">
-          <option>Agriculture Products</option>
-          <option>Food & Beverages</option>
-          <option>Clothing & Textiles</option>
-          <option>Electronics & Phones</option>
-          <option>Furniture</option>
-          <option>Handicrafts & Cultural</option>
-        </optgroup>
-        <optgroup label="Services">
-          <option>Transportation</option>
-          <option>Delivery</option>
-          <option>Cleaning</option>
-          <option>Events & Catering</option>
-          <option>Tourism & Travel</option>
-        </optgroup>
-        <optgroup label="Manufacturing">
-          <option>Furniture Manufacturing</option>
-          <option>Metal Works</option>
-          <option>Food Processing</option>
-        </optgroup>
-        <optgroup label="Maintenance">
-          <option>Electrical</option>
-          <option>Plumbing</option>
-          <option>Phone Repair</option>
-          <option>Vehicle Maintenance</option>
-        </optgroup>
-        <optgroup label="Professional">
-          <option>Legal</option>
-          <option>Accounting</option>
-          <option>Health</option>
-          <option>Education</option>
-          <option>IT & Software</option>
-        </optgroup>
-        <optgroup label="Creative & Knowledge">
-          <option>Graphic Design</option>
-          <option>Photography</option>
-          <option>Music</option>
-          <option>Training</option>
-          <option>Digital Products</option>
-        </optgroup>
-      </select>
-    </div>
-
     <div class="btn-row">
       <button class="btn btn-outline">Reset</button>
       <button class="btn btn-primary">Apply Filters</button>
@@ -511,7 +703,7 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">5 • Listing Detail</div>
+<div class="page-note">6 • Listing Detail (with Ask Seller)</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">← Back</div>
@@ -535,23 +727,88 @@
     </div>
 
     <div class="card">
-      <h4>Seller / ሻጭ</h4>
+      <h4>Seller / ሻጭ <span class="badge green">✔ Verified</span></h4>
       <div class="row"><span>Name</span><span>Abebe Farms</span></div>
       <div class="row"><span>Size</span><span>Cooperative</span></div>
       <div class="row"><span>Type</span><span>Product Seller</span></div>
-      <div class="row"><span>Status</span><span style="color:var(--green); font-weight:700;">✔ Verified</span></div>
+      <div class="row"><span>Location</span><span>Bahir Dar, Amhara</span></div>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn btn-outline btn-sm" style="flex:1;">View Profile</button>
+      </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-outline">📞 Call Seller</button>
+      <button class="btn btn-outline">📞 Call</button>
       <button class="btn btn-primary">💬 Message</button>
     </div>
     <button class="btn btn-yellow" style="margin-top:8px;">🛒 Place Order</button>
+    <button class="btn btn-outline" style="margin-top:8px;">❓ Ask Seller / ጠይቅ</button>
   </div>
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">6 • Seller Dashboard</div>
+<div class="page-note">7 • Seller Profile (Alibaba Supplier Page)</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">← Back</div>
+    <div class="lang">♡</div>
+  </div>
+  <div class="supplier-hero">
+    <div class="avatar">🌾</div>
+    <h3>Abebe Farms</h3>
+    <p>Bahir Dar, Amhara · Since 2020</p>
+    <div class="verif">✔ Verified Seller · Cooperative</div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><b>4.8★</b><span>Rating</span></div>
+    <div class="stat"><b>126</b><span>Orders</span></div>
+    <div class="stat"><b>12</b><span>Listings</span></div>
+  </div>
+
+  <div class="screen-body" style="padding-top:0;">
+    <div class="card">
+      <h4>Business Info / የንግድ መረጃ</h4>
+      <div class="row"><span>Business Size</span><span>Cooperative</span></div>
+      <div class="row"><span>Business Type</span><span>Product Seller</span></div>
+      <div class="row"><span>Main Category</span><span>Agriculture</span></div>
+      <div class="row"><span>Response Time</span><span>Under 1 hr</span></div>
+      <div class="row"><span>Member Since</span><span>2020</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline">📞 Call</button>
+      <button class="btn btn-primary">💬 Message</button>
+    </div>
+
+    <div class="sec-title" style="margin-top:16px;">
+      <h3>Their Listings</h3>
+      <a href="#">See all</a>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">🌾</div>
+      <div class="info">
+        <h4>Organic Teff — 100kg</h4>
+        <div class="meta">📍 Bahir Dar · Agriculture</div>
+        <div class="price">ETB 8,500</div>
+      </div>
+    </div>
+
+    <div class="listing">
+      <div class="thumb">🌽</div>
+      <div class="info">
+        <h4>Fresh Maize — 50kg</h4>
+        <div class="meta">📍 Bahir Dar · Agriculture</div>
+        <div class="price">ETB 3,200</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-note">8 • Seller Dashboard</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">Seller Dashboard <small>የሻጭ ዳሽቦርድ</small></div>
@@ -562,15 +819,13 @@
     <div class="card" style="background:#e8f5ec; border-color:#b8e0c4;">
       <div class="row"><span>My Listings</span><span><b>12 active</b></span></div>
       <div class="row"><span>New Orders</span><span><b style="color:var(--red);">3 pending</b></span></div>
+      <div class="row"><span>Service Requests</span><span><b style="color:#7c5800;">2 new</b></span></div>
       <div class="row"><span>Availability</span><span style="color:var(--green); font-weight:700;">● Open</span></div>
     </div>
 
     <button class="btn btn-primary" style="margin-bottom:12px;">➕ Add New Listing</button>
 
-    <div class="sec-title">
-      <h3>Recent Orders</h3>
-      <a href="#">See all</a>
-    </div>
+    <div class="sec-title"><h3>Recent Orders</h3><a href="#">See all</a></div>
 
     <div class="listing">
       <div class="thumb">📦</div>
@@ -596,7 +851,7 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">7 • Wallet (Coins)</div>
+<div class="page-note">9 • Wallet (Coins)</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">My Wallet <small>የኪስ ቦርሳ</small></div>
@@ -626,7 +881,7 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">8 • Admin Panel (Phone: +251920353460)</div>
+<div class="page-note">10 • Admin Panel (+251920353460)</div>
 <div class="phone">
   <div class="admin-head">
     <div>🛡️ Admin Control</div>
@@ -640,10 +895,7 @@
       <div class="row"><span>Value</span><span>ETB 1,000,000</span></div>
     </div>
 
-    <div class="sec-title">
-      <h3>Pending Seller Approvals</h3>
-      <a href="#">All</a>
-    </div>
+    <div class="sec-title"><h3>Pending Seller Approvals</h3><a href="#">All</a></div>
 
     <div class="listing">
       <div class="thumb">🏪</div>
@@ -669,10 +921,7 @@
       </div>
     </div>
 
-    <div class="sec-title">
-      <h3>Coin Purchase Requests</h3>
-      <a href="#">All</a>
-    </div>
+    <div class="sec-title"><h3>Coin Purchase Requests</h3><a href="#">All</a></div>
 
     <div class="card">
       <div class="row"><span>User</span><span>+251 911 22 33 44</span></div>
@@ -685,9 +934,7 @@
       </div>
     </div>
 
-    <div class="sec-title">
-      <h3>Quick Admin Tools</h3>
-    </div>
+    <div class="sec-title"><h3>Quick Admin Tools</h3></div>
     <div class="card">
       <div class="row"><span>🏙️ Manage Cities</span><span>→</span></div>
       <div class="row"><span>📂 Manage Categories</span><span>→</span></div>
@@ -700,7 +947,7 @@
 </div>
 
 <!-- ============================================================ -->
-<div class="page-note">9 • Profile / Settings</div>
+<div class="page-note">11 • Profile / Settings</div>
 <div class="phone">
   <div class="topbar">
     <div class="brand">Profile <small>መገለጫ</small></div>
@@ -731,7 +978,7 @@
 
 <hr class="divider" />
 <p style="text-align:center; font-size:11px; color:var(--muted); margin-bottom:24px;">
-  Soyam Gebeya — Prototype Layout © 2026
+  Soyam Gebeya — Alibaba-Inspired Prototype © 2026
 </p>
 
 </body>
